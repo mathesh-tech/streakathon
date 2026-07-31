@@ -80,7 +80,7 @@ export default function LandingPage() {
             </motion.h1>
             
             <motion.p variants={itemVariants} className="max-w-[700px] text-lg md:text-2xl text-muted-foreground font-medium mt-6">
-              Participate in department hackathons, earn credit points, maintain your innovation streak, and become the semester champion.
+              Department of Information Technology
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-8 justify-center">

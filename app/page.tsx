@@ -69,13 +69,13 @@ export default function LandingPage() {
           >
             <motion.div variants={itemVariants} className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary backdrop-blur-sm shadow-sm">
               <Sparkles className="mr-2 h-4 w-4" />
-              <span>Sona IT Department's Innovation Ecosystem</span>
+              <span>Department of Information Technology</span>
             </motion.div>
             
             <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-foreground uppercase leading-[0.9]">
               STREAKATHON<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary text-3xl md:text-4xl lg:text-5xl tracking-normal mt-6 block normal-case font-bold">
-                "Turning ideas into reality, one hackathon at a time."
+                Turning ideas into reality, one hackathon at a time.
               </span>
             </motion.h1>
             

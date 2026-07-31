@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Search, Bell, Menu, User } from 'lucide-react'
+import { Menu, User } from 'lucide-react'
 
 export function Navbar() {
   return (
@@ -15,11 +15,8 @@ export function Navbar() {
             <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               Home
             </Link>
-            <Link href="/about" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              About
-            </Link>
-            <Link href="/events/upcoming" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Upcoming Events
+            <Link href="/dashboard/student/hackathon/15/problem" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
+              Problem Statement
             </Link>
             <Link href="/leaderboard" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               Leaderboard
@@ -28,12 +25,6 @@ export function Navbar() {
         </div>
         
         <div className="flex items-center space-x-4">
-          <button className="hidden md:flex items-center justify-center w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-            <Search className="h-4 w-4 text-foreground/80" />
-          </button>
-          <button className="hidden md:flex items-center justify-center w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-            <Bell className="h-4 w-4 text-foreground/80" />
-          </button>
           <Link
             href="/auth/login"
             className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"

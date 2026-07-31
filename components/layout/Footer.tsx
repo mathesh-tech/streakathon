@@ -21,7 +21,6 @@ export function Footer() {
             <li>IT Department</li>
             <li>Sona College of Technology</li>
             <li>Email: it@sonatech.ac.in</li>
-            <li>Phone: +91 00000 00000</li>
           </ul>
         </div>
       </div>

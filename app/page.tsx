@@ -119,65 +119,7 @@ export default function LandingPage() {
       </section>
 
 
-      {/* UPCOMING EVENT */}
-      <section className="w-full py-24 bg-primary/5 relative overflow-hidden border-y border-white/5">
-        <div className="container max-w-screen-xl px-4 md:px-6 relative z-10">
-          <div className="flex flex-col gap-12 items-center max-w-5xl mx-auto">
-            <div className="w-full">
-              <div className="w-full aspect-[21/9] md:aspect-[3/1] rounded-2xl glass-card border-white/20 p-2 overflow-hidden shadow-2xl relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 z-0"></div>
-                {/* Placeholder for Poster Image */}
-                <div className="w-full h-full bg-background/50 backdrop-blur-sm rounded-xl border border-white/10 flex items-center justify-center relative z-10">
-                  <TerminalSquare className="h-24 w-24 text-white/20 group-hover:scale-110 transition-transform duration-500" />
-                </div>
-              </div>
-            </div>
 
-            <div className="w-full space-y-8 text-center flex flex-col items-center">
-              <div className="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-sm font-medium text-accent">
-                <Calendar className="mr-2 h-4 w-4" /> Next Event
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Streakathon #15: AI & Automation</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl">Build intelligent solutions that automate tedious workflows. Compete for 100 credit points and the "AI Innovator" badge.</p>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-left w-full max-w-3xl mt-8">
-                <div className="flex flex-col items-center text-center gap-2">
-                  <Calendar className="h-6 w-6 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-medium">Date</p>
-                    <p className="font-semibold">Sat, Oct 14</p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center text-center gap-2">
-                  <Clock className="h-6 w-6 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-medium">Duration</p>
-                    <p className="font-semibold">12 Hours</p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center text-center gap-2">
-                  <MapPin className="h-6 w-6 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-medium">Venue</p>
-                    <p className="font-semibold">IT Lab 4</p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center text-center gap-2">
-                  <Users className="h-6 w-6 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground font-medium">Seats</p>
-                    <p className="font-semibold">120 Available</p>
-                  </div>
-                </div>
-              </div>
-
-              <Link href="/auth/login" className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-10 mt-8 text-sm font-bold text-primary-foreground shadow transition-transform hover:scale-105 active:scale-95">
-                Register Team
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* HOW IT WORKS TIMELINE */}
       <section className="w-full py-24 bg-background">

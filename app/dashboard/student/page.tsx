@@ -25,7 +25,7 @@ export default function StudentDashboard() {
     totalWins: 3,
     certificates: 15,
     badges: 8,
-    avatar: null,
+    avatar: undefined,
   };
 
   return (

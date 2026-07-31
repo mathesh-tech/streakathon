@@ -182,26 +182,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* LIVE STATISTICS */}
-      <section className="w-full py-20 bg-background/50 border-y border-white/5">
-        <div className="container max-w-screen-xl px-4 md:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { label: "Total Students", value: "642" },
-              { label: "Teams Formed", value: "158" },
-              { label: "Hackathons Conducted", value: "14" },
-              { label: "Certificates Issued", value: "1,204" },
-              { label: "Highest Credit Score", value: "1,250" },
-              { label: "Participation Rate", value: "92%" },
-            ].map((stat, i) => (
-              <div key={i} className="flex flex-col items-center justify-center text-center space-y-2 p-6 glass-card rounded-2xl">
-                <h3 className="text-4xl md:text-5xl font-black tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50">{stat.value}</h3>
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* LEADERBOARD PREVIEW */}
       <section className="w-full py-24 relative overflow-hidden bg-background">

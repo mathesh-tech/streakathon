@@ -184,78 +184,7 @@ export default function LandingPage() {
 
 
 
-      {/* LEADERBOARD PREVIEW */}
-      <section className="w-full py-24 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-primary/5 z-0" />
-        <div className="container relative z-10 max-w-screen-xl px-4 md:px-6">
-          <div className="flex flex-col items-center text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Top Innovators</h2>
-            <p className="text-muted-foreground max-w-[600px] mx-auto text-lg">The podium of the current semester.</p>
-          </div>
 
-          <div className="flex flex-col md:flex-row items-end justify-center gap-4 md:gap-8 max-w-4xl mx-auto h-[400px] mb-16">
-            {/* Rank 2 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="w-full md:w-1/3 flex flex-col items-center order-2 md:order-1"
-            >
-              <div className="glass-card p-4 rounded-xl border border-white/10 mb-4 w-full flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-2 flex items-center justify-center text-xl font-bold">AK</div>
-                <h3 className="font-bold">Arjun K</h3>
-                <p className="text-sm text-muted-foreground">1,120 pts</p>
-              </div>
-              <div className="w-full h-40 bg-white/5 border border-white/10 rounded-t-xl flex items-start justify-center pt-4">
-                <span className="text-4xl font-black text-white/20">2</span>
-              </div>
-            </motion.div>
-
-            {/* Rank 1 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="w-full md:w-1/3 flex flex-col items-center order-1 md:order-2"
-            >
-              <Medal className="h-12 w-12 text-warning mb-4" />
-              <div className="glass-card p-4 rounded-xl border border-warning/50 mb-4 w-full flex flex-col items-center shadow-[0_0_30px_rgba(245,158,11,0.15)] relative overflow-hidden">
-                <div className="absolute inset-0 bg-warning/10 z-0"></div>
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-white/10 mb-2 flex items-center justify-center text-2xl font-bold border-2 border-warning">SM</div>
-                  <h3 className="font-bold text-lg">Siva Mathesh</h3>
-                  <p className="text-sm text-warning font-bold">1,250 pts</p>
-                </div>
-              </div>
-              <div className="w-full h-56 bg-warning/10 border border-warning/20 rounded-t-xl flex items-start justify-center pt-4 backdrop-blur-sm">
-                <span className="text-5xl font-black text-warning/30">1</span>
-              </div>
-            </motion.div>
-
-            {/* Rank 3 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="w-full md:w-1/3 flex flex-col items-center order-3"
-            >
-              <div className="glass-card p-4 rounded-xl border border-white/10 mb-4 w-full flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-2 flex items-center justify-center text-xl font-bold">PS</div>
-                <h3 className="font-bold">Priya S</h3>
-                <p className="text-sm text-muted-foreground">1,080 pts</p>
-              </div>
-              <div className="w-full h-32 bg-white/5 border border-white/10 rounded-t-xl flex items-start justify-center pt-4">
-                <span className="text-4xl font-black text-white/20">3</span>
-              </div>
-            </motion.div>
-          </div>
-          
-          <div className="mt-8 text-center">
-             <Link href="/leaderboard" className="inline-flex items-center text-primary hover:text-primary/80 font-bold transition-colors">
-                View Full Leaderboard <ArrowRight className="ml-2 h-4 w-4" />
-             </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

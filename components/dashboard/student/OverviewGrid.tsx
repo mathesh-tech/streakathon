@@ -48,7 +48,7 @@ export function OverviewGrid({ student }: { student: any }) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: i * 0.05 }}
-          className="glass-card rounded-2xl p-5 border border-white/5 flex flex-col justify-between"
+          className="glass-card rounded-2xl p-5 border border-black/5 flex flex-col justify-between"
         >
           <div className="flex justify-between items-start mb-4">
             <div className={`p-2 rounded-lg ${m.bg}`}>

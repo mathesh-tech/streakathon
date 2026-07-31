@@ -19,9 +19,9 @@ export default function UpcomingEventsPage() {
           className="flex flex-col lg:flex-row gap-8 items-stretch glass-card rounded-3xl p-6 md:p-8"
         >
           {/* Poster */}
-          <div className="w-full lg:w-1/3 aspect-[4/3] lg:aspect-auto rounded-2xl border border-white/10 bg-primary/5 flex items-center justify-center relative overflow-hidden group">
+          <div className="w-full lg:w-1/3 aspect-[4/3] lg:aspect-auto rounded-2xl border border-black/10 bg-primary/5 flex items-center justify-center relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 z-0"></div>
-            <TerminalSquare className="h-24 w-24 text-white/20 relative z-10 group-hover:scale-110 transition-transform duration-500" />
+            <TerminalSquare className="h-24 w-24 text-black/20 relative z-10 group-hover:scale-110 transition-transform duration-500" />
             <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
               Registration Open
             </div>
@@ -36,28 +36,28 @@ export default function UpcomingEventsPage() {
               </p>
               
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <div className="flex items-center gap-3 bg-black/5 p-3 rounded-xl border border-black/5">
                   <Calendar className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Date</p>
                     <p className="font-semibold text-sm">Sat, Oct 14</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <div className="flex items-center gap-3 bg-black/5 p-3 rounded-xl border border-black/5">
                   <Clock className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Duration</p>
                     <p className="font-semibold text-sm">12 Hours</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <div className="flex items-center gap-3 bg-black/5 p-3 rounded-xl border border-black/5">
                   <MapPin className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Venue</p>
                     <p className="font-semibold text-sm">IT Lab 4, Block B</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/5">
+                <div className="flex items-center gap-3 bg-black/5 p-3 rounded-xl border border-black/5">
                   <Users className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Seats</p>
@@ -71,7 +71,7 @@ export default function UpcomingEventsPage() {
               <Link href="/auth/login" className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-bold text-primary-foreground shadow transition-transform hover:scale-105 active:scale-95 flex-1">
                 Register Team
               </Link>
-              <button className="inline-flex h-12 items-center justify-center rounded-lg border border-white/10 bg-white/5 px-8 text-sm font-bold transition-colors hover:bg-white/10 flex-1">
+              <button className="inline-flex h-12 items-center justify-center rounded-lg border border-black/10 bg-black/5 px-8 text-sm font-bold transition-colors hover:bg-black/10 flex-1">
                 View Rules
               </button>
             </div>

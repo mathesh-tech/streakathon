@@ -107,7 +107,7 @@ export default function AdminDashboard() {
                   <input type="number" className="w-full bg-background border border-border/50 rounded-md h-10 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500" placeholder="+100" />
                 </div>
                 <div className="flex items-end">
-                  <button type="button" className="h-10 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium transition-colors w-full md:w-auto">
+                  <button type="button" className="h-10 px-4 bg-indigo-600 hover:bg-indigo-700 text-foreground rounded-md text-sm font-medium transition-colors w-full md:w-auto">
                     Apply
                   </button>
                 </div>
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
           <section className="glass p-6 rounded-2xl border-t-4 border-t-purple-500">
             <h3 className="font-bold mb-4">Certificate Generator</h3>
             <p className="text-sm text-muted-foreground mb-4">Sprint #11 evaluation is complete. Certificates are ready for bulk issuance.</p>
-            <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-purple-600 text-white shadow hover:bg-purple-700 h-10 px-4 py-2">
+            <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-purple-600 text-foreground shadow hover:bg-purple-700 h-10 px-4 py-2">
               Generate & Publish Certificates
             </button>
           </section>

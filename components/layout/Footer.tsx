@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-white/10 bg-background/50 py-12 md:py-16">
+    <footer className="w-full border-t border-black/10 bg-background/50 py-12 md:py-16">
       <div className="container max-w-screen-2xl flex flex-col md:flex-row justify-between gap-8 md:gap-12">
         <div className="flex flex-col space-y-4 md:w-1/2">
           <Link href="/" className="flex items-center space-x-2">
@@ -25,7 +25,7 @@ export function Footer() {
         </div>
       </div>
       
-      <div className="container max-w-screen-2xl mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
+      <div className="container max-w-screen-2xl mt-12 pt-8 border-t border-black/10 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
         <p>© {new Date().getFullYear()} STREAKATHON. All rights reserved.</p>
         <p className="mt-4 md:mt-0">Designed & Built by IT Students. Version 1.0.0</p>
       </div>

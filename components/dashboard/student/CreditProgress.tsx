@@ -40,7 +40,7 @@ export function CreditProgress({ current, goal = 1000 }: { current: number, goal
             className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary via-accent to-primary rounded-full"
           >
             {/* Shimmer effect */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-black/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
           </motion.div>
         </div>
 

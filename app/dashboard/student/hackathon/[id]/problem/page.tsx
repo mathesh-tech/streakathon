@@ -31,7 +31,7 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full glass-card rounded-3xl p-8 text-center border-white/5 relative overflow-hidden"
+          className="max-w-md w-full glass-card rounded-3xl p-8 text-center border-black/5 relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
           <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
@@ -40,9 +40,9 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
           <h2 className="text-2xl font-bold mb-2">Problem Statement Locked</h2>
           <p className="text-muted-foreground mb-8">The problem statement for Streakathon #{params.id} will be revealed on Saturday at 10:00 AM.</p>
           
-          <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
+          <div className="bg-[#111] border border-black/5 rounded-2xl p-6">
             <div className="text-sm text-muted-foreground uppercase font-bold tracking-widest mb-2">Unlocking In</div>
-            <div className="text-5xl font-black text-white tabular-nums tracking-tighter font-mono">{countdown}</div>
+            <div className="text-5xl font-black text-foreground tabular-nums tracking-tighter font-mono">{countdown}</div>
           </div>
         </motion.div>
       </div>
@@ -59,7 +59,7 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
           <h1 className="text-3xl font-bold tracking-tight">Streakathon #{params.id} Problem Statements</h1>
         </div>
         <div className="hidden md:flex items-center gap-4">
-          <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg font-medium transition-colors border border-white/5">
+          <button className="flex items-center gap-2 bg-black/5 hover:bg-black/10 px-4 py-2 rounded-lg font-medium transition-colors border border-black/5">
             <Download className="w-4 h-4" /> Download PDF
           </button>
         </div>
@@ -67,7 +67,7 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
 
       <div className="space-y-6">
         {/* Problem 1 */}
-        <div className="glass-card rounded-2xl p-6 md:p-8 border-white/5">
+        <div className="glass-card rounded-2xl p-6 md:p-8 border-black/5">
           <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-primary/20 text-primary flex items-center justify-center shrink-0">
               <span className="text-xl font-black">01</span>
@@ -86,7 +86,7 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
               Design and develop a platform that allows students to invest spare change from their daily college expenses. 
               The platform should utilize an AI agent to analyze spending habits and suggest low-risk mutual funds or fractional stocks.
             </p>
-            <h3 className="text-white mt-6 mb-2">Key Requirements:</h3>
+            <h3 className="text-foreground mt-6 mb-2">Key Requirements:</h3>
             <ul className="text-muted-foreground list-disc pl-5 space-y-1">
               <li>Mock banking API integration for transaction tracking.</li>
               <li>AI agent implementation (using Gemini API or similar) for financial advice.</li>
@@ -94,18 +94,18 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
             </ul>
           </div>
 
-          <div className="flex flex-wrap gap-4 pt-6 border-t border-white/5">
+          <div className="flex flex-wrap gap-4 pt-6 border-t border-black/5">
             <button className="flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
               <FileText className="w-4 h-4" /> Dataset / Resources
             </button>
-            <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+            <button className="flex items-center gap-2 bg-black/5 hover:bg-black/10 text-foreground px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
               <ExternalLink className="w-4 h-4" /> Reference API Docs
             </button>
           </div>
         </div>
 
         {/* Problem 2 */}
-        <div className="glass-card rounded-2xl p-6 md:p-8 border-white/5">
+        <div className="glass-card rounded-2xl p-6 md:p-8 border-black/5">
           <div className="flex items-start gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-accent/20 text-accent flex items-center justify-center shrink-0">
               <span className="text-xl font-black">02</span>
@@ -126,7 +126,7 @@ export default function ProblemStatementPage({ params }: { params: { id: string 
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-4 pt-6 border-t border-white/5">
+          <div className="flex flex-wrap gap-4 pt-6 border-t border-black/5">
             <button className="flex items-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
               <FileText className="w-4 h-4" /> Campus Blueprint Data
             </button>

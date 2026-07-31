@@ -22,7 +22,7 @@ export default function TeamPage() {
   if (!hasTeam) {
     return (
       <div className="flex-1 w-full p-4 md:p-8 flex items-center justify-center max-w-screen-xl mx-auto h-[calc(100vh-100px)]">
-        <div className="glass-card p-12 rounded-3xl text-center max-w-2xl w-full border-white/5">
+        <div className="glass-card p-12 rounded-3xl text-center max-w-2xl w-full border-black/5">
           <div className="w-24 h-24 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
             <Users className="w-12 h-12" />
           </div>
@@ -41,11 +41,11 @@ export default function TeamPage() {
               <input 
                 type="text" 
                 placeholder="Invite Code (e.g. HX-92LA)" 
-                className="flex-1 h-14 bg-background/50 border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-primary"
+                className="flex-1 h-14 bg-background/50 border border-black/10 rounded-xl px-4 text-sm focus:outline-none focus:border-primary"
               />
               <button 
                 onClick={() => setHasTeam(true)}
-                className="h-14 px-6 bg-white/5 hover:bg-white/10 border border-white/10 font-bold rounded-xl flex items-center justify-center transition-colors"
+                className="h-14 px-6 bg-black/5 hover:bg-black/10 border border-black/10 font-bold rounded-xl flex items-center justify-center transition-colors"
               >
                 Join
               </button>
@@ -80,7 +80,7 @@ export default function TeamPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {teamMembers.map((m, i) => (
-                <div key={i} className="bg-background/50 border border-white/5 rounded-2xl p-4 flex items-center justify-between">
+                <div key={i} className="bg-background/50 border border-black/5 rounded-2xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="relative">
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent p-0.5">
@@ -102,7 +102,7 @@ export default function TeamPage() {
               ))}
               
               {/* Empty Slot */}
-              <div className="bg-white/5 border border-dashed border-white/20 rounded-2xl p-4 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+              <div className="bg-black/5 border border-dashed border-black/20 rounded-2xl p-4 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
                 <UserPlus className="w-6 h-6 text-muted-foreground mb-2" />
                 <span className="text-sm font-medium text-muted-foreground">Invite Member</span>
               </div>
@@ -111,14 +111,14 @@ export default function TeamPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="glass-card rounded-3xl p-6 border-white/5">
+          <div className="glass-card rounded-3xl p-6 border-black/5">
             <h3 className="font-bold mb-4">Invite Code</h3>
             <p className="text-sm text-muted-foreground mb-4">Share this code with your classmates so they can join your team.</p>
             <div className="flex gap-2">
-              <div className="flex-1 bg-background/50 border border-white/10 rounded-xl px-4 flex items-center justify-center font-mono text-xl tracking-widest font-bold text-primary">
+              <div className="flex-1 bg-background/50 border border-black/10 rounded-xl px-4 flex items-center justify-center font-mono text-xl tracking-widest font-bold text-primary">
                 HX-92LA
               </div>
-              <button onClick={copyInvite} className="w-12 h-12 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex items-center justify-center transition-colors">
+              <button onClick={copyInvite} className="w-12 h-12 bg-black/5 hover:bg-black/10 border border-black/10 rounded-xl flex items-center justify-center transition-colors">
                 {copied ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5 text-muted-foreground" />}
               </button>
             </div>
@@ -129,7 +129,7 @@ export default function TeamPage() {
             <p className="text-sm text-muted-foreground mb-4">Leaving a team will remove your participation from the active hackathon.</p>
             <button 
               onClick={() => setHasTeam(false)}
-              className="w-full flex items-center justify-center gap-2 h-12 bg-destructive/10 hover:bg-destructive text-destructive hover:text-white rounded-xl text-sm font-bold transition-colors"
+              className="w-full flex items-center justify-center gap-2 h-12 bg-destructive/10 hover:bg-destructive text-destructive hover:text-foreground rounded-xl text-sm font-bold transition-colors"
             >
               <LogOut className="w-4 h-4" /> Leave Team
             </button>

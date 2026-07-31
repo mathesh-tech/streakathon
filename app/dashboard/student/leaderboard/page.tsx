@@ -36,7 +36,7 @@ export default function LeaderboardPage() {
         </div>
         <Link 
           href="/leaderboard"
-          className="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-6 py-2 rounded-xl text-sm font-medium transition-colors border border-white/5"
+          className="flex items-center gap-2 bg-black/5 hover:bg-black/10 px-6 py-2 rounded-xl text-sm font-medium transition-colors border border-black/5"
         >
           <Trophy className="w-4 h-4" /> Global Leaderboard
         </Link>
@@ -53,10 +53,10 @@ export default function LeaderboardPage() {
             </div>
             <div>
               <h2 className="text-2xl font-bold mb-1">Keep it up, Siva!</h2>
-              <p className="text-muted-foreground">You are only <span className="font-bold text-white">40 points</span> away from rank #10.</p>
+              <p className="text-muted-foreground">You are only <span className="font-bold text-foreground">40 points</span> away from rank #10.</p>
             </div>
           </div>
-          <div className="bg-background/80 backdrop-blur-sm border border-white/10 rounded-2xl p-4 text-center min-w-[150px]">
+          <div className="bg-background/80 backdrop-blur-sm border border-black/10 rounded-2xl p-4 text-center min-w-[150px]">
             <div className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">Total XP</div>
             <div className="text-2xl font-black text-emerald-500 font-mono">{currentStudent.credits} Pts</div>
           </div>
@@ -65,7 +65,7 @@ export default function LeaderboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Top 3 Podium */}
-        <div className="lg:col-span-5 glass-card rounded-3xl p-6 md:p-8 border-white/5 flex flex-col">
+        <div className="lg:col-span-5 glass-card rounded-3xl p-6 md:p-8 border-black/5 flex flex-col">
           <h3 className="text-xl font-bold mb-12 flex items-center gap-2">
             <Crown className="w-5 h-5 text-yellow-500" /> Semester Champions
           </h3>
@@ -114,7 +114,7 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Nearby Competitors */}
-        <div className="lg:col-span-7 glass-card rounded-3xl p-6 md:p-8 border-white/5">
+        <div className="lg:col-span-7 glass-card rounded-3xl p-6 md:p-8 border-black/5">
           <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
             <Star className="w-5 h-5 text-primary" /> Your Bracket
           </h3>
@@ -129,7 +129,7 @@ export default function LeaderboardPage() {
                 className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
                   student.isCurrent 
                     ? 'bg-primary/10 border-primary/50 shadow-[0_0_20px_rgba(var(--primary),0.1)] scale-[1.02]' 
-                    : 'bg-background/50 border-white/5 hover:bg-white/5 hover:scale-[1.01]'
+                    : 'bg-background/50 border-black/5 hover:bg-black/5 hover:scale-[1.01]'
                 }`}
               >
                 <div className="flex items-center gap-4">

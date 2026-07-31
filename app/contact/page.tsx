@@ -59,15 +59,15 @@ export default function ContactPage() {
             <form className="glass-card p-8 rounded-3xl flex flex-col gap-6 h-full">
               <div>
                 <label className="block text-sm font-semibold mb-2">Name</label>
-                <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Your name" />
+                <input type="text" className="w-full bg-black/5 border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Your name" />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-2">Register Number</label>
-                <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="e.g. 732924205001" />
+                <input type="text" className="w-full bg-black/5 border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="e.g. 732924205001" />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-2">Message</label>
-                <textarea rows={5} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?"></textarea>
+                <textarea rows={5} className="w-full bg-black/5 border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary transition-colors resize-none" placeholder="How can we help?"></textarea>
               </div>
               <button type="submit" className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-bold flex items-center justify-center hover:bg-primary/90 transition-colors mt-auto">
                 Send Message <Send className="ml-2 h-4 w-4" />

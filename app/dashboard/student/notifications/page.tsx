@@ -89,7 +89,7 @@ export default function NotificationsPage() {
         {unreadCount > 0 && (
           <button 
             onClick={markAllAsRead}
-            className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-white transition-colors bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-xl"
+            className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-foreground transition-colors bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-xl"
           >
             <Check className="w-4 h-4" /> Mark all as read
           </button>
@@ -97,7 +97,7 @@ export default function NotificationsPage() {
       </header>
 
       {notifications.length === 0 ? (
-        <div className="glass-card p-12 rounded-3xl text-center border-white/5">
+        <div className="glass-card p-12 rounded-3xl text-center border-black/5">
           <div className="w-24 h-24 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
             <Bell className="w-12 h-12" />
           </div>
@@ -115,7 +115,7 @@ export default function NotificationsPage() {
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ delay: i * 0.05 }}
                 className={`glass-card rounded-2xl p-5 border flex items-start gap-4 group transition-colors ${
-                  notification.read ? 'border-white/5 opacity-80' : 'border-primary/30 bg-primary/5'
+                  notification.read ? 'border-black/5 opacity-80' : 'border-primary/30 bg-primary/5'
                 }`}
               >
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${notification.color}`}>
@@ -133,7 +133,7 @@ export default function NotificationsPage() {
                       </span>
                       <button 
                         onClick={() => removeNotification(notification.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-white/10 rounded-md transition-all text-muted-foreground hover:text-white"
+                        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-black/10 rounded-md transition-all text-muted-foreground hover:text-foreground"
                       >
                         <X className="w-4 h-4" />
                       </button>

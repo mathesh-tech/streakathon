@@ -58,7 +58,7 @@ export default function HistoryPage() {
       case 'MISSED':
         return <span className="bg-destructive/20 text-destructive border border-destructive/30 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 w-max"><XCircle className="w-3.5 h-3.5" /> Missed</span>;
       default:
-        return <span className="bg-white/10 text-muted-foreground border border-white/20 px-3 py-1 rounded-full text-xs font-bold w-max">{status}</span>;
+        return <span className="bg-black/10 text-muted-foreground border border-black/20 px-3 py-1 rounded-full text-xs font-bold w-max">{status}</span>;
     }
   };
 
@@ -82,13 +82,13 @@ export default function HistoryPage() {
             placeholder="Search events..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full md:w-64 h-10 bg-background/50 border border-white/10 rounded-xl px-10 text-sm focus:border-primary focus:outline-none"
+            className="w-full md:w-64 h-10 bg-background/50 border border-black/10 rounded-xl px-10 text-sm focus:border-primary focus:outline-none"
           />
         </div>
       </header>
 
       {historyData.length === 0 ? (
-        <div className="glass-card p-12 rounded-3xl text-center max-w-2xl mx-auto border-white/5">
+        <div className="glass-card p-12 rounded-3xl text-center max-w-2xl mx-auto border-black/5">
           <div className="w-24 h-24 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
             <History className="w-12 h-12" />
           </div>
@@ -102,10 +102,10 @@ export default function HistoryPage() {
           </Link>
         </div>
       ) : (
-        <div className="glass-card rounded-3xl overflow-hidden border-white/5">
+        <div className="glass-card rounded-3xl overflow-hidden border-black/5">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="text-xs text-muted-foreground uppercase bg-white/5 border-b border-white/5">
+              <thead className="text-xs text-muted-foreground uppercase bg-black/5 border-b border-black/5">
                 <tr>
                   <th className="px-6 py-4 font-bold">Hackathon</th>
                   <th className="px-6 py-4 font-bold">Date</th>
@@ -122,7 +122,7 @@ export default function HistoryPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                     key={item.id} 
-                    className="border-b border-white/5 hover:bg-white/5 transition-colors group"
+                    className="border-b border-black/5 hover:bg-black/5 transition-colors group"
                   >
                     <td className="px-6 py-5">
                       <div className="font-bold text-foreground mb-1">{item.hackathon}</div>
@@ -144,7 +144,7 @@ export default function HistoryPage() {
                       {item.certificate ? (
                         <div className="flex flex-col items-center gap-2">
                           <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wider">{item.rank}</span>
-                          <Link href="/dashboard/student/certificates" className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-white transition-colors bg-primary/10 hover:bg-primary/20 px-3 py-1.5 rounded-lg border border-primary/20">
+                          <Link href="/dashboard/student/certificates" className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-foreground transition-colors bg-primary/10 hover:bg-primary/20 px-3 py-1.5 rounded-lg border border-primary/20">
                             <Download className="w-3.5 h-3.5" /> View
                           </Link>
                         </div>

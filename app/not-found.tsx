@@ -16,7 +16,7 @@ export default function NotFound() {
         transition={{ duration: 0.5 }}
         className="relative z-10 flex flex-col items-center text-center px-4"
       >
-        <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-8">
+        <div className="w-32 h-32 rounded-full bg-black/5 border border-black/10 flex items-center justify-center mb-8">
           <SearchX className="h-16 w-16 text-muted-foreground" />
         </div>
         

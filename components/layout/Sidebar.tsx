@@ -69,7 +69,7 @@ export function Sidebar({ role }: SidebarProps) {
   const links = role === "student" ? studentLinks : role === "ambassador" ? ambassadorLinks : adminLinks;
 
   return (
-    <aside className="hidden md:flex w-64 flex-col glass-card border-r border-white/10 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
+    <aside className="hidden md:flex w-64 flex-col glass-card border-r border-black/10 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
       <nav className="flex flex-col gap-2 p-4">
         {links.map((link) => {
           const Icon = link.icon;
@@ -82,7 +82,7 @@ export function Sidebar({ role }: SidebarProps) {
               className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium ${
                 isActive 
                   ? "bg-primary/20 text-primary border border-primary/20" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                  : "text-muted-foreground hover:text-foreground hover:bg-black/5"
               }`}
             >
               <Icon className="h-4 w-4" />

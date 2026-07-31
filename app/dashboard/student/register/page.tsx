@@ -65,14 +65,14 @@ export default function RegisterPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className={`glass-card rounded-2xl overflow-hidden flex flex-col ${h.status === 'OPEN' ? 'border-primary/50 shadow-[0_0_20px_rgba(var(--primary),0.1)]' : 'border-white/5 opacity-80'}`}
+            className={`glass-card rounded-2xl overflow-hidden flex flex-col ${h.status === 'OPEN' ? 'border-primary/50 shadow-[0_0_20px_rgba(var(--primary),0.1)]' : 'border-black/5 opacity-80'}`}
           >
             <div className="p-6 flex-1">
               <div className="flex justify-between items-start mb-4">
                 <span className={`text-xs font-bold px-3 py-1 rounded-full ${
                   h.status === 'OPEN' ? 'bg-emerald-500/20 text-emerald-500' :
                   h.status === 'UPCOMING' ? 'bg-blue-500/20 text-blue-500' :
-                  'bg-white/10 text-muted-foreground'
+                  'bg-black/10 text-muted-foreground'
                 }`}>
                   {h.status}
                 </span>
@@ -94,7 +94,7 @@ export default function RegisterPage() {
               </div>
             </div>
             
-            <div className="p-4 bg-background/50 border-t border-white/5">
+            <div className="p-4 bg-background/50 border-t border-black/5">
               {h.status === 'OPEN' ? (
                 <button 
                   onClick={() => setSelectedHackathon(h.id)}
@@ -103,7 +103,7 @@ export default function RegisterPage() {
                   Register Now <ArrowRight className="ml-2 w-4 h-4" />
                 </button>
               ) : (
-                <button disabled className="w-full inline-flex h-10 items-center justify-center rounded-lg bg-white/5 text-sm font-medium text-muted-foreground cursor-not-allowed">
+                <button disabled className="w-full inline-flex h-10 items-center justify-center rounded-lg bg-black/5 text-sm font-medium text-muted-foreground cursor-not-allowed">
                   {h.status === 'CLOSED' ? 'Registration Closed' : 'Opens Soon'}
                 </button>
               )}
@@ -118,7 +118,7 @@ export default function RegisterPage() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-[#111] border border-white/10 p-8 rounded-3xl max-w-md w-full shadow-2xl relative overflow-hidden"
+            className="bg-[#111] border border-black/10 p-8 rounded-3xl max-w-md w-full shadow-2xl relative overflow-hidden"
           >
             {isRegistered ? (
               <div className="text-center py-8">
@@ -129,7 +129,7 @@ export default function RegisterPage() {
                 >
                   <CheckCircle2 className="w-10 h-10" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-white mb-2">Registration Confirmed!</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">Registration Confirmed!</h3>
                 <p className="text-muted-foreground">You are now registered for the hackathon. Time to assemble your team!</p>
               </div>
             ) : (
@@ -137,12 +137,12 @@ export default function RegisterPage() {
                 <div className="w-12 h-12 bg-primary/20 text-primary rounded-xl flex items-center justify-center mb-6">
                   <ShieldAlert className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Confirm Registration</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">Confirm Registration</h3>
                 <p className="text-muted-foreground mb-8">By registering, you commit to participating in this hackathon. A no-show will result in a penalty on your streak.</p>
                 <div className="flex gap-4">
                   <button 
                     onClick={() => setSelectedHackathon(null)}
-                    className="flex-1 h-12 rounded-xl bg-white/5 hover:bg-white/10 text-white font-medium transition-colors"
+                    className="flex-1 h-12 rounded-xl bg-black/5 hover:bg-black/10 text-foreground font-medium transition-colors"
                   >
                     Cancel
                   </button>

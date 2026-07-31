@@ -26,7 +26,7 @@ export function AnalyticsPanel() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
       {/* Participation Chart */}
-      <div className="glass-card rounded-3xl p-6 border-white/5 flex flex-col h-[400px]">
+      <div className="glass-card rounded-3xl p-6 border-black/5 flex flex-col h-[400px]">
         <div className="mb-6">
           <h3 className="text-lg font-bold flex items-center gap-2">
             <Activity className="w-5 h-5 text-primary" /> Monthly Participation
@@ -51,7 +51,7 @@ export function AnalyticsPanel() {
       </div>
 
       {/* Credit Growth Chart */}
-      <div className="glass-card rounded-3xl p-6 border-white/5 flex flex-col h-[400px]">
+      <div className="glass-card rounded-3xl p-6 border-black/5 flex flex-col h-[400px]">
         <div className="mb-6">
           <h3 className="text-lg font-bold flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-emerald-500" /> Credit Point Growth

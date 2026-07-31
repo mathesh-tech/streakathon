@@ -4,19 +4,19 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222.2 47.4% 11.2%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 242.2 47.3% 34.3%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --primary: 215 25% 27%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 262.1 83.3% 57.8%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 217.2 91.2% 59.8%;
+    --accent: 215 25% 27%;
     --accent-foreground: 210 40% 98%;
     --success: 142.1 70.6% 45.3%;
     --success-foreground: 210 40% 98%;
@@ -26,7 +26,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 242.2 47.3% 34.3%;
+    --ring: 215 25% 27%;
     --radius: 0.75rem;
   }
  
@@ -68,15 +68,15 @@
 
 /* Glassmorphism utilities */
 .glass {
-  @apply bg-white/10 backdrop-blur-[16px] border border-white/20;
+  @apply bg-black/5 backdrop-blur-[16px] border border-black/10;
 }
 
 .dark .glass {
-  @apply bg-black/10 backdrop-blur-[16px] border border-white/10;
+  @apply bg-white/10 backdrop-blur-[16px] border border-white/10;
 }
 
 .glass-card {
-  @apply bg-background/50 backdrop-blur-[16px] border border-white/10 shadow-xl;
+  @apply bg-background/50 backdrop-blur-[16px] border border-black/10 shadow-xl;
 }
 
 /* Custom scrollbar */

@@ -57,7 +57,7 @@ export default function AboutPage() {
       </section>
 
       {/* Objectives */}
-      <section className="bg-primary/5 py-24 mb-24 border-y border-white/5">
+      <section className="bg-primary/5 py-24 mb-24 border-y border-black/5">
         <div className="container max-w-screen-xl px-4 md:px-6 text-center">
           <h2 className="text-4xl font-bold mb-12">Core Objectives</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -75,7 +75,7 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.1 }}
                 className="flex flex-col items-center"
               >
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-black/5 border border-black/10 flex items-center justify-center mb-4">
                   <obj.icon className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">{obj.title}</h3>

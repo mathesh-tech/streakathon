@@ -81,7 +81,7 @@ export default function LandingPage() {
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-8 justify-center">
-              <Link href="/leaderboard" className="inline-flex h-14 items-center justify-center rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground shadow-sm transition-all hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98]">
+              <Link href="/leaderboard" className="inline-flex h-14 items-center justify-center rounded-lg border border-black/10 bg-black/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground shadow-sm transition-all hover:bg-black/10 hover:scale-[1.02] active:scale-[0.98]">
                 View Leaderboard <Trophy className="ml-2 h-5 w-5 text-warning" />
               </Link>
               <Link href="/auth/login" className="inline-flex h-14 items-center justify-center rounded-lg bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg hover:shadow-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98]">
@@ -103,7 +103,7 @@ export default function LandingPage() {
                   { label: "Secs", value: timeLeft.seconds }
                 ].map((time, i) => (
                   <div key={i} className="flex flex-col items-center">
-                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-background/80 border border-white/10 flex items-center justify-center shadow-inner">
+                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-background/80 border border-black/10 flex items-center justify-center shadow-inner">
                       <span className="text-2xl md:text-3xl font-black text-primary">{time.value.toString().padStart(2, '0')}</span>
                     </div>
                     <span className="text-xs uppercase tracking-wider text-muted-foreground mt-2 font-medium">{time.label}</span>

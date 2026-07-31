@@ -26,14 +26,14 @@ export default function GalleryPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: (i % 3) * 0.1 }}
-              className={`w-full bg-white/5 border border-white/10 rounded-2xl overflow-hidden break-inside-avoid relative group ${item.height}`}
+              className={`w-full bg-black/5 border border-black/10 rounded-2xl overflow-hidden break-inside-avoid relative group ${item.height}`}
             >
               {/* Image Placeholder */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 group-hover:scale-105 transition-transform duration-700"></div>
               
               <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="font-bold text-white">Streakathon #{Math.floor(Math.random() * 10) + 1}</p>
-                <p className="text-xs text-white/70">Semester {Math.floor(Math.random() * 5) + 1}</p>
+                <p className="font-bold text-foreground">Streakathon #{(i % 10) + 1}</p>
+                <p className="text-xs text-black/70">Semester {Math.floor(i / 2) % 5 + 1}</p>
               </div>
             </motion.div>
           ))}

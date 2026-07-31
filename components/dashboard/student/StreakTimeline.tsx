@@ -38,7 +38,7 @@ export function StreakTimeline({ currentStreak, bestStreak }: { currentStreak: n
             <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
               isActive 
                 ? 'bg-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.4)] border border-orange-500/50' 
-                : 'bg-white/5 border border-white/10'
+                : 'bg-black/5 border border-black/10'
             }`}>
               {isActive ? (
                 <Flame className="w-5 h-5 text-orange-500" />

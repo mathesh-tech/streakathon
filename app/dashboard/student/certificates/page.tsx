@@ -48,22 +48,22 @@ export default function CertificatesPage() {
           <input 
             type="text" 
             placeholder="Search certificates..." 
-            className="w-full md:w-64 h-10 bg-background/50 border border-white/10 rounded-xl px-10 text-sm focus:border-primary focus:outline-none"
+            className="w-full md:w-64 h-10 bg-background/50 border border-black/10 rounded-xl px-10 text-sm focus:border-primary focus:outline-none"
           />
         </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {certificates.map((cert) => (
-          <div key={cert.id} className="group glass-card rounded-3xl overflow-hidden border-white/5 hover:border-white/20 transition-all hover:-translate-y-1">
+          <div key={cert.id} className="group glass-card rounded-3xl overflow-hidden border-black/5 hover:border-black/20 transition-all hover:-translate-y-1">
             {/* Certificate Preview (Visual representation) */}
             <div className={`h-48 w-full bg-gradient-to-br ${cert.color} p-6 relative flex flex-col items-center justify-center text-center border-b ${cert.borderColor}`}>
               <div className="absolute top-4 right-4 bg-background/50 backdrop-blur-sm rounded-full p-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
               </div>
               <Award className={`w-12 h-12 ${cert.iconColor} mb-4`} />
-              <div className="text-white font-bold text-lg leading-tight mb-1">STREAKATHON</div>
-              <div className="text-white/80 text-xs font-medium uppercase tracking-widest">{cert.type}</div>
+              <div className="text-foreground font-bold text-lg leading-tight mb-1">STREAKATHON</div>
+              <div className="text-black/80 text-xs font-medium uppercase tracking-widest">{cert.type}</div>
             </div>
             
             <div className="p-6">
@@ -77,7 +77,7 @@ export default function CertificatesPage() {
                 <button className="flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary h-10 rounded-xl text-sm font-semibold transition-colors">
                   <Download className="w-4 h-4" /> Download
                 </button>
-                <button className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white h-10 rounded-xl text-sm font-semibold transition-colors">
+                <button className="flex items-center justify-center gap-2 bg-black/5 hover:bg-black/10 text-foreground h-10 rounded-xl text-sm font-semibold transition-colors">
                   <QrCode className="w-4 h-4" /> Verify
                 </button>
               </div>

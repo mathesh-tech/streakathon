@@ -22,7 +22,7 @@ export default function LeaderboardPage() {
             <input 
               type="text" 
               placeholder="Search students..." 
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary transition-colors text-sm"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-black/5 border border-black/10 focus:outline-none focus:border-primary transition-colors text-sm"
             />
           </div>
         </div>
@@ -36,7 +36,7 @@ export default function LeaderboardPage() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                 activeTab === tab.toLowerCase() 
                   ? "bg-primary text-primary-foreground" 
-                  : "bg-white/5 text-muted-foreground hover:bg-white/10"
+                  : "bg-black/5 text-muted-foreground hover:bg-black/10"
               }`}
             >
               {tab}
@@ -53,13 +53,13 @@ export default function LeaderboardPage() {
               transition={{ delay: 0.1 }}
               className="w-full md:w-1/3 flex flex-col items-center order-2 md:order-1"
             >
-              <div className="glass-card p-4 rounded-xl border border-white/10 mb-4 w-full flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-2 flex items-center justify-center text-xl font-bold">AK</div>
+              <div className="glass-card p-4 rounded-xl border border-black/10 mb-4 w-full flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-black/10 mb-2 flex items-center justify-center text-xl font-bold">AK</div>
                 <h3 className="font-bold">Arjun K</h3>
                 <p className="text-sm text-muted-foreground">1,120 pts</p>
               </div>
-              <div className="w-full h-40 bg-white/5 border border-white/10 rounded-t-xl flex items-start justify-center pt-4">
-                <span className="text-4xl font-black text-white/20">2</span>
+              <div className="w-full h-40 bg-black/5 border border-black/10 rounded-t-xl flex items-start justify-center pt-4">
+                <span className="text-4xl font-black text-black/20">2</span>
               </div>
             </motion.div>
 
@@ -73,7 +73,7 @@ export default function LeaderboardPage() {
               <div className="glass-card p-4 rounded-xl border border-warning/50 mb-4 w-full flex flex-col items-center shadow-[0_0_30px_rgba(245,158,11,0.15)] relative overflow-hidden">
                 <div className="absolute inset-0 bg-warning/10 z-0"></div>
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-white/10 mb-2 flex items-center justify-center text-2xl font-bold border-2 border-warning">SM</div>
+                  <div className="w-20 h-20 rounded-full bg-black/10 mb-2 flex items-center justify-center text-2xl font-bold border-2 border-warning">SM</div>
                   <h3 className="font-bold text-lg">Siva Mathesh</h3>
                   <p className="text-sm text-warning font-bold">1,250 pts</p>
                 </div>
@@ -90,22 +90,22 @@ export default function LeaderboardPage() {
               transition={{ delay: 0.2 }}
               className="w-full md:w-1/3 flex flex-col items-center order-3"
             >
-              <div className="glass-card p-4 rounded-xl border border-white/10 mb-4 w-full flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-2 flex items-center justify-center text-xl font-bold">PS</div>
+              <div className="glass-card p-4 rounded-xl border border-black/10 mb-4 w-full flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-black/10 mb-2 flex items-center justify-center text-xl font-bold">PS</div>
                 <h3 className="font-bold">Priya S</h3>
                 <p className="text-sm text-muted-foreground">1,080 pts</p>
               </div>
-              <div className="w-full h-32 bg-white/5 border border-white/10 rounded-t-xl flex items-start justify-center pt-4">
-                <span className="text-4xl font-black text-white/20">3</span>
+              <div className="w-full h-32 bg-black/5 border border-black/10 rounded-t-xl flex items-start justify-center pt-4">
+                <span className="text-4xl font-black text-black/20">3</span>
               </div>
             </motion.div>
         </div>
 
         {/* Full Table */}
-        <div className="glass-card rounded-2xl overflow-hidden border border-white/10">
+        <div className="glass-card rounded-2xl overflow-hidden border border-black/10">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-white/5 border-b border-white/10">
+              <tr className="bg-black/5 border-b border-black/10">
                 <th className="p-4 font-semibold text-muted-foreground">Rank</th>
                 <th className="p-4 font-semibold text-muted-foreground">Student</th>
                 <th className="p-4 font-semibold text-muted-foreground">Year/Sec</th>
@@ -120,11 +120,11 @@ export default function LeaderboardPage() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                  className="border-b border-black/5 hover:bg-black/5 transition-colors"
                 >
                   <td className="p-4 font-bold text-muted-foreground">#{rank}</td>
                   <td className="p-4 font-semibold flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">U</div>
+                    <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-xs">U</div>
                     Student Name {rank}
                   </td>
                   <td className="p-4 text-muted-foreground">III / A</td>

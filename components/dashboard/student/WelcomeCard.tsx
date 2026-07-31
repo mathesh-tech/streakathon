@@ -31,7 +31,7 @@ export function WelcomeCard({ student }: WelcomeCardProps) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-3xl overflow-hidden relative border border-white/10"
+      className="glass-card rounded-3xl overflow-hidden relative border border-black/10"
     >
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-[500px] h-[300px] bg-primary/10 rounded-full blur-[100px] -z-10 translate-x-1/3 -translate-y-1/2" />
@@ -51,7 +51,7 @@ export function WelcomeCard({ student }: WelcomeCardProps) {
               </div>
             </div>
             {student.currentStreak > 0 && (
-              <div className="absolute -top-3 -right-3 bg-orange-500 text-white rounded-full p-1.5 shadow-lg border-2 border-background animate-bounce">
+              <div className="absolute -top-3 -right-3 bg-orange-500 text-foreground rounded-full p-1.5 shadow-lg border-2 border-background animate-bounce">
                 <Flame className="w-4 h-4" />
               </div>
             )}
@@ -73,17 +73,17 @@ export function WelcomeCard({ student }: WelcomeCardProps) {
         </div>
 
         <div className="flex gap-4 w-full md:w-auto z-10">
-          <div className="flex-1 md:flex-none glass border border-white/5 bg-white/5 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[120px]">
+          <div className="flex-1 md:flex-none glass border border-black/5 bg-black/5 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[120px]">
             <Trophy className="w-6 h-6 text-warning mb-2" />
             <div className="text-sm font-medium text-muted-foreground">Rank</div>
             <div className="text-2xl font-black text-foreground">#{student.currentRank}</div>
           </div>
-          <div className="flex-1 md:flex-none glass border border-white/5 bg-white/5 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[120px]">
+          <div className="flex-1 md:flex-none glass border border-black/5 bg-black/5 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[120px]">
             <Target className="w-6 h-6 text-primary mb-2" />
             <div className="text-sm font-medium text-muted-foreground">Credits</div>
             <div className="text-2xl font-black text-foreground">{student.currentCredits}</div>
           </div>
-          <div className="flex-1 md:flex-none glass border border-white/5 bg-white/5 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[120px] relative overflow-hidden">
+          <div className="flex-1 md:flex-none glass border border-black/5 bg-black/5 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[120px] relative overflow-hidden">
             <div className="absolute inset-0 bg-orange-500/10" />
             <Flame className="w-6 h-6 text-orange-500 mb-2 z-10" />
             <div className="text-sm font-medium text-orange-500 z-10">Streak</div>

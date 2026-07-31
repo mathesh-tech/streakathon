@@ -46,7 +46,7 @@ export default function AmbassadorDashboard() {
                     </div>
                   ) : (
                     <div className="flex gap-2 w-full sm:w-auto">
-                      <button className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input bg-background shadow-sm hover:bg-emerald-500 hover:text-white h-9 px-4 py-2">
+                      <button className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input bg-background shadow-sm hover:bg-emerald-500 hover:text-foreground h-9 px-4 py-2">
                         Verify
                       </button>
                       <button className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-input bg-background shadow-sm hover:bg-destructive hover:text-destructive-foreground h-9 px-4 py-2">
@@ -69,7 +69,7 @@ export default function AmbassadorDashboard() {
             </div>
             <h3 className="font-bold text-xl mb-2">Check-in Scanner</h3>
             <p className="text-muted-foreground text-sm mb-6">Students can scan this QR code or you can scan their team code to verify attendance instantly.</p>
-            <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-emerald-600 text-white shadow hover:bg-emerald-700 h-10 px-4 py-2">
+            <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-emerald-600 text-foreground shadow hover:bg-emerald-700 h-10 px-4 py-2">
               Open Camera Scanner
             </button>
           </section>

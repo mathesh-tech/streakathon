@@ -46,14 +46,14 @@ export default function SubmissionsPage() {
                 </p>
                 <button 
                   onClick={() => setIsSubmitted(false)}
-                  className="bg-white/5 hover:bg-white/10 border border-white/10 px-6 py-2 rounded-xl text-sm font-medium transition-colors"
+                  className="bg-black/5 hover:bg-black/10 border border-black/10 px-6 py-2 rounded-xl text-sm font-medium transition-colors"
                 >
                   Update Submission
                 </button>
               </motion.div>
             ) : (
               <>
-                <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/5">
+                <div className="flex items-center justify-between mb-8 pb-6 border-b border-black/5">
                   <div>
                     <h2 className="text-xl font-bold">Streakathon #15: AI & Automation</h2>
                     <p className="text-sm text-muted-foreground">Deadline: Saturday, 8:00 PM</p>
@@ -72,7 +72,7 @@ export default function SubmissionsPage() {
                       <input 
                         required
                         type="url"
-                        className="w-full h-12 rounded-xl border border-white/10 bg-background/50 px-12 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" 
+                        className="w-full h-12 rounded-xl border border-black/10 bg-background/50 px-12 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" 
                         placeholder="https://github.com/team-name/project" 
                       />
                     </div>
@@ -85,7 +85,7 @@ export default function SubmissionsPage() {
                       <input 
                         required
                         type="url"
-                        className="w-full h-12 rounded-xl border border-white/10 bg-background/50 px-12 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" 
+                        className="w-full h-12 rounded-xl border border-black/10 bg-background/50 px-12 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" 
                         placeholder="https://youtube.com/watch?v=..." 
                       />
                     </div>
@@ -96,7 +96,7 @@ export default function SubmissionsPage() {
                       <label className="text-sm font-medium">Project Presentation (PPT/PDF)</label>
                       <div className="relative cursor-pointer group">
                         <input type="file" accept=".ppt,.pptx,.pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                        <div className="w-full h-12 rounded-xl border border-white/10 bg-background/50 px-4 flex items-center gap-3 group-hover:bg-white/5 transition-colors">
+                        <div className="w-full h-12 rounded-xl border border-black/10 bg-background/50 px-4 flex items-center gap-3 group-hover:bg-black/5 transition-colors">
                           <FileText className="h-5 w-5 text-muted-foreground" />
                           <span className="text-sm text-muted-foreground truncate">Choose file...</span>
                         </div>
@@ -107,7 +107,7 @@ export default function SubmissionsPage() {
                       <label className="text-sm font-medium">Source Code (ZIP)</label>
                       <div className="relative cursor-pointer group">
                         <input type="file" accept=".zip,.rar" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                        <div className="w-full h-12 rounded-xl border border-white/10 bg-background/50 px-4 flex items-center gap-3 group-hover:bg-white/5 transition-colors">
+                        <div className="w-full h-12 rounded-xl border border-black/10 bg-background/50 px-4 flex items-center gap-3 group-hover:bg-black/5 transition-colors">
                           <FileArchive className="h-5 w-5 text-muted-foreground" />
                           <span className="text-sm text-muted-foreground truncate">Choose file...</span>
                         </div>
@@ -143,27 +143,27 @@ export default function SubmissionsPage() {
             <h3 className="text-xl font-bold mb-6">Submission History</h3>
             
             <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-background/50 border border-white/5">
+              <div className="p-4 rounded-xl bg-background/50 border border-black/5">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-semibold text-sm">Streakathon #14</h4>
                   <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">Evaluated</span>
                 </div>
                 <div className="text-xs text-muted-foreground mb-3">Submitted on Sep 28, 2026, 7:45 PM</div>
                 <div className="flex gap-2">
-                  <a href="#" className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-muted-foreground transition-colors"><Github className="w-4 h-4" /></a>
-                  <a href="#" className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-muted-foreground transition-colors"><Video className="w-4 h-4" /></a>
+                  <a href="#" className="p-2 bg-black/5 hover:bg-black/10 rounded-lg text-muted-foreground transition-colors"><Github className="w-4 h-4" /></a>
+                  <a href="#" className="p-2 bg-black/5 hover:bg-black/10 rounded-lg text-muted-foreground transition-colors"><Video className="w-4 h-4" /></a>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-background/50 border border-white/5">
+              <div className="p-4 rounded-xl bg-background/50 border border-black/5">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-semibold text-sm">Streakathon #13</h4>
                   <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">Evaluated</span>
                 </div>
                 <div className="text-xs text-muted-foreground mb-3">Submitted on Aug 15, 2026, 6:30 PM</div>
                 <div className="flex gap-2">
-                  <a href="#" className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-muted-foreground transition-colors"><Github className="w-4 h-4" /></a>
-                  <a href="#" className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-muted-foreground transition-colors"><Video className="w-4 h-4" /></a>
+                  <a href="#" className="p-2 bg-black/5 hover:bg-black/10 rounded-lg text-muted-foreground transition-colors"><Github className="w-4 h-4" /></a>
+                  <a href="#" className="p-2 bg-black/5 hover:bg-black/10 rounded-lg text-muted-foreground transition-colors"><Video className="w-4 h-4" /></a>
                 </div>
               </div>
             </div>

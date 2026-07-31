@@ -72,8 +72,8 @@ export function QuickActions() {
     >
       {actions.map((action, i) => (
         <motion.div key={i} variants={item}>
-          <Link href={action.href} className="group flex flex-col items-center justify-center p-6 glass-card rounded-2xl hover:bg-white/5 transition-all border border-white/5 hover:border-white/10 relative overflow-hidden h-full">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white mb-4 ${action.color} shadow-lg shadow-black/20 group-hover:scale-110 transition-transform duration-300`}>
+          <Link href={action.href} className="group flex flex-col items-center justify-center p-6 glass-card rounded-2xl hover:bg-black/5 transition-all border border-black/5 hover:border-black/10 relative overflow-hidden h-full">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-foreground mb-4 ${action.color} shadow-lg shadow-black/20 group-hover:scale-110 transition-transform duration-300`}>
               <action.icon className="w-6 h-6" />
             </div>
             <h3 className="font-semibold text-foreground text-center">{action.title}</h3>

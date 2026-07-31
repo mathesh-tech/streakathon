@@ -30,7 +30,7 @@ export function RecentActivity() {
               </div>
             </div>
             
-            <div className="bg-white/5 border border-white/5 rounded-xl p-4 ml-4">
+            <div className="bg-black/5 border border-black/5 rounded-xl p-4 ml-4">
               <h4 className="font-semibold text-sm text-foreground">{activity.title}</h4>
               <p className="text-xs text-muted-foreground mt-1">{activity.date}</p>
             </div>

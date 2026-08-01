@@ -81,19 +81,19 @@ export default function LandingPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
               style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
-              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] drop-shadow-[0_0_25px_rgba(250,204,21,0.4)]"
+              className="text-[12vw] min-[500px]:text-6xl md:text-8xl lg:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] drop-shadow-[0_0_25px_rgba(250,204,21,0.4)] whitespace-nowrap"
             >
               <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="max-w-[700px] text-sm md:text-lg text-muted-foreground font-bold mt-6 tracking-widest uppercase">
+            <motion.p variants={itemVariants} className="max-w-[700px] text-xs sm:text-sm md:text-lg text-muted-foreground font-bold mt-6 tracking-widest uppercase text-center">
               DEPARTMENT OF INFORMATION TECHNOLOGY
             </motion.p>
 
             <motion.p 
               variants={itemVariants} 
               style={{ fontFamily: 'var(--font-caveat), cursive' }}
-              className="max-w-[900px] text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-primary to-yellow-500 mt-4 drop-shadow-[0_2px_15px_rgba(250,204,21,0.3)] px-4 leading-tight"
+              className="max-w-[900px] text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-primary to-yellow-500 mt-4 drop-shadow-[0_2px_15px_rgba(250,204,21,0.3)] px-4 leading-tight text-center"
             >
               "Empowering minds to innovate, build, and lead the future."
             </motion.p>

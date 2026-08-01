@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Caveat, Orbitron } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat', display: 'swap' })
+const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron', display: 'swap' })
 
 export const metadata: Metadata = {
   title: "STREAKATHON | Continuous Innovation Platform",
@@ -40,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${inter.variable} min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary`}>
+      <body className={`${inter.className} ${inter.variable} ${caveat.variable} ${orbitron.variable} min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary`}>
         <Navbar />
         <main className="flex-1 flex flex-col items-center w-full">
           {children}

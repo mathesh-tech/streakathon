@@ -35,7 +35,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     });
 
     await logAuditAction({
-      userId: session.user.id,
+      userId: (session.user as any).id,
       action: "UPDATE_STATUS",
       entity: "User",
       target: userId,

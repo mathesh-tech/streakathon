@@ -68,7 +68,7 @@ export async function POST(req: Request) {
     sendTemporaryPasswordEmail(email, tempPassword).catch(console.error);
 
     await logAuditAction({
-      userId: session.user.id,
+      userId: (session.user as any).id,
       action: "CREATE",
       entity: "User",
       target: user.id,

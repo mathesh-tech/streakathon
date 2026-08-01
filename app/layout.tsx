@@ -9,6 +9,7 @@ const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat', display: 
 const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron', display: 'swap' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://streakathon.vercel.app"),
   title: "STREAKATHON | Continuous Innovation Platform",
   description: "The ultimate hackathon platform for IT students to build streaks, earn credits, and climb the leaderboard.",
   keywords: ["hackathon", "student platform", "innovation", "college", "programming", "leaderboard"],

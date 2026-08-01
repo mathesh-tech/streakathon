@@ -76,7 +76,6 @@ export default function LeaderboardPage() {
                 <h3 className="font-bold text-xs md:text-lg text-center truncate w-full px-1">Siva Mathesh</h3>
                 <p className="text-[10px] md:text-sm text-warning font-bold">1,250 credits</p>
               </div>
-              </div>
             </div>
             <div className="w-full h-32 md:h-56 bg-warning/10 border border-warning/20 rounded-t-xl flex items-start justify-center pt-2 md:pt-4 backdrop-blur-sm">
               <span className="text-3xl md:text-5xl font-black text-warning/30">1</span>

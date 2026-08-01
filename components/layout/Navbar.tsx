@@ -5,6 +5,8 @@ import { Menu, User, Shield, QrCode, ChevronDown, Laptop } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { NotificationBell } from '@/components/notifications/NotificationBell';
+
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -60,8 +62,10 @@ export function Navbar() {
           </nav>
         </div>
         
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           
+          <NotificationBell />
+
           {/* Role Based Login Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button

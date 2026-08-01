@@ -97,10 +97,38 @@ enum CertificateType {
 }
 
 enum NotificationType {
+  LOGIN
+  EMAIL_VERIFICATION
+  TEAM_INVITATION
+  TEAM_ACCEPTED
+  TEAM_REJECTED
+  REGISTRATION_SUCCESS
+  REGISTRATION_CLOSED
+  WAITLIST
+  ATTENDANCE
+  PROBLEM_RELEASE
+  SUBMISSION_CONFIRMATION
+  SUBMISSION_DEADLINE
+  EVALUATION_COMPLETED
+  RESULTS_PUBLISHED
+  CERTIFICATE_READY
+  INNOVATION_CREDITS
+  LEADERBOARD_UPDATE
+  ACHIEVEMENT_UNLOCKED
+  ANNOUNCEMENT
+  SYSTEM
+  // Legacy
   INFO
   ALERT
   SUCCESS
   WARNING
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
 }
 
 // ==========================================
@@ -140,6 +168,11 @@ model User {
   attendanceRecords           AttendanceRecord[]  @relation("UserAttendance")
   markedAttendance            AttendanceRecord[]  @relation("MarkedAttendance")
   performedCreditTransactions CreditTransaction[] @relation("PerformedCredits")
+
+  notificationPreference NotificationPreference?
+  announcementsCreated   Announcement[]
+  generatedReports       ReportHistory[]
+  scheduledReports       ScheduledReport[]
 }
 
 model Student {
@@ -271,10 +304,10 @@ model Team {
 }
 
 model TeamMember {
-  teamId       String
-  studentId    String
-  joinedAt     DateTime       @default(now())
-  role         TeamMemberRole @default(MEMBER)
+  teamId    String
+  studentId String
+  joinedAt  DateTime       @default(now())
+  role      TeamMemberRole @default(MEMBER)
 
   team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
   student Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
@@ -417,15 +450,57 @@ model AttendanceRecord {
 }
 
 model Notification {
-  id        String           @id @default(uuid())
+  id        String               @id @default(uuid())
   userId    String
   title     String
   message   String
-  type      NotificationType @default(INFO)
-  read      Boolean          @default(false)
-  createdAt DateTime         @default(now())
+  type      NotificationType     @default(INFO)
+  priority  NotificationPriority @default(NORMAL)
+  isRead    Boolean              @default(false)
+  actionUrl String?
+  createdAt DateTime             @default(now())
+  expiresAt DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailLog {
+  id         String    @id @default(uuid())
+  recipient  String
+  subject    String
+  status     String // PENDING, SENT, FAILED
+  provider   String    @default("RESEND")
+  htmlContent String?
+  sentAt     DateTime?
+  error      String?
+  retryCount Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model NotificationPreference {
+  id                 String  @id @default(uuid())
+  userId             String  @unique
+  emailNotifications Boolean @default(true)
+  inAppNotifications Boolean @default(true)
+  announcementEmails Boolean @default(true)
+  reminderEmails     Boolean @default(true)
+  securityEmails     Boolean @default(true) // Cannot be disabled
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Announcement {
+  id             String    @id @default(uuid())
+  title          String
+  message        String
+  targetAudience String // ALL, PARTICIPANTS, AMBASSADORS, ADMINS
+  type           String // Information, Reminder, Warning, Important, Emergency
+  createdBy      String
+  createdAt      DateTime  @default(now())
+  expiresAt      DateTime?
+
+  creator User @relation(fields: [createdBy], references: [id])
 }
 
 model ActivityLog {
@@ -469,3 +544,28 @@ model Gallery {
   uploadedBy  String
   uploadedAt  DateTime @default(now())
 }
+
+model ReportHistory {
+  id             String   @id @default(uuid())
+  reportType     String   // e.g. "Participation", "Attendance", "Leaderboard"
+  generatedById  String
+  generatedAt    DateTime @default(now())
+  filtersUsed    String?  // JSON string
+  downloadCount  Int      @default(0)
+  
+  generatedBy    User     @relation(fields: [generatedById], references: [id], onDelete: Cascade)
+}
+
+model ScheduledReport {
+  id             String   @id @default(uuid())
+  reportType     String
+  frequency      String   // DAILY, WEEKLY, MONTHLY, SEMESTER
+  recipients     String   // Comma separated emails
+  createdById    String
+  createdAt      DateTime @default(now())
+  lastSentAt     DateTime?
+  isActive       Boolean  @default(true)
+  
+  createdBy      User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+}
+

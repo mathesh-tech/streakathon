@@ -166,7 +166,7 @@ export default function LandingPage() {
           <div className="relative max-w-4xl mx-auto">
             <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/0 via-primary/50 to-primary/0 md:-translate-x-1/2 hidden md:block" />
 
-            <div className="space-y-6 md:space-y-10">
+            <div className="space-y-3 md:space-y-4">
               {[
                 { day: "Wednesday", title: "Registration Opens", desc: "Registrations for the upcoming Saturday hackathon begin for 2nd and 3rd year students." },
                 { day: "Friday 5:00 PM", title: "Registration Closes", desc: "Finalize your teams. No late registrations will be accepted." },

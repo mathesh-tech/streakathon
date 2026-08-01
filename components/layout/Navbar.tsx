@@ -66,11 +66,10 @@ export function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="inline-flex items-center justify-center rounded-md text-sm font-bold transition-transform active:scale-95 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 gap-2"
+              className="inline-flex items-center justify-center rounded-md text-sm font-bold transition-transform active:scale-95 bg-transparent border border-black/10 text-foreground shadow-sm hover:bg-black/5 h-10 w-10 p-0"
+              aria-label="Menu"
             >
-              <User className="w-4 h-4" />
-              <span className="hidden sm:inline">Login Portal</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              <Menu className="w-5 h-5" />
             </button>
 
             <AnimatePresence>
@@ -119,9 +118,7 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          <button className="md:hidden flex items-center justify-center w-9 h-9 rounded-md bg-black/5 hover:bg-black/10 border border-black/10 transition-colors">
-            <Menu className="h-5 w-5 text-foreground/80" />
-          </button>
+
         </div>
       </div>
     </header>

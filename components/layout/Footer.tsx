@@ -28,7 +28,7 @@ export function Footer() {
           <h3 className="font-semibold text-foreground mb-4">Developed & Managed By</h3>
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li>
-              <strong>Hackathon Ambassador:</strong><br/>
+              <strong>Member of Hackathon Ambassador:</strong><br/>
               Vijayaragavan R<br/>
               <a href="mailto:vijayaragavan.24it@sonatech.ac.in" className="hover:text-primary transition-colors text-xs">vijayaragavan.24it@sonatech.ac.in</a>
             </li>

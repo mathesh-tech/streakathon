@@ -93,14 +93,14 @@ export function Navbar() {
                       Student Login
                     </Link>
                     <Link
-                      href="/dashboard/ambassador/scanner"
+                      href="/dashboard/ambassador"
                       onClick={() => setIsDropdownOpen(false)}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
                     >
                       <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
                         <QrCode className="w-4 h-4" />
                       </div>
-                      Ambassador Scanner
+                      Ambassador Portal
                     </Link>
                     <Link
                       href="/dashboard/admin"

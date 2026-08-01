@@ -14,7 +14,7 @@ datasource db {
 enum Role {
   ADMIN
   AMBASSADOR
-  STUDENT
+  PARTICIPANT
 }
 
 enum HackathonStatus {
@@ -24,6 +24,21 @@ enum HackathonStatus {
   LIVE
   EVALUATION
   COMPLETED
+}
+
+enum CreditTransactionType {
+  INCREASE
+  DECREASE
+  CORRECTION
+  BONUS_APPROVED
+  REMOVAL
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  DISQUALIFIED
 }
 
 enum RegistrationStatus {
@@ -43,6 +58,12 @@ enum TeamStatus {
   FORMING
   LOCKED
   DISQUALIFIED
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
 
 enum CertificateType {
@@ -65,51 +86,57 @@ enum NotificationType {
 // ==========================================
 
 model User {
-  id             String    @id @default(uuid())
-  name           String
-  email          String    @unique
-  password       String
-  role           Role
-  avatar         String?
-  phone          String?
-  department     String    @default("IT")
-  year           Int?
-  registerNumber String?   @unique
-  status         String    @default("ACTIVE")
-  forcePasswordChange Boolean @default(true)
-  lastLogin      DateTime?
-  
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  deletedAt      DateTime? // Soft Delete
+  id                  String    @id @default(uuid())
+  name                String
+  email               String    @unique
+  password            String
+  role                Role
+  avatar              String?
+  phone               String?
+  department          String    @default("IT")
+  year                Int?
+  registerNumber      String?   @unique
+  status              String    @default("ACTIVE")
+  forcePasswordChange Boolean   @default(true)
+  emailVerified       Boolean   @default(false)
+  canDeductCredits    Boolean   @default(false)
+  lastLogin           DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft Delete
 
   // Relations
   studentProfile    Student?
   adminProfile      Admin?
   ambassadorProfile Ambassador?
 
-  activityLogs      ActivityLog[]
-  auditLogs         AuditLog[]
-  notifications     Notification[]
+  activityLogs                ActivityLog[]
+  auditLogs                   AuditLog[]
+  notifications               Notification[]
+  loginLogs                   LoginLog[]
+  attendanceRecords           AttendanceRecord[]  @relation("UserAttendance")
+  markedAttendance            AttendanceRecord[]  @relation("MarkedAttendance")
+  performedCreditTransactions CreditTransaction[] @relation("PerformedCredits")
 }
 
 model Student {
-  studentId          String  @id @default(uuid())
-  userId             String  @unique
-  batch              String
-  section            String
-  semester           Int
-  currentCredits     Int     @default(0)
-  lifetimeCredits    Int     @default(0)
-  currentStreak      Int     @default(0)
-  bestStreak         Int     @default(0)
+  studentId           String @id @default(uuid())
+  userId              String @unique
+  batch               String
+  section             String
+  semester            Int
+  currentCredits      Int    @default(0)
+  lifetimeCredits     Int    @default(0)
+  currentStreak       Int    @default(0)
+  bestStreak          Int    @default(0)
   totalParticipations Int    @default(0)
-  totalWins          Int     @default(0)
-  
-  github             String?
-  linkedin           String?
-  portfolio          String?
-  bio                String?
+  totalWins           Int    @default(0)
+
+  github    String?
+  linkedin  String?
+  portfolio String?
+  bio       String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -118,12 +145,11 @@ model Student {
   certificates       Certificate[]
   creditTransactions CreditTransaction[]
   studentBadges      StudentBadge[]
-  leaderboardEntries Leaderboard[]
 }
 
 model Ambassador {
-  ambassadorId    String @id @default(uuid())
-  userId          String @unique
+  ambassadorId    String   @id @default(uuid())
+  userId          String   @unique
   assignedYear    Int
   assignedSection String
   permissions     String[] // JSON or array of permission strings
@@ -145,41 +171,42 @@ model Admin {
 // ==========================================
 
 model Semester {
-  id         String   @id @default(uuid())
-  name       String   // e.g., "Even 2026"
-  startDate  DateTime
-  endDate    DateTime
-  isActive   Boolean  @default(true)
-  
+  id        String   @id @default(uuid())
+  name      String // e.g., "Even 2026"
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+
   hackathons Hackathon[]
 }
 
 model Hackathon {
-  id                  String          @id @default(uuid())
-  title               String
-  description         String
-  theme               String
-  banner              String?
-  poster              String?
-  venue               String
-  registrationOpen    DateTime
-  registrationClose   DateTime
-  problemReleaseTime  DateTime
-  submissionDeadline  DateTime
-  status              HackathonStatus @default(DRAFT)
-  
-  semesterId          String
-  semester            Semester        @relation(fields: [semesterId], references: [id])
-  createdBy           String
+  id                 String          @id @default(uuid())
+  title              String
+  description        String
+  theme              String
+  banner             String?
+  poster             String?
+  venue              String
+  registrationOpen   DateTime
+  registrationClose  DateTime
+  problemReleaseTime DateTime
+  submissionDeadline DateTime
+  status             HackathonStatus @default(DRAFT)
 
-  createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt
-  deletedAt           DateTime?
+  semesterId String
+  semester   Semester @relation(fields: [semesterId], references: [id])
+  createdBy  String
 
-  registrations       Registration[]
-  teams               Team[]
-  certificates        Certificate[]
-  creditTransactions  CreditTransaction[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  registrations      Registration[]
+  teams              Team[]
+  certificates       Certificate[]
+  creditTransactions CreditTransaction[]
+  AttendanceRecord   AttendanceRecord[]
 }
 
 // ==========================================
@@ -211,16 +238,17 @@ model Team {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  hackathon Hackathon    @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
-  members   TeamMember[]
+  hackathon     Hackathon      @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  members       TeamMember[]
   registrations Registration[]
-  submissions Submission[]
+  submissions   Submission[]
 }
 
 model TeamMember {
-  teamId    String
-  studentId String
-  joinedAt  DateTime @default(now())
+  teamId       String
+  studentId    String
+  inviteStatus InviteStatus @default(PENDING)
+  joinedAt     DateTime     @default(now())
 
   team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
   student Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
@@ -251,16 +279,16 @@ model EvaluationScore {
   id           String @id @default(uuid())
   submissionId String
   judgeName    String
-  
+
   innovation   Int
   technical    Int
   ui           Int
   presentation Int
   impact       Int
   remarks      String?
-  
-  totalScore   Int
-  rank         Int?
+
+  totalScore Int
+  rank       Int?
 
   submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
 }
@@ -270,48 +298,42 @@ model EvaluationScore {
 // ==========================================
 
 model Certificate {
-  certificateId     String   @id @default(uuid())
+  certificateId     String          @id @default(uuid())
   studentId         String
   hackathonId       String
   type              CertificateType
-  issueDate         DateTime @default(now())
+  issueDate         DateTime        @default(now())
   qrCode            String?
-  verificationToken String   @unique
+  verificationToken String          @unique
 
   student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
   hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
 }
 
 model CreditTransaction {
-  id          String   @id @default(uuid())
-  studentId   String
-  hackathonId String?
-  reason      String   // E.g., "Participation", "Winner"
-  points      Int
-  createdAt   DateTime @default(now())
+  id            String                @id @default(uuid())
+  studentId     String
+  hackathonId   String?
+  reason        String // E.g., "Participation", "Winner"
+  points        Int
+  type          CreditTransactionType @default(INCREASE)
+  performedById String?
+  createdAt     DateTime              @default(now())
 
-  student   Student    @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
-  hackathon Hackathon? @relation(fields: [hackathonId], references: [id])
+  student     Student    @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
+  hackathon   Hackathon? @relation(fields: [hackathonId], references: [id])
+  performedBy User?      @relation("PerformedCredits", fields: [performedById], references: [id])
 }
 
-model Leaderboard {
-  id        String   @id @default(uuid())
-  studentId String
-  rank      Int
-  score     Int
-  semester  String
-  updatedAt DateTime @updatedAt
-
-  student Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
-}
+// Leaderboard has been removed as it is a derived value.
 
 model Badge {
-  id          String         @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   description String
   imageUrl    String?
-  
-  students    StudentBadge[]
+
+  students StudentBadge[]
 }
 
 model StudentBadge {
@@ -328,6 +350,32 @@ model StudentBadge {
 // ==========================================
 // SYSTEM & LOGGING
 // ==========================================
+
+model LoginLog {
+  id           String   @id @default(uuid())
+  userId       String
+  loginAt      DateTime @default(now())
+  ipAddress    String?
+  browser      String?
+  os           String?
+  location     String?
+  isSuspicious Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AttendanceRecord {
+  id          String           @id @default(uuid())
+  userId      String
+  hackathonId String
+  status      AttendanceStatus
+  markedById  String
+  createdAt   DateTime         @default(now())
+
+  user      User      @relation("UserAttendance", fields: [userId], references: [id], onDelete: Cascade)
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  markedBy  User      @relation("MarkedAttendance", fields: [markedById], references: [id])
+}
 
 model Notification {
   id        String           @id @default(uuid())
@@ -352,12 +400,18 @@ model ActivityLog {
 }
 
 model AuditLog {
-  id        String   @id @default(uuid())
-  userId    String
-  action    String // E.g., Delete, Edit, Create, Approve
-  entity    String // E.g., "Hackathon", "Settings"
-  details   String?
-  createdAt DateTime @default(now())
+  id            String   @id @default(uuid())
+  userId        String
+  action        String // E.g., Delete, Edit, Create, Approve
+  entity        String // E.g., "Hackathon", "Settings"
+  target        String? // ID or name of the target entity
+  previousValue String? // JSON string
+  newValue      String? // JSON string
+  details       String?
+  browser       String?
+  ipAddress     String?
+  reason        String?
+  createdAt     DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

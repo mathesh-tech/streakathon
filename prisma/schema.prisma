@@ -55,9 +55,31 @@ enum SubmissionStatus {
 }
 
 enum TeamStatus {
-  FORMING
+  OPEN
+  FULL
   LOCKED
+  SUBMITTED
   DISQUALIFIED
+}
+
+enum TeamMemberRole {
+  LEADER
+  MEMBER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+enum RegistrationState {
+  NOT_REGISTERED
+  REGISTERED
+  WAITING
+  CONFIRMED
+  CANCELLED
 }
 
 enum InviteStatus {
@@ -219,6 +241,7 @@ model Registration {
   studentId        String
   teamId           String?
   registeredAt     DateTime           @default(now())
+  status           RegistrationState  @default(REGISTERED)
   attendanceStatus RegistrationStatus @default(REGISTERED)
   submissionStatus SubmissionStatus   @default(PENDING)
 
@@ -232,28 +255,44 @@ model Registration {
 model Team {
   id          String     @id @default(uuid())
   teamName    String
-  captainId   String
+  teamCode    String     @unique
+  leaderId    String
   hackathonId String
-  status      TeamStatus @default(FORMING)
+  status      TeamStatus @default(OPEN)
+  maxMembers  Int        @default(4)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  hackathon     Hackathon      @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  hackathon     Hackathon        @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
   members       TeamMember[]
   registrations Registration[]
   submissions   Submission[]
+  invitations   TeamInvitation[]
 }
 
 model TeamMember {
   teamId       String
   studentId    String
-  inviteStatus InviteStatus @default(PENDING)
-  joinedAt     DateTime     @default(now())
+  joinedAt     DateTime       @default(now())
+  role         TeamMemberRole @default(MEMBER)
 
   team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
   student Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
 
   @@id([teamId, studentId])
+}
+
+model TeamInvitation {
+  id         String           @id @default(uuid())
+  teamId     String
+  email      String
+  status     InvitationStatus @default(PENDING)
+  token      String           @unique
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime         @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 // ==========================================

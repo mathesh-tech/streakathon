@@ -81,7 +81,7 @@ export default function LandingPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
               style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
-              className="text-3xl min-[400px]:text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] drop-shadow-[0_0_25px_rgba(250,204,21,0.4)] whitespace-nowrap"
+              className="text-2xl min-[360px]:text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] drop-shadow-[0_0_25px_rgba(250,204,21,0.4)] break-words"
             >
               <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
             </motion.h1>

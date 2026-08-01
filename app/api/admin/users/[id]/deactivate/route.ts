@@ -12,7 +12,7 @@ const deactivateSchema = z.object({
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== 'ADMIN') {
+    if (!session || !session.user || session.user.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 

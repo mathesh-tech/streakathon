@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import UAParser from "ua-parser-js";
+import { UAParser } from "ua-parser-js";
 import { sendSecurityEmail, sendVerificationEmail } from "@/lib/email";
 import { generateVerificationToken } from "@/lib/tokens";
 

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import UAParser from "ua-parser-js";
+import { UAParser } from "ua-parser-js";
 
 export interface AuditActionParams {
   userId: string;

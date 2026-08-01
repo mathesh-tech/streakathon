@@ -51,7 +51,7 @@ export function AnalyticsDashboard() {
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-16 h-16 bg-indigo-500/10 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out" />
           <div className="text-muted-foreground text-sm font-medium mb-1 flex items-center">
             <Users className="h-4 w-4 mr-2 text-indigo-400"/> Total Students
@@ -64,7 +64,7 @@ export function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="glass p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/10 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out" />
           <div className="text-muted-foreground text-sm font-medium mb-1 flex items-center">
             <Award className="h-4 w-4 mr-2 text-emerald-400"/> Avg. Credits
@@ -77,7 +77,7 @@ export function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="glass p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-16 h-16 bg-amber-500/10 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out" />
           <div className="text-muted-foreground text-sm font-medium mb-1 flex items-center">
             <ShieldAlert className="h-4 w-4 mr-2 text-amber-400"/> Attendance
@@ -90,7 +90,7 @@ export function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="glass p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl flex flex-col justify-center relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/10 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out" />
           <div className="text-muted-foreground text-sm font-medium mb-1 flex items-center">
             <BarChart3 className="h-4 w-4 mr-2 text-blue-400"/> Submissions
@@ -106,12 +106,12 @@ export function AnalyticsDashboard() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <section className="glass p-6 rounded-2xl lg:col-span-2">
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl lg:col-span-2">
           <h2 className="text-xl font-bold mb-6">Daily Active Participation</h2>
           <ParticipationChart data={participation} />
         </section>
 
-        <section className="glass p-6 rounded-2xl">
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl">
           <h2 className="text-xl font-bold mb-6">Credit Distribution</h2>
           <CreditDistributionChart data={credits} />
         </section>
@@ -119,7 +119,7 @@ export function AnalyticsDashboard() {
 
       {/* Insights Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <section className="glass p-6 rounded-2xl lg:col-span-2 border-t-4 border-t-amber-500">
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-6 rounded-2xl lg:col-span-2 border-t-4 border-t-amber-500">
           <h2 className="text-xl font-bold mb-6">Leaderboard Insights</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -127,7 +127,7 @@ export function AnalyticsDashboard() {
               <h3 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider">Top Performers</h3>
               <div className="space-y-3">
                 {leaderboard?.topPerformers?.map((p: any, i: number) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-background/50 rounded-lg border border-black/5">
+                  <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-sm">{p.name}</span>
                     <span className="text-amber-500 font-bold text-sm">{p.credits} pts</span>
                   </div>
@@ -138,7 +138,7 @@ export function AnalyticsDashboard() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider">Longest Streak</h3>
-                <div className="p-4 bg-background/50 rounded-lg border border-black/5 flex justify-between items-center">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 flex justify-between items-center">
                   <span className="font-bold">{leaderboard?.longestStreak?.name || 'N/A'}</span>
                   <span className="bg-amber-500/20 text-amber-500 px-2 py-1 rounded-md text-xs font-bold">
                     {leaderboard?.longestStreak?.streak || 0} 🔥
@@ -148,7 +148,7 @@ export function AnalyticsDashboard() {
 
               <div>
                 <h3 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider">Most Wins</h3>
-                <div className="p-4 bg-background/50 rounded-lg border border-black/5 flex justify-between items-center">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 flex justify-between items-center">
                   <span className="font-bold">{leaderboard?.mostWins?.name || 'N/A'}</span>
                   <span className="bg-emerald-500/20 text-emerald-500 px-2 py-1 rounded-md text-xs font-bold">
                     {leaderboard?.mostWins?.wins || 0} 🏆

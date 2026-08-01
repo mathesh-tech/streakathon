@@ -69,8 +69,8 @@ export function Sidebar({ role }: SidebarProps) {
   const links = role === "student" ? studentLinks : role === "ambassador" ? ambassadorLinks : adminLinks;
 
   return (
-    <aside className="hidden md:flex w-64 flex-col glass-card border-r border-black/10 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
-      <nav className="flex flex-col gap-2 p-4">
+    <aside className="hidden md:flex w-64 flex-col bg-slate-50 dark:bg-slate-950/50 border-r border-slate-200 dark:border-slate-800 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
+      <nav className="flex flex-col gap-1 p-4">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;
@@ -79,13 +79,13 @@ export function Sidebar({ role }: SidebarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium ${
                 isActive 
-                  ? "bg-primary/20 text-primary border border-primary/20" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-black/5"
+                  ? "bg-white dark:bg-slate-800 text-primary shadow-sm border border-slate-200 dark:border-slate-700" 
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50 border border-transparent"
               }`}
             >
-              <Icon className="h-4 w-4" />
+              <Icon className={`h-4 w-4 ${isActive ? "text-primary" : "opacity-70"}`} />
               {link.name}
             </Link>
           );

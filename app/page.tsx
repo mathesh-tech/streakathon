@@ -7,6 +7,7 @@ import {
   ArrowRight, Trophy, Users, Award, Calendar, TerminalSquare, Rocket, Sparkles, CheckCircle2,
   MapPin, Clock, Star, Medal, Zap, LayoutDashboard, FileText, BarChart
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Add specific types or leave implicit depending on context, using 'any' sparingly.
 
@@ -99,29 +100,31 @@ export default function LandingPage() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-8 justify-center">
-              <Link href="/leaderboard" className="inline-flex h-14 items-center justify-center rounded-lg border border-black/10 bg-black/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground shadow-sm transition-all hover:bg-black/10 hover:scale-[1.02] active:scale-[0.98]">
-                View Leaderboard <Trophy className="ml-2 h-5 w-5 text-warning" />
+              <Link href="/leaderboard">
+                <Button variant="outline" size="lg" className="h-14 px-8 text-base shadow-sm">
+                  View Leaderboard <Trophy className="ml-2 h-5 w-5 text-warning" />
+                </Button>
               </Link>
-              <Link href="/auth/login" className="inline-flex h-14 items-center justify-center rounded-lg bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg hover:shadow-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98]">
-                Register Now <ArrowRight className="ml-2 h-5 w-5" />
+              <Link href="/auth/login">
+                <Button size="lg" className="h-14 px-8 text-base shadow-lg hover:shadow-primary/25">
+                  Register Now <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
               </Link>
             </motion.div>
 
             {/* Countdown Timer */}
             <motion.div
               variants={itemVariants}
-              whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(250,204,21,0.15)" }}
-              className="mt-16 glass-card rounded-2xl p-6 md:p-8 w-full max-w-3xl flex flex-col md:flex-row items-center justify-between gap-6 border-primary/30 transition-all"
+              whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.1)" }}
+              className="mt-16 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 md:p-8 w-full max-w-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl transition-all"
             >
               <div className="text-left flex-1">
                 <motion.h3
-                  animate={{ color: ["hsl(0, 0%, 100%)", "hsl(45, 93%, 47%)", "hsl(0, 0%, 100%)"] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="text-lg font-bold"
+                  className="text-lg font-bold text-slate-900 dark:text-white"
                 >
                   Next Hackathon Registration Closes In:
                 </motion.h3>
-                <p className="text-sm text-muted-foreground">Streakathon #15 - AI & Automation Theme</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Streakathon #15 - AI & Automation Theme</p>
               </div>
               <div className="flex gap-4">
                 {[
@@ -138,12 +141,12 @@ export default function LandingPage() {
                     transition={{ delay: 0.5 + (i * 0.1), type: "spring" }}
                   >
                     <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-background/90 border border-primary/30 flex items-center justify-center shadow-inner cursor-pointer"
+                      whileHover={{ scale: 1.05 }}
+                      className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-inner cursor-pointer"
                     >
-                      <span className="text-2xl md:text-3xl font-black text-primary drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]">{time.value.toString().padStart(2, '0')}</span>
+                      <span className="text-xl md:text-2xl font-bold text-primary">{time.value.toString().padStart(2, '0')}</span>
                     </motion.div>
-                    <span className="text-xs uppercase tracking-wider text-muted-foreground mt-2 font-bold">{time.label}</span>
+                    <span className="text-[10px] md:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2 font-semibold">{time.label}</span>
                   </motion.div>
                 ))}
               </div>
@@ -184,26 +187,26 @@ export default function LandingPage() {
                 >
                   <div className="flex-1 w-full flex flex-col md:items-end">
                     {i % 2 === 0 ? (
-                      <div className="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl w-full md:w-4/5 text-left md:text-right hover:border-primary/50 transition-colors">
+                      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-4 md:p-6 rounded-xl md:rounded-2xl w-full md:w-4/5 text-left md:text-right hover:shadow-md transition-shadow">
                         <div className="text-primary font-bold mb-1 tracking-wider text-xs md:text-sm uppercase">{step.day}</div>
-                        <h3 className="text-lg md:text-xl font-bold text-foreground mb-1 md:mb-2">{step.title}</h3>
-                        <p className="text-sm md:text-base text-muted-foreground">{step.desc}</p>
+                        <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-1 md:mb-2">{step.title}</h3>
+                        <p className="text-sm md:text-base text-slate-500 dark:text-slate-400">{step.desc}</p>
                       </div>
                     ) : (
                       <div className="hidden md:block flex-1" />
                     )}
                   </div>
 
-                  <div className="hidden md:flex relative z-10 w-8 h-8 md:w-12 md:h-12 rounded-full glass border border-primary items-center justify-center bg-background shrink-0 shadow-[0_0_15px_rgba(250,204,21,0.5)]">
+                  <div className="hidden md:flex relative z-10 w-8 h-8 md:w-12 md:h-12 rounded-full border border-primary/30 items-center justify-center bg-white dark:bg-slate-900 shrink-0 shadow-sm">
                     <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full" />
                   </div>
 
                   <div className="flex-1 w-full">
                     {i % 2 !== 0 ? (
-                      <div className="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl w-full md:w-4/5 hover:border-primary/50 transition-colors">
+                      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-4 md:p-6 rounded-xl md:rounded-2xl w-full md:w-4/5 text-left hover:shadow-md transition-shadow">
                         <div className="text-primary font-bold mb-1 tracking-wider text-xs md:text-sm uppercase">{step.day}</div>
-                        <h3 className="text-lg md:text-xl font-bold text-foreground mb-1 md:mb-2">{step.title}</h3>
-                        <p className="text-sm md:text-base text-muted-foreground">{step.desc}</p>
+                        <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-1 md:mb-2">{step.title}</h3>
+                        <p className="text-sm md:text-base text-slate-500 dark:text-slate-400">{step.desc}</p>
                       </div>
                     ) : (
                       <div className="hidden md:block flex-1" />

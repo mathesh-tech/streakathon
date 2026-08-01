@@ -14,7 +14,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     }
 
     const studentProfile = await prisma.student.findUnique({
-      where: { userId: session.user.id }
+      where: { userId: (session.user as any).id }
     });
 
     if (!studentProfile) {

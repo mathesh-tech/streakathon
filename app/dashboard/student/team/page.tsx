@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { Users, UserPlus, LogOut, Copy, Check, Shield, AlertTriangle, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { toast } from "@/components/ui/use-toast";
+const toast = (args: { title: string; description?: string; variant?: string }) => {
+  alert(args.title + (args.description ? ": " + args.description : ""));
+};
 
 export default function TeamPage() {
   const { data: session } = useSession();

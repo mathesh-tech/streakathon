@@ -27,7 +27,7 @@ export default withAuth(
       // Also check 8 hour normal session max-age if rememberMe is false
       // JWT token.iat is in seconds
       if (token.iat && !token.rememberMe) {
-        const iatMs = token.iat * 1000;
+        const iatMs = (token.iat as number) * 1000;
         if (now - iatMs > 8 * 60 * 60 * 1000) {
           const res = NextResponse.redirect(new URL("/auth/login?expired=true", req.url));
           res.cookies.delete("next-auth.session-token");

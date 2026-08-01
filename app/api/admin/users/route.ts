@@ -11,7 +11,7 @@ import { logAuditAction } from '@/lib/audit';
 const createUserSchema = z.object({
   email: z.string().email().regex(/^[a-zA-Z0-9._%+-]+@sonatech\.ac\.in$/, "Must be a valid sonatech.ac.in email"),
   name: z.string().min(2),
-  role: z.enum(['ADMIN', 'AMBASSADOR', 'STUDENT']),
+  role: z.enum(['ADMIN', 'AMBASSADOR', 'PARTICIPANT']),
   department: z.string().optional(),
 });
 
@@ -52,8 +52,8 @@ export async function POST(req: Request) {
       }
     });
 
-    // If role is STUDENT, provision student profile
-    if (role === 'STUDENT') {
+    // If role is PARTICIPANT, provision student profile
+    if (role === 'PARTICIPANT') {
       await prisma.student.create({
         data: {
           userId: user.id,

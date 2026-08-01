@@ -36,6 +36,8 @@ export const metadata: Metadata = {
   }
 }
 
+import NextAuthSessionProvider from '@/components/providers/session-provider'
+
 export default function RootLayout({
   children,
 }: {
@@ -44,11 +46,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${inter.variable} ${caveat.variable} ${orbitron.variable} min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary`}>
-        <Navbar />
-        <main className="flex-1 flex flex-col items-center w-full">
-          {children}
-        </main>
-        <Footer />
+        <NextAuthSessionProvider>
+          <Navbar />
+          <main className="flex-1 flex flex-col items-center w-full">
+            {children}
+          </main>
+          <Footer />
+        </NextAuthSessionProvider>
       </body>
     </html>
   )

@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { 
-  ArrowRight, Trophy, Users, Award, Calendar, TerminalSquare, Rocket, Sparkles, CheckCircle2, 
+import {
+  ArrowRight, Trophy, Users, Award, Calendar, TerminalSquare, Rocket, Sparkles, CheckCircle2,
   MapPin, Clock, Star, Medal, Zap, LayoutDashboard, FileText, BarChart
 } from "lucide-react";
 
@@ -22,7 +22,7 @@ export default function LandingPage() {
     const interval = setInterval(() => {
       const now = new Date();
       const difference = target.getTime() - now.getTime();
-      
+
       if (difference > 0) {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -32,13 +32,13 @@ export default function LandingPage() {
         });
       }
     }, 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: { staggerChildren: 0.1, delayChildren: 0.2 }
     }
@@ -50,36 +50,54 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full overflow-hidden">
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
       {/* HERO SECTION */}
       <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 z-0 bg-background overflow-hidden">
-          <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-secondary/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "2s" }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-accent/15 rounded-full blur-[150px]" />
+          <motion.div
+            animate={{ y: [0, -40, 0], scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+            className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]"
+          />
+          <motion.div
+            animate={{ y: [0, 30, 0], scale: [1, 1.2, 1], rotate: [0, -10, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 1 }}
+            className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-secondary/30 rounded-full blur-[100px]"
+          />
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
         </div>
 
         <div className="container relative z-10 max-w-screen-xl px-4 md:px-6 flex flex-col items-center">
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center text-center space-y-6 w-full max-w-4xl"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
 
-            
-            <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-foreground uppercase leading-[0.9]">
-              STREAKATHON<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary text-3xl md:text-4xl lg:text-5xl tracking-normal mt-6 block normal-case font-bold">
-                Turning ideas into reality, one hackathon at a time.
-              </span>
+
+            <motion.h1
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
+              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] drop-shadow-[0_0_25px_rgba(250,204,21,0.4)]"
+            >
+              <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
             </motion.h1>
-            
-            <motion.p variants={itemVariants} className="max-w-[700px] text-lg md:text-2xl text-muted-foreground font-medium mt-6">
-              Department of Information Technology
+
+            <motion.p variants={itemVariants} className="max-w-[700px] text-sm md:text-lg text-muted-foreground font-bold mt-6 tracking-widest uppercase">
+              DEPARTMENT OF INFORMATION TECHNOLOGY
             </motion.p>
-            
+
+            <motion.p 
+              variants={itemVariants} 
+              style={{ fontFamily: 'var(--font-caveat), cursive' }}
+              className="max-w-[900px] text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-primary to-yellow-500 mt-4 drop-shadow-[0_2px_15px_rgba(250,204,21,0.3)] px-4 leading-tight"
+            >
+              "Empowering minds to innovate, build, and lead the future."
+            </motion.p>
+
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-8 justify-center">
               <Link href="/leaderboard" className="inline-flex h-14 items-center justify-center rounded-lg border border-black/10 bg-black/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground shadow-sm transition-all hover:bg-black/10 hover:scale-[1.02] active:scale-[0.98]">
                 View Leaderboard <Trophy className="ml-2 h-5 w-5 text-warning" />
@@ -90,9 +108,19 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Countdown Timer */}
-            <motion.div variants={itemVariants} className="mt-16 glass-card rounded-2xl p-6 md:p-8 w-full max-w-3xl flex flex-col md:flex-row items-center justify-between gap-6 border-primary/20">
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(250,204,21,0.15)" }}
+              className="mt-16 glass-card rounded-2xl p-6 md:p-8 w-full max-w-3xl flex flex-col md:flex-row items-center justify-between gap-6 border-primary/30 transition-all"
+            >
               <div className="text-left flex-1">
-                <h3 className="text-lg font-bold text-foreground">Next Hackathon Registration Closes In:</h3>
+                <motion.h3
+                  animate={{ color: ["hsl(0, 0%, 100%)", "hsl(45, 93%, 47%)", "hsl(0, 0%, 100%)"] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="text-lg font-bold"
+                >
+                  Next Hackathon Registration Closes In:
+                </motion.h3>
                 <p className="text-sm text-muted-foreground">Streakathon #15 - AI & Automation Theme</p>
               </div>
               <div className="flex gap-4">
@@ -102,12 +130,21 @@ export default function LandingPage() {
                   { label: "Mins", value: timeLeft.minutes },
                   { label: "Secs", value: timeLeft.seconds }
                 ].map((time, i) => (
-                  <div key={i} className="flex flex-col items-center">
-                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-background/80 border border-black/10 flex items-center justify-center shadow-inner">
-                      <span className="text-2xl md:text-3xl font-black text-primary">{time.value.toString().padStart(2, '0')}</span>
-                    </div>
-                    <span className="text-xs uppercase tracking-wider text-muted-foreground mt-2 font-medium">{time.label}</span>
-                  </div>
+                  <motion.div
+                    key={i}
+                    className="flex flex-col items-center"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5 + (i * 0.1), type: "spring" }}
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-background/90 border border-primary/30 flex items-center justify-center shadow-inner cursor-pointer"
+                    >
+                      <span className="text-2xl md:text-3xl font-black text-primary drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]">{time.value.toString().padStart(2, '0')}</span>
+                    </motion.div>
+                    <span className="text-xs uppercase tracking-wider text-muted-foreground mt-2 font-bold">{time.label}</span>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -128,45 +165,45 @@ export default function LandingPage() {
 
           <div className="relative max-w-4xl mx-auto">
             <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/0 via-primary/50 to-primary/0 md:-translate-x-1/2 hidden md:block" />
-            
-            <div className="space-y-12">
+
+            <div className="space-y-6 md:space-y-10">
               {[
-                { day: "Wednesday 9 AM", title: "Registration Opens", desc: "Browse upcoming themes and lock your spot." },
-                { day: "Friday 12 PM", title: "Registration Closes", desc: "Finalize teams before the strict deadline." },
-                { day: "Saturday 10 AM", title: "Problem Statement", desc: "The challenge is unlocked. Start hacking." },
-                { day: "Saturday 10 PM", title: "Submission", desc: "Submit your solution and code repository." },
-                { day: "Sunday", title: "Evaluation & Credits", desc: "Leaderboard refreshes and streaks are updated." },
+                { day: "Wednesday", title: "Registration Opens", desc: "Registrations for the upcoming Saturday hackathon begin for 2nd and 3rd year students." },
+                { day: "Friday 5:00 PM", title: "Registration Closes", desc: "Finalize your teams. No late registrations will be accepted." },
+                { day: "Saturday Morning", title: "Problem Statements Released", desc: "Admins release specific problem statements for 2nd and 3rd years. Start hacking!" },
+                { day: "Saturday Evening", title: "Submission", desc: "Submit your solution and code repository before the deadline." },
+                { day: "Sunday", title: "Evaluation & Credits", desc: "Hackathon Ambassadors & Admins evaluate submissions and update the leaderboard." },
               ].map((step, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
-                  className={`flex flex-col md:flex-row gap-8 items-start md:items-center ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                  className="flex flex-col md:flex-row gap-4 md:gap-8 items-start md:items-center"
                 >
-                  <div className="flex-1 w-full flex flex-col md:items-end md:text-right">
+                  <div className="flex-1 w-full flex flex-col md:items-end">
                     {i % 2 === 0 ? (
-                      <div className="glass-card p-6 rounded-2xl w-full md:w-4/5 text-left md:text-right hover:border-primary/50 transition-colors">
-                        <div className="text-primary font-bold mb-1 tracking-wider text-sm uppercase">{step.day}</div>
-                        <h3 className="text-xl font-bold text-foreground mb-2">{step.title}</h3>
-                        <p className="text-muted-foreground">{step.desc}</p>
+                      <div className="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl w-full md:w-4/5 text-left md:text-right hover:border-primary/50 transition-colors">
+                        <div className="text-primary font-bold mb-1 tracking-wider text-xs md:text-sm uppercase">{step.day}</div>
+                        <h3 className="text-lg md:text-xl font-bold text-foreground mb-1 md:mb-2">{step.title}</h3>
+                        <p className="text-sm md:text-base text-muted-foreground">{step.desc}</p>
                       </div>
                     ) : (
                       <div className="hidden md:block flex-1" />
                     )}
                   </div>
 
-                  <div className="hidden md:flex relative z-10 w-12 h-12 rounded-full glass border border-primary items-center justify-center bg-background shrink-0 shadow-[0_0_15px_rgba(49,46,129,0.5)]">
-                    <div className="w-3 h-3 bg-primary rounded-full" />
+                  <div className="hidden md:flex relative z-10 w-8 h-8 md:w-12 md:h-12 rounded-full glass border border-primary items-center justify-center bg-background shrink-0 shadow-[0_0_15px_rgba(250,204,21,0.5)]">
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full" />
                   </div>
 
                   <div className="flex-1 w-full">
                     {i % 2 !== 0 ? (
-                      <div className="glass-card p-6 rounded-2xl w-full md:w-4/5 hover:border-primary/50 transition-colors">
-                        <div className="text-primary font-bold mb-1 tracking-wider text-sm uppercase">{step.day}</div>
-                        <h3 className="text-xl font-bold text-foreground mb-2">{step.title}</h3>
-                        <p className="text-muted-foreground">{step.desc}</p>
+                      <div className="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl w-full md:w-4/5 hover:border-primary/50 transition-colors">
+                        <div className="text-primary font-bold mb-1 tracking-wider text-xs md:text-sm uppercase">{step.day}</div>
+                        <h3 className="text-lg md:text-xl font-bold text-foreground mb-1 md:mb-2">{step.title}</h3>
+                        <p className="text-sm md:text-base text-muted-foreground">{step.desc}</p>
                       </div>
                     ) : (
                       <div className="hidden md:block flex-1" />

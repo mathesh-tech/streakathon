@@ -56,7 +56,7 @@ export default function LeaderboardPage() {
               <div className="glass-card p-2 md:p-4 rounded-xl border border-black/10 mb-2 md:mb-4 w-full flex flex-col items-center">
                 <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-black/10 mb-1 md:mb-2 flex items-center justify-center text-sm md:text-xl font-bold">AK</div>
                 <h3 className="font-bold text-xs md:text-base text-center truncate w-full px-1">Arjun K</h3>
-                <p className="text-[10px] md:text-sm text-muted-foreground">1,120 pts</p>
+                <p className="text-[10px] md:text-sm text-muted-foreground">1,120 credits</p>
               </div>
               <div className="w-full h-24 md:h-40 bg-black/5 border border-black/10 rounded-t-xl flex items-start justify-center pt-2 md:pt-4">
                 <span className="text-2xl md:text-4xl font-black text-black/20">2</span>
@@ -75,7 +75,7 @@ export default function LeaderboardPage() {
                 <div className="relative z-10 flex flex-col items-center w-full">
                   <div className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-black/10 mb-1 md:mb-2 flex items-center justify-center text-base md:text-2xl font-bold border-2 border-warning">SM</div>
                   <h3 className="font-bold text-xs md:text-lg text-center truncate w-full px-1">Siva Mathesh</h3>
-                  <p className="text-[10px] md:text-sm text-warning font-bold">1,250 pts</p>
+                  <p className="text-[10px] md:text-sm text-warning font-bold">1,250 credits</p>
                 </div>
               </div>
               <div className="w-full h-32 md:h-56 bg-warning/10 border border-warning/20 rounded-t-xl flex items-start justify-center pt-2 md:pt-4 backdrop-blur-sm">
@@ -93,7 +93,7 @@ export default function LeaderboardPage() {
               <div className="glass-card p-2 md:p-4 rounded-xl border border-black/10 mb-2 md:mb-4 w-full flex flex-col items-center">
                 <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-black/10 mb-1 md:mb-2 flex items-center justify-center text-sm md:text-xl font-bold">PS</div>
                 <h3 className="font-bold text-xs md:text-base text-center truncate w-full px-1">Priya S</h3>
-                <p className="text-[10px] md:text-sm text-muted-foreground">1,080 pts</p>
+                <p className="text-[10px] md:text-sm text-muted-foreground">1,080 credits</p>
               </div>
               <div className="w-full h-20 md:h-32 bg-black/5 border border-black/10 rounded-t-xl flex items-start justify-center pt-2 md:pt-4">
                 <span className="text-2xl md:text-4xl font-black text-black/20">3</span>
@@ -109,7 +109,7 @@ export default function LeaderboardPage() {
                 <th className="p-4 font-semibold text-muted-foreground">Rank</th>
                 <th className="p-4 font-semibold text-muted-foreground">Student</th>
                 <th className="p-4 font-semibold text-muted-foreground">Year/Sec</th>
-                <th className="p-4 font-semibold text-muted-foreground text-right">Points</th>
+                <th className="p-4 font-semibold text-muted-foreground text-right">Credits</th>
               </tr>
             </thead>
             <tbody>

@@ -25,16 +25,17 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col md:w-1/3 text-left md:text-right">
-          <h3 className="font-semibold text-foreground mb-4">Developed & Managed By</h3>
+          <h3 className="font-semibold text-foreground mb-4">Developers & Ambassadors</h3>
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li>
-              <strong>Developer:</strong> Vijayaragavan R<br/>
+              Vijayaragavan R<br/>
               <a href="mailto:vijayaragavan.24it@sonatech.ac.in" className="hover:text-primary transition-colors text-xs">vijayaragavan.24it@sonatech.ac.in</a>
             </li>
             <li>
-              <strong>Hackathon Ambassadors:</strong><br/>
               Siva Mathesh M<br/>
-              <a href="mailto:sivamathesh.24it@sonatech.ac.in" className="hover:text-primary transition-colors text-xs">sivamathesh.24it@sonatech.ac.in</a><br/>
+              <a href="mailto:sivamathesh.24it@sonatech.ac.in" className="hover:text-primary transition-colors text-xs">sivamathesh.24it@sonatech.ac.in</a>
+            </li>
+            <li>
               Vijay Sharma<br/>
               <a href="mailto:vijaysharma.24it@sonatech.ac.in" className="hover:text-primary transition-colors text-xs">vijaysharma.24it@sonatech.ac.in</a>
             </li>

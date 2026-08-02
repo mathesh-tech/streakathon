@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { createTeam } from "@/lib/services/team-service";
+import { TeamService } from "@/server/services/team.service";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const team = await createTeam(teamName, studentProfile.studentId, hackathonId);
+    const team = await TeamService.createTeam(teamName, studentProfile.studentId, hackathonId);
 
     return NextResponse.json({ success: true, team });
   } catch (error: any) {

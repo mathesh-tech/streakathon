@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { sendTemporaryPasswordEmail } from '@/lib/email';
 import { z } from 'zod';
-import { logAuditAction } from '@/lib/audit';
+import { AuditService } from '@/server/services/audit.service';
 
 const createUserSchema = z.object({
   email: z.string().email().regex(/^[a-zA-Z0-9._%+-]+@sonatech\.ac\.in$/, "Must be a valid sonatech.ac.in email"),
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     // Send email with temp password
     sendTemporaryPasswordEmail(email, tempPassword).catch(console.error);
 
-    await logAuditAction({
+    await AuditService.log({
       userId: (session.user as any).id,
       action: "CREATE",
       entity: "User",

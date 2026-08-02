@@ -1,7 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import { AttendanceStatus } from "@prisma/client";
-import { CreditService } from "./credit.service";
-import { StreakService } from "./streak.service";
+import { prisma } from '@/lib/prisma';
+import { AttendanceStatus } from '@prisma/client';
+import { CreditService } from './credit.service';
+import { StreakService } from './streak.service';
+import { NotFoundError, ConflictError } from '@/server/utils/errors';
+import { HackathonRepository } from '@/server/repositories/hackathon.repository';
+import { AttendanceRepository } from '@/server/repositories/attendance.repository';
 
 export class AttendanceService {
   /**
@@ -14,50 +17,39 @@ export class AttendanceService {
     status: AttendanceStatus,
     markedById: string
   ) {
-    // 1. Validation
-    const hackathon = await prisma.hackathon.findUnique({
-      where: { id: hackathonId },
-    });
-    if (!hackathon) throw new Error("Hackathon not found");
+    return prisma.$transaction(async (tx) => {
+      // 1. Validation
+      const hackathon = await HackathonRepository.findById(hackathonId, tx);
+      if (!hackathon) throw new NotFoundError('Hackathon not found');
 
-    const registration = await prisma.registration.findUnique({
-      where: { hackathonId_studentId: { hackathonId, studentId } },
-      include: { student: true },
-    });
-    if (!registration) throw new Error("Student not registered for this hackathon");
+      const registration = await tx.registration.findUnique({
+        where: { hackathonId_studentId: { hackathonId, studentId } },
+        include: { student: true },
+      });
+      if (!registration) throw new NotFoundError('Student not registered for this hackathon');
 
-    const existingAttendance = await prisma.attendanceRecord.findFirst({
-      where: { userId: registration.student.userId, hackathonId }, // Wait, AttendanceRecord uses userId, but registration uses studentId. Let's fix this.
-    });
+      const attendanceExists = await AttendanceRepository.findByUserAndHackathon(registration.student.userId, hackathonId, tx);
+      if (attendanceExists) throw new ConflictError('Attendance already marked');
 
-    // We must fetch student to get userId because AttendanceRecord maps to User
-    const student = await prisma.student.findUnique({ where: { studentId } });
-    if (!student) throw new Error("Student not found");
-
-    const attendanceExists = await prisma.attendanceRecord.findFirst({
-      where: { userId: student.userId, hackathonId },
-    });
-    if (attendanceExists) throw new Error("Attendance already marked");
-
-    // 2. Mark Attendance
-    const record = await prisma.attendanceRecord.create({
-      data: {
-        userId: student.userId,
+      // 2. Mark Attendance
+      const record = await AttendanceRepository.markAttendance({
+        userId: registration.student.userId,
         hackathonId,
         status,
         markedById,
-      },
+      }, tx);
+
+      // 3. Trigger Credit Engine if PRESENT
+      if (status === 'PRESENT') {
+        // Assume CreditService handles its own nested transaction/queries or can accept `tx` later
+        await CreditService.awardRule(studentId, hackathonId, 'ATTENDANCE', markedById);
+        await StreakService.updateStreak(studentId, true);
+      } else if (status === 'ABSENT') {
+        await StreakService.updateStreak(studentId, false);
+      }
+
+      return record;
     });
-
-    // 3. Trigger Credit Engine if PRESENT
-    if (status === "PRESENT") {
-      await CreditService.awardRule(studentId, hackathonId, "ATTENDANCE", markedById);
-      await StreakService.updateStreak(studentId, true);
-    } else if (status === "ABSENT") {
-      await StreakService.updateStreak(studentId, false);
-    }
-
-    return record;
   }
 
   /**

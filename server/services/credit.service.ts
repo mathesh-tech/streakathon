@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { CreditTransactionType } from "@prisma/client";
 import { AchievementService } from "./achievement.service";
+import { CreditRepository } from "@/server/repositories/credit.repository";
+import { BusinessRuleError } from "@/server/utils/errors";
 
 export class CreditService {
   /**
@@ -37,28 +39,24 @@ export class CreditService {
       ? -Math.abs(points) 
       : Math.abs(points);
 
-    // Use a transaction to ensure atomicity
     const result = await prisma.$transaction(async (tx) => {
       // 1. Log Transaction
-      const transaction = await tx.creditTransaction.create({
-        data: {
-          studentId,
-          hackathonId,
-          reason,
-          points: actualPoints,
-          type,
-          performedById,
-        },
-      });
+      const transaction = await CreditRepository.createTransaction({
+        studentId,
+        hackathonId,
+        reason,
+        points: actualPoints,
+        type,
+        performedById,
+      }, tx);
 
       // 2. Update Student Totals
-      const updatedStudent = await tx.student.update({
-        where: { studentId },
-        data: {
-          currentCredits: { increment: actualPoints },
-          lifetimeCredits: actualPoints > 0 ? { increment: actualPoints } : undefined,
-        },
-      });
+      const updatedStudent = await CreditRepository.updateStudentCredits(
+        studentId,
+        actualPoints,
+        actualPoints > 0,
+        tx
+      );
 
       return { transaction, student: updatedStudent };
     });
@@ -81,7 +79,7 @@ export class CreditService {
     performedById?: string
   ) {
     const points = CreditService.CREDIT_RULES[ruleKey];
-    if (!points) throw new Error("Invalid credit rule");
+    if (!points) throw new BusinessRuleError("Invalid credit rule");
 
     const type: CreditTransactionType = points < 0 ? "DECREASE" : "INCREASE";
     const reason = ruleKey.replace(/_/g, " ");

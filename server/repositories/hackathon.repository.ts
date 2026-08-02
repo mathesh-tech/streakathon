@@ -1,21 +1,28 @@
-// Placeholder for prisma client
-// import prisma from "@/lib/prisma";
+import { prisma } from '@/lib/prisma';
+import { TxClient } from '@/server/utils/tx';
 
 export class HackathonRepository {
-  static async findById(id: string) {
-    // return await prisma.hackathon.findUnique({ where: { id } });
-    return null;
+  static async findById(id: string, tx: TxClient | typeof prisma = prisma) {
+    return tx.hackathon.findUnique({
+      where: { id }
+    });
   }
 
-  static async findActive() {
-    // return await prisma.hackathon.findFirst({
-    //   where: { status: { in: ["LIVE", "REGISTRATION_OPEN"] } },
-    // });
-    return null;
+  static async findActive(tx: TxClient | typeof prisma = prisma) {
+    return tx.hackathon.findFirst({
+      where: { status: { in: ['LIVE', 'REGISTRATION_OPEN'] } },
+      orderBy: { createdAt: 'desc' }
+    });
   }
 
-  static async getRegistrations(hackathonId: string) {
-    // return await prisma.registration.findMany({ where: { hackathonId } });
-    return [];
+  static async getRegistrations(hackathonId: string, tx: TxClient | typeof prisma = prisma) {
+    return tx.registration.findMany({
+      where: { hackathonId },
+      include: {
+        student: {
+          include: { user: true }
+        }
+      }
+    });
   }
 }

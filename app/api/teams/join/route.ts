@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { acceptInvitation } from "@/lib/services/team-service";
+import { TeamService } from "@/server/services/team.service";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing invitation token" }, { status: 400 });
     }
 
-    await acceptInvitation(studentProfile.studentId, token);
+    await TeamService.acceptInvitation(studentProfile.studentId, token);
 
     return NextResponse.json({ success: true, message: "Successfully joined team." });
   } catch (error: any) {

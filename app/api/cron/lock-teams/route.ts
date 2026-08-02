@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { TeamRepository } from "@/server/repositories/team.repository";
 
 export async function GET(req: Request) {
   try {
@@ -9,31 +10,36 @@ export async function GET(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    // Find all OPEN or FULL teams and lock them
-    const teamsToLock = await prisma.team.findMany({
-      where: {
-        status: {
-          in: ["OPEN", "FULL"]
+    const lockedCount = await prisma.$transaction(async (tx) => {
+      // Find all OPEN or FULL teams and lock them
+      const teamsToLock = await tx.team.findMany({
+        where: {
+          status: {
+            in: ["OPEN", "FULL"]
+          }
         }
+      });
+
+      const teamIds = teamsToLock.map(t => t.id);
+
+      if (teamIds.length > 0) {
+        // Lock teams
+        await tx.team.updateMany({
+          where: { id: { in: teamIds } },
+          data: { status: "LOCKED" }
+        });
+        
+        // Expire pending invitations for these teams
+        await tx.teamInvitation.updateMany({
+          where: { teamId: { in: teamIds }, status: "PENDING" },
+          data: { status: "EXPIRED" }
+        });
       }
+      
+      return teamIds.length;
     });
 
-    const teamIds = teamsToLock.map(t => t.id);
-
-    await prisma.$transaction([
-      // Lock teams
-      prisma.team.updateMany({
-        where: { id: { in: teamIds } },
-        data: { status: "LOCKED" }
-      }),
-      // Expire pending invitations for these teams
-      prisma.teamInvitation.updateMany({
-        where: { teamId: { in: teamIds }, status: "PENDING" },
-        data: { status: "EXPIRED" }
-      })
-    ]);
-
-    return NextResponse.json({ success: true, lockedCount: teamIds.length });
+    return NextResponse.json({ success: true, lockedCount });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

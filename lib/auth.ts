@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { UAParser } from "ua-parser-js";
 import { sendSecurityEmail, sendVerificationEmail } from "@/lib/email";
 import { generateVerificationToken } from "@/lib/tokens";
+import { UserRepository } from "@/server/repositories/user.repository";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -29,14 +30,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Only official college email addresses are permitted.");
         }
 
-        const user = await prisma.user.findFirst({
-          where: {
-            OR: [
-              { email: credentials.identifier },
-              { registerNumber: credentials.identifier }
-            ]
-          }
-        });
+        const user = await UserRepository.findByEmail(credentials.identifier);
 
         if (!user) throw new Error("Invalid credentials");
         

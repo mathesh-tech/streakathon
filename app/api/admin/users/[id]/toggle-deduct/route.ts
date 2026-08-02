@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { logAuditAction } from '@/lib/audit';
+import { AuditService } from '@/server/services/audit.service';
 
 const toggleSchema = z.object({
   canDeductCredits: z.boolean()
@@ -38,7 +38,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       data: { canDeductCredits: result.data.canDeductCredits }
     });
 
-    await logAuditAction({
+    await AuditService.log({
       userId: (session.user as any).id,
       action: "UPDATE_PRIVILEGE",
       entity: "User",

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { leaveTeam } from "@/lib/services/team-service";
+import { TeamService } from "@/server/services/team.service";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
@@ -20,7 +20,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       return NextResponse.json({ error: "Student profile not found." }, { status: 404 });
     }
 
-    await leaveTeam(params.id, studentProfile.studentId);
+    await TeamService.leaveTeam(params.id, studentProfile.studentId);
 
     return NextResponse.json({ success: true, message: "Successfully left the team." });
   } catch (error: any) {

@@ -173,6 +173,10 @@ model User {
   announcementsCreated   Announcement[]
   generatedReports       ReportHistory[]
   scheduledReports       ScheduledReport[]
+
+  @@index([email])
+  @@index([registerNumber])
+  @@index([createdAt])
 }
 
 model Student {
@@ -283,6 +287,9 @@ model Registration {
   team      Team?     @relation(fields: [teamId], references: [id])
 
   @@unique([hackathonId, studentId])
+  @@index([hackathonId])
+  @@index([studentId])
+  @@index([teamId])
 }
 
 model Team {
@@ -301,6 +308,8 @@ model Team {
   registrations Registration[]
   submissions   Submission[]
   invitations   TeamInvitation[]
+
+  @@index([hackathonId])
 }
 
 model TeamMember {
@@ -345,6 +354,8 @@ model Submission {
 
   team             Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
   evaluationScores EvaluationScore[]
+
+  @@index([teamId])
 }
 
 model EvaluationScore {
@@ -380,6 +391,9 @@ model Certificate {
 
   student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
   hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+
+  @@index([hackathonId])
+  @@index([studentId])
 }
 
 model CreditTransaction {
@@ -462,6 +476,9 @@ model Notification {
   expiresAt DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model EmailLog {

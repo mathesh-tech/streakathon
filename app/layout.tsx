@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: "The ultimate hackathon platform for IT students to build streaks, earn credits, and climb the leaderboard.",
   keywords: ["hackathon", "student platform", "innovation", "college", "programming", "leaderboard"],
   authors: [{ name: "IT Department" }],
+  manifest: "/manifest.json",
   openGraph: {
     title: "STREAKATHON",
     description: "Build streaks. Earn credits. Become a legend.",

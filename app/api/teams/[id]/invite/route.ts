@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { inviteMember } from "@/lib/services/team-service";
+import { TeamService } from "@/server/services/team.service";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
@@ -26,7 +26,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       return NextResponse.json({ error: "Missing email address" }, { status: 400 });
     }
 
-    const invite = await inviteMember(params.id, email, studentProfile.studentId);
+    const invite = await TeamService.inviteMember(params.id, email, studentProfile.studentId);
 
     return NextResponse.json({ success: true, invite });
   } catch (error: any) {

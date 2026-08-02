@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { logAuditAction } from '@/lib/audit';
+import { AuditService } from '@/server/services/audit.service';
 
 const deactivateSchema = z.object({
   status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED'])
@@ -34,7 +34,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       data: { status: result.data.status }
     });
 
-    await logAuditAction({
+    await AuditService.log({
       userId: (session.user as any).id,
       action: "UPDATE_STATUS",
       entity: "User",

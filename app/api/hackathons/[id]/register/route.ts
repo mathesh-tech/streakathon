@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { registerForHackathon } from "@/lib/services/registration-service";
+import { RegistrationService } from "@/server/services/registration.service";
 import { prisma } from "@/lib/prisma";
 import { sendRegistrationConfirmationEmail } from "@/lib/email";
 
@@ -23,7 +23,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
     const { teamId } = await req.json();
 
-    const registration = await registerForHackathon(studentProfile.studentId, params.id, teamId);
+    const registration = await RegistrationService.registerForHackathon(studentProfile.studentId, params.id, teamId);
 
     // If successfully registered, send confirmation email
     if (registration.status === "REGISTERED" || registration.status === "CONFIRMED") {

@@ -7,8 +7,36 @@ import { RecentActivity } from "@/components/dashboard/student/RecentActivity";
 import { UpcomingHackathonMini } from "@/components/dashboard/student/UpcomingHackathonMini";
 
 import { AnalyticsPanel } from "@/components/dashboard/student/AnalyticsPanel";
+import { QRTicketGenerator } from "@/components/dashboard/student/QRTicketGenerator";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-export default function StudentDashboard() {
+export default async function StudentDashboard() {
+  const session = await getServerSession(authOptions);
+  const user = session?.user as any;
+
+  let hackathons: { id: string, title: string }[] = [];
+  if (user && user.id) {
+    const student = await prisma.student.findUnique({
+      where: { userId: user.id },
+      include: {
+        registrations: {
+          include: {
+            hackathon: true
+          }
+        }
+      }
+    });
+    
+    if (student) {
+      hackathons = student.registrations.map(r => ({
+        id: r.hackathon.id,
+        title: r.hackathon.title
+      }));
+    }
+  }
+
   // Mock Data (will be replaced by Prisma backend later)
   const student = {
     name: "Siva Mathesh",
@@ -42,12 +70,13 @@ export default function StudentDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-8">
           <AnalyticsPanel />
+          <RecentActivity />
         </div>
         <div className="space-y-8">
+          <QRTicketGenerator hackathons={hackathons} />
           <UpcomingHackathonMini />
-          <RecentActivity />
         </div>
       </div>
     </div>

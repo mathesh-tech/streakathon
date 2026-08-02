@@ -100,7 +100,7 @@ export async function generateQRTicket(hackathonId: string) {
     }
 
     const ticket = await AttendanceService.generateQRTicket(studentProfile.studentId, hackathonId);
-    return { success: true, token: ticket.token, expiresAt: ticket.expiresAt };
+    return { success: true, token: ticket.token, expiresAt: ticket.expiresAt, studentId: ticket.studentId, hackathonId: ticket.hackathonId };
   } catch (error: any) {
     return { success: false, error: error.message };
   }

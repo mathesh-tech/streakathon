@@ -1,4 +1,5 @@
 import { QrCode, Users, CheckCircle, AlertTriangle, ShieldCheck } from "lucide-react"
+import Link from "next/link"
 
 export default function AmbassadorDashboard() {
   return (
@@ -69,9 +70,9 @@ export default function AmbassadorDashboard() {
             </div>
             <h3 className="font-bold text-xl mb-2">Check-in Scanner</h3>
             <p className="text-muted-foreground text-sm mb-6">Students can scan this QR code or you can scan their team code to verify attendance instantly.</p>
-            <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-emerald-600 text-foreground shadow hover:bg-emerald-700 h-10 px-4 py-2">
+            <Link href="/dashboard/ambassador/attendance" className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-emerald-600 text-foreground shadow hover:bg-emerald-700 h-10 px-4 py-2">
               Open Camera Scanner
-            </button>
+            </Link>
           </section>
 
           <section className="glass p-6 rounded-2xl">

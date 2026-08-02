@@ -1,6 +1,20 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { prisma } from "@/lib/prisma";
+
+export async function getStudentBasicInfo(studentId: string) {
+  try {
+    const student = await prisma.student.findUnique({
+      where: { studentId },
+      include: { user: { select: { name: true } } }
+    });
+    if (!student) return { success: false, error: "Student not found" };
+    return { success: true, name: student.user.name };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
 
 export async function awardCredits(studentId: string, amount: number, reason: string) {
   try {

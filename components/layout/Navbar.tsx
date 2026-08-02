@@ -22,7 +22,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-[#030816]/40 backdrop-blur-xl supports-[backdrop-filter]:bg-[#030816]/40">
+    <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-[#0b1526]">
       <div className="container mx-auto px-4 flex h-16 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">

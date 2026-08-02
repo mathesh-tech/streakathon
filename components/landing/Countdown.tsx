@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useAnimationFrame } from "framer-motion";
-import { Trophy, ArrowRight, AlertTriangle, Play, Flame } from "lucide-react";
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trophy, ArrowRight, Calendar, MapPin, Users } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface TimeLeft {
@@ -15,7 +14,7 @@ interface TimeLeft {
 
 export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [difference, setDifference] = useState<number>(1); // starts > 0
+  const [difference, setDifference] = useState<number>(1);
   const [isMounted, setIsMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +46,6 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, []);
 
-  // Determine urgency state
   const totalHours = timeLeft.days * 24 + timeLeft.hours;
   const isCompleted = difference <= 0;
   
@@ -62,7 +60,6 @@ export default function Countdown() {
     urgency = "medium";
   }
 
-  // Handle explosion and confetti on completion
   const explodedRef = useRef(false);
   useEffect(() => {
     if (isCompleted && isMounted && !explodedRef.current) {
@@ -77,7 +74,6 @@ export default function Countdown() {
 
   if (!isMounted) return null;
 
-  // Colors and glow configurations based on urgency
   const getUrgencyStyles = () => {
     switch (urgency) {
       case "critical":
@@ -124,119 +120,104 @@ export default function Countdown() {
   return (
     <motion.div
       ref={containerRef}
-      initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`relative w-full max-w-6xl rounded-[24px] border ${style.borderColor} bg-[#0c1827]/60 backdrop-blur-xl p-8 md:p-12 overflow-hidden shadow-2xl transition-all duration-500`}
+      initial={{ opacity: 0, scale: 0.9, y: 30 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={`relative w-full max-w-md rounded-[24px] border ${style.borderColor} bg-[#08121e]/80 backdrop-blur-xl p-6 sm:p-8 overflow-hidden shadow-2xl transition-all duration-500`}
       style={{
-        boxShadow: `0 0 50px -10px ${style.glowColor}`
+        boxShadow: `0 0 50px -15px ${style.glowColor}`
       }}
     >
-      {/* BACKGROUND MESH GRADIENT */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{
-            x: [0, 40, -20, 0],
-            y: [0, -30, 20, 0],
-            scale: [1, 1.2, 0.9, 1]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-[20%] -left-[10%] w-[600px] h-[600px] bg-slate-900/60 rounded-full blur-[140px]"
-        />
-        <motion.div
-          animate={{
-            x: [0, -50, 30, 0],
-            y: [0, 40, -30, 0],
-            scale: [1, 1.15, 0.85, 1]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute -bottom-[20%] -right-[10%] w-[500px] h-[500px] bg-sky-950/40 rounded-full blur-[120px]"
-        />
-        {/* Particle Overlay */}
         <Particles />
       </div>
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* LEFT SIDE: HACKATHON DETAILS */}
-        <div className="lg:col-span-5 flex flex-col space-y-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-3 w-3 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+      <div className="relative z-10 flex flex-col space-y-6">
+        {/* HEADER */}
+        <div className="flex flex-col items-center text-center space-y-3">
+          <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-slate-300">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span>
             </span>
-            <span className={`px-2.5 py-1 rounded-full text-xs font-bold border uppercase tracking-wider ${style.badgeBg}`}>
-              {isCompleted ? "Closed" : "LIVE"}
-            </span>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold tracking-widest text-primary uppercase mb-2">
-              🚀 Next Hackathon Registration
-            </h4>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-white mb-4">
-              {isCompleted ? "Registration Closed" : "Registration Closes In"}
-            </h2>
-            <div className="h-[2px] w-24 bg-gradient-to-r from-primary to-transparent" />
-          </div>
-
-          <div className="space-y-3 text-sm text-slate-300">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-100">Event:</span>
-              <span>Streakathon #15</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-100">Theme:</span>
-              <span>AI & Automation</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-100">Venue:</span>
-              <span>IT Dept Lab 3 & 4</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-100">Status:</span>
-              <span className="text-emerald-400 font-bold">{isCompleted ? "Closed" : "Active & Accepting Teams"}</span>
-            </div>
+            🚀 NEXT HACKATHON REGISTRATION
           </div>
           
+          <div className="w-full flex items-center justify-center gap-3">
+            <div className="h-[1px] flex-1 bg-white/10" />
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary">
+              CLOSES IN
+            </span>
+            <div className="h-[1px] flex-1 bg-white/10" />
+          </div>
         </div>
 
-        {/* RIGHT SIDE: THE COUNTDOWN CARDS */}
-        <div className="lg:col-span-7 flex justify-center items-center">
-          {isCompleted ? (
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="text-center py-12"
-            >
-              <h3 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.3)] mb-4">
-                🎉 Registration Closed
-              </h3>
-              <p className="text-slate-400 max-w-md mx-auto">
-                Teams have been locked. Stay tuned for the release of problem statements on Saturday morning!
-              </p>
-            </motion.div>
-          ) : (
-            <motion.div 
-              animate={{ scale: urgency !== "normal" ? style.pulseScale : 1 }}
-              transition={{ repeat: Infinity, duration: style.pulseSpeed, ease: "easeInOut" }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full"
-            >
-              <CountdownCard label="Days" value={timeLeft.days} urgency={urgency} />
-              <CountdownCard label="Hours" value={timeLeft.hours} urgency={urgency} />
-              <CountdownCard label="Minutes" value={timeLeft.minutes} urgency={urgency} />
-              <CountdownCard label="Seconds" value={timeLeft.seconds} urgency={urgency} showRing />
-            </motion.div>
-          )}
+        {/* TIMER CARDS */}
+        {isCompleted ? (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-center py-6"
+          >
+            <h3 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.3)] mb-2">
+              🎉 Registration Closed
+            </h3>
+            <p className="text-slate-400 text-xs">
+              Teams have been locked. Stay tuned for Saturday morning release!
+            </p>
+          </motion.div>
+        ) : (
+          <motion.div 
+            animate={{ scale: urgency !== "normal" ? style.pulseScale : 1 }}
+            transition={{ repeat: Infinity, duration: style.pulseSpeed, ease: "easeInOut" }}
+            className="grid grid-cols-4 gap-3 w-full"
+          >
+            <CountdownCard label="DAYS" value={timeLeft.days} urgency={urgency} />
+            <CountdownCard label="HOURS" value={timeLeft.hours} urgency={urgency} />
+            <CountdownCard label="MINS" value={timeLeft.minutes} urgency={urgency} />
+            <CountdownCard label="SECS" value={timeLeft.seconds} urgency={urgency} showRing />
+          </motion.div>
+        )}
+
+        {/* PROGRESS LINE */}
+        {!isCompleted && (
+          <div className="space-y-3 pt-2">
+            <div className="w-full bg-slate-900/60 border border-white/5 h-1.5 rounded-full relative overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "72%" }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="h-full bg-gradient-to-r from-amber-400 via-primary to-yellow-500 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.5)]"
+              />
+            </div>
+            <p className="text-center text-xs italic font-medium text-slate-400">
+              Be part of something extraordinary!
+            </p>
+          </div>
+        )}
+
+        {/* BOTTOM METADATA PILLS */}
+        <div className="border-t border-white/10 pt-4 flex items-center justify-between text-[9px] font-bold text-slate-400 tracking-wider">
+          <div className="flex items-center gap-1 bg-white/[0.03] border border-white/5 rounded-full px-2.5 py-1">
+            <Calendar className="h-3 w-3 text-primary" />
+            <span>12 - 14 SEP 2026</span>
+          </div>
+          <div className="flex items-center gap-1 bg-white/[0.03] border border-white/5 rounded-full px-2.5 py-1">
+            <MapPin className="h-3 w-3 text-primary" />
+            <span>SONA CAMPUS</span>
+          </div>
+          <div className="flex items-center gap-1 bg-white/[0.03] border border-white/5 rounded-full px-2.5 py-1">
+            <Users className="h-3 w-3 text-primary" />
+            <span>300+ TEAMS</span>
+          </div>
         </div>
       </div>
     </motion.div>
   );
 }
 
-// Spark Particle component for seconds card
 function SparkleEffect() {
-  const sparks = Array.from({ length: 8 });
+  const sparks = Array.from({ length: 6 });
   return (
     <div className="absolute inset-0 pointer-events-none">
       {sparks.map((_, i) => (
@@ -244,16 +225,16 @@ function SparkleEffect() {
           key={i}
           animate={{
             scale: [0, 1, 0],
-            x: [0, (Math.random() - 0.5) * 80],
-            y: [0, (Math.random() - 0.5) * 80],
+            x: [0, (Math.random() - 0.5) * 50],
+            y: [0, (Math.random() - 0.5) * 50],
             opacity: [0, 0.8, 0]
           }}
           transition={{
-            duration: 1.5,
+            duration: 1.2,
             repeat: Infinity,
             delay: Math.random() * i * 0.2
           }}
-          className="absolute left-1/2 top-1/2 w-1.5 h-1.5 rounded-full bg-amber-400"
+          className="absolute left-1/2 top-1/2 w-1 h-1 rounded-full bg-amber-400"
           style={{ transform: "translate(-50%, -50%)" }}
         />
       ))}
@@ -278,8 +259,8 @@ function CountdownCard({ label, value, urgency, showRing = false }: CardProps) {
     const box = cardRef.current.getBoundingClientRect();
     const x = e.clientX - box.left - box.width / 2;
     const y = e.clientY - box.top - box.height / 2;
-    setRotateX(-y / 8);
-    setRotateY(x / 8);
+    setRotateX(-y / 6);
+    setRotateY(x / 6);
   };
 
   const handleMouseLeave = () => {
@@ -290,8 +271,7 @@ function CountdownCard({ label, value, urgency, showRing = false }: CardProps) {
   const digit1 = Math.floor(value / 10);
   const digit2 = value % 10;
 
-  // Ring offset calculations for seconds card
-  const radius = 45;
+  const radius = 22;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (value / 60) * circumference;
 
@@ -305,22 +285,20 @@ function CountdownCard({ label, value, urgency, showRing = false }: CardProps) {
         rotateY,
         transformStyle: "preserve-3d"
       }}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className={`relative flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl cursor-default overflow-hidden group select-none`}
+      className={`relative flex flex-col items-center justify-center p-2.5 rounded-xl bg-slate-950/40 border border-white/10 backdrop-blur-md shadow-inner cursor-default overflow-hidden group select-none`}
     >
-      {/* Background soft glow */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
-      {/* Interactive Ripple Ring */}
       {showRing && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 group-hover:opacity-20 transition-opacity duration-300">
           <svg className="w-full h-full transform -rotate-90 scale-90" viewBox="0 0 100 100">
             <circle
               cx="50"
               cy="50"
               r={radius}
-              className="stroke-slate-700 fill-none"
+              className="stroke-slate-800 fill-none"
               strokeWidth="2"
             />
             <motion.circle
@@ -337,25 +315,22 @@ function CountdownCard({ label, value, urgency, showRing = false }: CardProps) {
         </div>
       )}
 
-      {/* Sparkles for the seconds card */}
       {showRing && <SparkleEffect />}
 
-      {/* Heartbeat alert for critical states */}
       {urgency === "critical" && (
         <motion.div
-          animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.4, 0.1] }}
+          animate={{ scale: [1, 1.3, 1], opacity: [0.05, 0.2, 0.05] }}
           transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-          className="absolute inset-0 bg-red-500/10 rounded-2xl pointer-events-none"
+          className="absolute inset-0 bg-red-500/10 rounded-xl pointer-events-none"
         />
       )}
 
-      {/* FLIP CLOCK NUMBER */}
-      <div className="flex gap-1.5 justify-center items-center py-2 relative z-10">
+      <div className="flex gap-0.5 justify-center items-center py-1 relative z-10">
         <Digit value={digit1} />
         <Digit value={digit2} />
       </div>
 
-      <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-slate-400 group-hover:text-primary transition-colors duration-300 mt-4">
+      <span className="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest text-slate-500 group-hover:text-primary transition-colors duration-300 mt-2">
         {label}
       </span>
     </motion.div>
@@ -365,8 +340,8 @@ function CountdownCard({ label, value, urgency, showRing = false }: CardProps) {
 function Digit({ value }: { value: number }) {
   return (
     <div 
-      className="relative w-[34px] h-[56px] sm:w-[42px] sm:h-[68px] md:w-[48px] md:h-[78px] bg-slate-950/70 border border-white/5 rounded-xl overflow-hidden flex items-center justify-center shadow-inner"
-      style={{ perspective: "400px" }}
+      className="relative w-[18px] h-[30px] sm:w-[22px] sm:h-[36px] bg-slate-950/90 border border-white/5 rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
+      style={{ perspective: "200px" }}
     >
       <AnimatePresence mode="popLayout">
         <motion.span
@@ -376,7 +351,7 @@ function Digit({ value }: { value: number }) {
           exit={{ rotateX: -90, opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
           style={{ transformOrigin: "center", backfaceVisibility: "hidden" }}
-          className="absolute inset-0 flex items-center justify-center font-extrabold text-[32px] sm:text-[40px] md:text-[48px] bg-gradient-to-b from-amber-200 via-primary to-orange-500 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(245,158,11,0.35)]"
+          className="absolute inset-0 flex items-center justify-center font-extrabold text-[16px] sm:text-[20px] bg-gradient-to-b from-amber-200 via-primary to-orange-500 bg-clip-text text-transparent drop-shadow-[0_1.5px_4px_rgba(245,158,11,0.35)]"
         >
           {value}
         </motion.span>
@@ -386,30 +361,28 @@ function Digit({ value }: { value: number }) {
   );
 }
 
-// Drift floating particles
 function Particles() {
-  const particles = Array.from({ length: 15 });
+  const particles = Array.from({ length: 8 });
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       {particles.map((_, i) => (
         <motion.div
           key={i}
           animate={{
-            x: [0, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200, 0],
-            y: [0, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200, 0],
-            scale: [1, 1.2, 0.8, 1],
-            opacity: [0.1, 0.2, 0.05, 0.1]
+            x: [0, (Math.random() - 0.5) * 80, 0],
+            y: [0, (Math.random() - 0.5) * 80, 0],
+            opacity: [0.05, 0.15, 0.05]
           }}
           transition={{
-            duration: 15 + Math.random() * 15,
+            duration: 10 + Math.random() * 10,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: Math.random() * 5
+            delay: Math.random() * 3
           }}
-          className="absolute rounded-full bg-sky-400/20 blur-[2px]"
+          className="absolute rounded-full bg-sky-400/20 blur-[1px]"
           style={{
-            width: `${Math.random() * 8 + 4}px`,
-            height: `${Math.random() * 8 + 4}px`,
+            width: `${Math.random() * 4 + 2}px`,
+            height: `${Math.random() * 4 + 2}px`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`
           }}

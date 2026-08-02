@@ -44,66 +44,89 @@ export default function LandingPage() {
       >
         <Hero3DBackground />
 
-        <div className="container relative z-10 max-w-screen-xl px-4 md:px-6 flex flex-col items-center">
-          <motion.div
-            className="flex flex-col items-center text-center space-y-6 w-full max-w-4xl"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-
-
-            <motion.h1
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              animate={{
-                x: mousePos.x * 12,
-                y: mousePos.y * 12,
-              }}
-              style={{ 
-                fontFamily: 'var(--font-orbitron), sans-serif',
-                textShadow: `0 0 ${20 + Math.abs(mousePos.x) * 15}px rgba(250,204,21,${0.35 + Math.abs(mousePos.y) * 0.25})`
-              }}
-              className="text-2xl min-[360px]:text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] break-words transition-shadow duration-300"
+        <div className="container relative z-10 max-w-screen-xl px-4 md:px-6 w-full pt-12 md:pt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full min-h-[75vh]">
+            
+            {/* LEFT COLUMN: TEXT DETAILS & HERO ACTIONS */}
+            <motion.div
+              className="lg:col-span-7 flex flex-col items-start text-left space-y-6 w-full"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
-            </motion.h1>
-
-            <motion.p variants={itemVariants} className="max-w-[700px] text-xs sm:text-sm md:text-lg text-muted-foreground font-bold mt-6 tracking-widest uppercase text-center">
-              DEPARTMENT OF INFORMATION TECHNOLOGY
-            </motion.p>
-
-            <motion.p 
-              variants={itemVariants} 
-              style={{ fontFamily: 'var(--font-caveat), cursive' }}
-              className="max-w-[900px] text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-primary to-yellow-500 mt-4 drop-shadow-[0_2px_15px_rgba(250,204,21,0.3)] px-4 leading-tight text-center"
-            >
-              "Empowering minds to innovate, build, and lead the future."
-            </motion.p>
-
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto mt-8 justify-center items-center z-20">
-              <MagneticButton 
-                href="/leaderboard"
-                glowColor="rgba(56, 189, 248, 0.35)"
-                className="inline-flex h-14 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 text-base font-semibold text-slate-300 hover:text-white"
+              {/* Tech capsule badge */}
+              <motion.div 
+                variants={itemVariants}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sky-500/25 bg-sky-950/20 text-[10px] font-bold text-sky-400 uppercase tracking-widest"
               >
-                View Leaderboard <Trophy className="ml-2 h-5 w-5 text-warning" />
-              </MagneticButton>
-              <MagneticButton 
-                href="/auth/login"
-                glowColor="rgba(250, 204, 21, 0.45)"
-                className="inline-flex h-14 items-center justify-center rounded-xl bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg"
+                <span>&lt;/&gt;</span> INNOVATE • BUILD • COMPETE • LEAD
+              </motion.div>
+
+              {/* Main Heading */}
+              <motion.h1
+                variants={itemVariants}
+                style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
+                className="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-tight uppercase text-white text-left break-words"
               >
-                Register Now <ArrowRight className="ml-2 h-5 w-5" />
-              </MagneticButton>
+                INNOVATE <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500 drop-shadow-[0_0_20px_rgba(56,189,248,0.35)]">TODAY</span><br />
+                IMPACT <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.35)]">TOMORROW</span>
+              </motion.h1>
+
+              {/* Subtitle description */}
+              <motion.p 
+                variants={itemVariants} 
+                className="text-sm sm:text-base text-slate-300 leading-relaxed font-medium max-w-lg mt-2 text-left"
+              >
+                Streakathon is the annual flagship hackathon of the Department of Information Technology.
+                Where ideas spark, innovations happen, and futures are built.
+              </motion.p>
+
+              {/* Action CTA Buttons */}
+              <motion.div variants={itemVariants} className="flex flex-row gap-4 items-center pt-2 z-20">
+                <MagneticButton 
+                  href="/auth/login"
+                  glowColor="rgba(250, 204, 21, 0.45)"
+                  className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  Register Now <ArrowRight className="ml-2 h-4 w-4" />
+                </MagneticButton>
+                
+                <MagneticButton 
+                  href="/leaderboard"
+                  glowColor="rgba(56, 189, 248, 0.35)"
+                  className="inline-flex h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-6 text-sm font-bold text-slate-300 hover:text-white"
+                >
+                  View Leaderboard <Trophy className="ml-2 h-4 w-4" />
+                </MagneticButton>
+              </motion.div>
+
+              {/* Registered user avatars & metrics */}
+              <motion.div 
+                variants={itemVariants}
+                className="flex items-center gap-3 pt-6 border-t border-white/5 w-full max-w-md"
+              >
+                <div className="flex -space-x-3">
+                  {[
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=faces",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces",
+                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces",
+                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=faces"
+                  ].map((url, i) => (
+                    <img key={i} src={url} className="w-8 h-8 rounded-full border-2 border-[#060c14] object-cover" alt="Registered User" />
+                  ))}
+                </div>
+                <span className="text-xs sm:text-sm font-semibold text-slate-300">
+                  1,248+ Innovators Already Registered
+                </span>
+              </motion.div>
             </motion.div>
 
-            {/* Countdown Timer */}
-            <motion.div variants={itemVariants} className="w-full max-w-6xl mt-16">
+            {/* RIGHT COLUMN: COUNTDOWN COMPACT CONTAINER */}
+            <div className="lg:col-span-5 w-full flex justify-center lg:justify-end z-20">
               <Countdown />
-            </motion.div>
-          </motion.div>
+            </div>
+
+          </div>
         </div>
       </section>
 

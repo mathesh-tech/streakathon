@@ -8,11 +8,19 @@ import {
   MapPin, Clock, Star, Medal, Zap, LayoutDashboard, FileText, BarChart
 } from "lucide-react";
 
-// Add specific types or leave implicit depending on context, using 'any' sparingly.
-
 import Countdown from "@/components/landing/Countdown";
+import Hero3DBackground from "@/components/landing/Hero3DBackground";
+import MagneticButton from "@/components/landing/MagneticButton";
 
 export default function LandingPage() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    setMousePos({ x, y });
+  };
+
 
 
   const containerVariants = {
@@ -30,21 +38,11 @@ export default function LandingPage() {
 
   return (
     <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
-      {/* HERO SECTION */}
-      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 z-0 bg-background overflow-hidden">
-          <motion.div
-            animate={{ y: [0, -40, 0], scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
-            transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-            className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]"
-          />
-          <motion.div
-            animate={{ y: [0, 30, 0], scale: [1, 1.2, 1], rotate: [0, -10, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 10, ease: "easeInOut", delay: 1 }}
-            className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-secondary/30 rounded-full blur-[100px]"
-          />
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
-        </div>
+      <section 
+        onMouseMove={handleMouseMove}
+        className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20"
+      >
+        <Hero3DBackground />
 
         <div className="container relative z-10 max-w-screen-xl px-4 md:px-6 flex flex-col items-center">
           <motion.div
@@ -59,8 +57,15 @@ export default function LandingPage() {
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
-              style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
-              className="text-2xl min-[360px]:text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] drop-shadow-[0_0_25px_rgba(250,204,21,0.4)] break-words"
+              animate={{
+                x: mousePos.x * 12,
+                y: mousePos.y * 12,
+              }}
+              style={{ 
+                fontFamily: 'var(--font-orbitron), sans-serif',
+                textShadow: `0 0 ${20 + Math.abs(mousePos.x) * 15}px rgba(250,204,21,${0.35 + Math.abs(mousePos.y) * 0.25})`
+              }}
+              className="text-2xl min-[360px]:text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black italic tracking-widest uppercase leading-[1.1] md:leading-[0.9] break-words transition-shadow duration-300"
             >
               <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
             </motion.h1>
@@ -77,13 +82,21 @@ export default function LandingPage() {
               "Empowering minds to innovate, build, and lead the future."
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-8 justify-center">
-              <Link href="/leaderboard" className="inline-flex h-14 items-center justify-center rounded-lg border border-black/10 bg-black/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground shadow-sm transition-all hover:bg-black/10 hover:scale-[1.02] active:scale-[0.98]">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto mt-8 justify-center items-center z-20">
+              <MagneticButton 
+                href="/leaderboard"
+                glowColor="rgba(56, 189, 248, 0.35)"
+                className="inline-flex h-14 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 text-base font-semibold text-slate-300 hover:text-white"
+              >
                 View Leaderboard <Trophy className="ml-2 h-5 w-5 text-warning" />
-              </Link>
-              <Link href="/auth/login" className="inline-flex h-14 items-center justify-center rounded-lg bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg hover:shadow-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98]">
+              </MagneticButton>
+              <MagneticButton 
+                href="/auth/login"
+                glowColor="rgba(250, 204, 21, 0.45)"
+                className="inline-flex h-14 items-center justify-center rounded-xl bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg"
+              >
                 Register Now <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              </MagneticButton>
             </motion.div>
 
             {/* Countdown Timer */}

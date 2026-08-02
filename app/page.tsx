@@ -66,8 +66,7 @@ export default function LandingPage() {
                 {/* Main Heading */}
                 <motion.h1
                   variants={itemVariants}
-                  style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
-                  className="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-tight uppercase text-white text-left break-words"
+                  className="text-4xl sm:text-5xl xl:text-6xl font-black italic tracking-tight leading-tight uppercase text-white text-left break-words"
                 >
                   INNOVATE <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500 drop-shadow-[0_0_20px_rgba(56,189,248,0.35)]">TODAY</span><br />
                   IMPACT <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.35)]">TOMORROW</span>

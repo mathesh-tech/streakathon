@@ -36,7 +36,6 @@ export function Navbar() {
               transition={{ type: 'spring', stiffness: 300 }}
             />
             <motion.span
-              style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
               className="font-black italic text-lg sm:text-2xl md:text-3xl tracking-wider drop-shadow-md uppercase"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}

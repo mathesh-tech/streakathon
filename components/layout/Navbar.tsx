@@ -1,12 +1,13 @@
 "use client";
 
 import Link from 'next/link';
-import { Menu, User, Shield, QrCode, ChevronDown, Laptop } from 'lucide-react';
+import { Menu, Shield, QrCode, Laptop } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -15,8 +16,8 @@ export function Navbar() {
         setIsDropdownOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -24,16 +25,16 @@ export function Navbar() {
       <div className="container mx-auto px-4 flex h-16 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
-            <motion.img 
-              src="/sona-logo.png" 
-              alt="Sona College Logo" 
+            <motion.img
+              src="/sona-logo.png"
+              alt="Sona College Logo"
               className="h-8 sm:h-10 md:h-12 w-auto object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 300 }}
             />
-            <motion.span 
+            <motion.span
               style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
               className="font-black italic text-lg sm:text-2xl md:text-3xl tracking-wider drop-shadow-md uppercase"
               initial={{ opacity: 0, x: -20 }}
@@ -43,6 +44,7 @@ export function Navbar() {
               <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
             </motion.span>
           </Link>
+
           <nav className="hidden md:flex gap-6">
             <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
               Home
@@ -58,9 +60,8 @@ export function Navbar() {
             </Link>
           </nav>
         </div>
-        
+
         <div className="flex items-center space-x-2 sm:space-x-4">
-          
           {/* Role Based Login Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
@@ -91,6 +92,7 @@ export function Navbar() {
                       </div>
                       Student Login
                     </Link>
+
                     <Link
                       href="/dashboard/ambassador"
                       onClick={() => setIsDropdownOpen(false)}
@@ -101,6 +103,7 @@ export function Navbar() {
                       </div>
                       Ambassador Portal
                     </Link>
+
                     <Link
                       href="/dashboard/admin"
                       onClick={() => setIsDropdownOpen(false)}
@@ -116,8 +119,6 @@ export function Navbar() {
               )}
             </AnimatePresence>
           </div>
-
-
         </div>
       </div>
     </header>

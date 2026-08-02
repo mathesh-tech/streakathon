@@ -173,6 +173,7 @@ model User {
   announcementsCreated   Announcement[]
   generatedReports       ReportHistory[]
   scheduledReports       ScheduledReport[]
+  evaluationsConducted   ParticipantEvaluation[]
 
   @@index([email])
   @@index([registerNumber])
@@ -204,6 +205,8 @@ model Student {
   certificates       Certificate[]
   creditTransactions CreditTransaction[]
   studentBadges      StudentBadge[]
+  qrTickets          QRTicket[]
+  evaluations        ParticipantEvaluation[]
 }
 
 model Ambassador {
@@ -266,6 +269,8 @@ model Hackathon {
   certificates       Certificate[]
   creditTransactions CreditTransaction[]
   AttendanceRecord   AttendanceRecord[]
+  qrTickets          QRTicket[]
+  participantEvaluations ParticipantEvaluation[]
 }
 
 // ==========================================
@@ -431,6 +436,51 @@ model StudentBadge {
   badge   Badge   @relation(fields: [badgeId], references: [id], onDelete: Cascade)
 
   @@id([studentId, badgeId])
+}
+
+// ==========================================
+// WORKFLOW MODELS
+// ==========================================
+
+model QRTicket {
+  id          String   @id @default(uuid())
+  studentId   String
+  hackathonId String
+  token       String   @unique
+  expiresAt   DateTime
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([hackathonId])
+  @@index([token])
+}
+
+model ParticipantEvaluation {
+  id            String   @id @default(uuid())
+  studentId     String
+  hackathonId   String
+  evaluatorId   String
+  participation Int      @default(0) // 0-10
+  presentation  Int      @default(0) // 0-10
+  technical     Int      @default(0) // 0-10
+  communication Int      @default(0) // 0-10
+  innovation    Int      @default(0) // 0-10
+  totalScore    Int      @default(0)
+  remarks       String?
+  createdAt     DateTime @default(now())
+
+  student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  evaluator User      @relation(fields: [evaluatorId], references: [id])
+
+  @@unique([studentId, hackathonId])
+  @@index([studentId])
+  @@index([hackathonId])
+  @@index([evaluatorId])
 }
 
 // ==========================================

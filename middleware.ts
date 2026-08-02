@@ -93,6 +93,13 @@ export default withAuth(
           if (token?.role === "ADMIN") response = NextResponse.redirect(new URL("/dashboard/admin", req.url));
           if (token?.role === "AMBASSADOR") response = NextResponse.redirect(new URL("/dashboard/ambassador", req.url));
         }
+
+        // Enforce profile setup for PARTICIPANT
+        if (token?.role === "PARTICIPANT" && !token?.hasProfile) {
+          if (path !== "/dashboard/student/profile/setup" && !path.startsWith("/api/")) {
+            response = NextResponse.redirect(new URL("/dashboard/student/profile/setup", req.url));
+          }
+        }
       }
     }
 

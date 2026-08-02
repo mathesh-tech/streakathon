@@ -103,7 +103,8 @@ export const authOptions: NextAuthOptions = {
           forcePasswordChange: user.forcePasswordChange,
           emailVerified: user.emailVerified,
           canDeductCredits: user.canDeductCredits,
-          rememberMe: credentials.rememberMe === 'true'
+          rememberMe: credentials.rememberMe === 'true',
+          hasProfile: !!user.studentProfile
         };
       }
     })
@@ -117,6 +118,7 @@ export const authOptions: NextAuthOptions = {
         token.emailVerified = (user as any).emailVerified;
         token.canDeductCredits = (user as any).canDeductCredits;
         token.rememberMe = (user as any).rememberMe;
+        token.hasProfile = (user as any).hasProfile;
       }
       return token;
     },
@@ -128,6 +130,7 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).emailVerified = token.emailVerified;
         (session.user as any).canDeductCredits = token.canDeductCredits;
         (session.user as any).rememberMe = token.rememberMe;
+        (session.user as any).hasProfile = token.hasProfile;
       }
       return session;
     }

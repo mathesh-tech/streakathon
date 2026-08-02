@@ -75,4 +75,62 @@ export class AttendanceService {
 
     return { results, errors };
   }
+
+  /**
+   * Generates a new secure, short-lived QR ticket for a student.
+   * Invalidates any previous unused tickets for the same hackathon.
+   */
+  static async generateQRTicket(studentId: string, hackathonId: string) {
+    return prisma.$transaction(async (tx) => {
+      // Invalidate existing unused tickets
+      await tx.qRTicket.updateMany({
+        where: { studentId, hackathonId, isUsed: false },
+        data: { isUsed: true },
+      });
+
+      const { randomBytes } = await import('crypto');
+      const token = randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+
+      return tx.qRTicket.create({
+        data: {
+          studentId,
+          hackathonId,
+          token,
+          expiresAt,
+        },
+      });
+    });
+  }
+
+  /**
+   * Scans a QR token, validates it, and marks attendance.
+   * Can only be performed by ADMIN or AMBASSADOR.
+   */
+  static async validateQRTicketAndMarkAttendance(token: string, markedById: string) {
+    return prisma.$transaction(async (tx) => {
+      const ticket = await tx.qRTicket.findUnique({
+        where: { token },
+      });
+
+      if (!ticket) throw new NotFoundError('Invalid QR Code');
+      if (ticket.isUsed) throw new ConflictError('QR Code has already been used');
+      if (ticket.expiresAt < new Date()) throw new ConflictError('QR Code has expired. Please request a new one.');
+
+      // Mark the ticket as used immediately to prevent double scanning
+      await tx.qRTicket.update({
+        where: { id: ticket.id },
+        data: { isUsed: true },
+      });
+
+      // Delegate to the standard markAttendance method
+      // It handles duplicate attendance checks and credit/streak updates
+      return this.markAttendance(
+        ticket.studentId,
+        ticket.hackathonId,
+        'PRESENT',
+        markedById
+      );
+    });
+  }
 }

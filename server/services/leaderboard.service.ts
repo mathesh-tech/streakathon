@@ -72,15 +72,32 @@ export class LeaderboardService {
       },
     });
 
-    // 3. Map the points and compute ranks
-    const leaderboard = aggregated.map((agg, index) => {
+    // 3. Map the points and filter out any orphaned aggregations
+    const mapped = aggregated.map((agg) => {
       const student = studentsData.find((s) => s.studentId === agg.studentId);
+      if (!student) return null;
+      
       return {
         ...student,
-        currentCredits: agg._sum.points || 0, // Override with timeframe specific points
-        rank: index + 1,
+        currentCredits: agg._sum.points ?? 0, // Override with timeframe specific points
       };
+    }).filter((item): item is NonNullable<typeof item> => item !== null);
+
+    // 4. Sort to handle tie-breakers (by name ascending)
+    mapped.sort((a, b) => {
+      if (b.currentCredits !== a.currentCredits) {
+        return b.currentCredits - a.currentCredits;
+      }
+      const nameA = a.user?.name || "";
+      const nameB = b.user?.name || "";
+      return nameA.localeCompare(nameB);
     });
+
+    // 5. Compute ranks after sorting
+    const leaderboard = mapped.map((item, index) => ({
+      ...item,
+      rank: index + 1,
+    }));
 
     return leaderboard;
   }

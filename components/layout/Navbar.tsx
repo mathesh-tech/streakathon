@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Menu, User, Shield, QrCode, Laptop } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -56,8 +55,6 @@ export function Navbar() {
         </div>
         
         <div className="flex items-center space-x-2 sm:space-x-4">
-          <NotificationBell />
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" className="rounded-full">

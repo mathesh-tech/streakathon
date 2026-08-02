@@ -50,7 +50,6 @@ export function Navbar() {
             {[
               { name: 'Home', href: '/' },
               { name: 'Problems', href: '/dashboard/student/hackathon/15/problem' },
-              { name: 'Leaderboard', href: '/leaderboard' },
               { name: 'Hall of Fame', href: '/hall-of-fame' }
             ].map((link) => (
               <Link 

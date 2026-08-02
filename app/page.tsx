@@ -10,31 +10,10 @@ import {
 
 // Add specific types or leave implicit depending on context, using 'any' sparingly.
 
+import Countdown from "@/components/landing/Countdown";
+
 export default function LandingPage() {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-  useEffect(() => {
-    // Mock Countdown to next Friday
-    const target = new Date();
-    target.setDate(target.getDate() + ((5 + 7 - target.getDay()) % 7 || 7));
-    target.setHours(12, 0, 0, 0);
-
-    const interval = setInterval(() => {
-      const now = new Date();
-      const difference = target.getTime() - now.getTime();
-
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        });
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -108,45 +87,8 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Countdown Timer */}
-            <motion.div
-              variants={itemVariants}
-              whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(250,204,21,0.15)" }}
-              className="mt-16 glass-card rounded-2xl p-6 md:p-8 w-full max-w-3xl flex flex-col md:flex-row items-center justify-between gap-6 border-primary/30 transition-all"
-            >
-              <div className="text-left flex-1">
-                <motion.h3
-                  animate={{ color: ["hsl(0, 0%, 100%)", "hsl(45, 93%, 47%)", "hsl(0, 0%, 100%)"] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="text-lg font-bold"
-                >
-                  Next Hackathon Registration Closes In:
-                </motion.h3>
-                <p className="text-sm text-muted-foreground">Streakathon #15 - AI & Automation Theme</p>
-              </div>
-              <div className="flex gap-4">
-                {[
-                  { label: "Days", value: timeLeft.days },
-                  { label: "Hours", value: timeLeft.hours },
-                  { label: "Mins", value: timeLeft.minutes },
-                  { label: "Secs", value: timeLeft.seconds }
-                ].map((time, i) => (
-                  <motion.div
-                    key={i}
-                    className="flex flex-col items-center"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.5 + (i * 0.1), type: "spring" }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-background/90 border border-primary/30 flex items-center justify-center shadow-inner cursor-pointer"
-                    >
-                      <span className="text-2xl md:text-3xl font-black text-primary drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]">{time.value.toString().padStart(2, '0')}</span>
-                    </motion.div>
-                    <span className="text-xs uppercase tracking-wider text-muted-foreground mt-2 font-bold">{time.label}</span>
-                  </motion.div>
-                ))}
-              </div>
+            <motion.div variants={itemVariants} className="w-full max-w-6xl mt-16">
+              <Countdown />
             </motion.div>
           </motion.div>
         </div>

@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -45,19 +46,36 @@ export function Navbar() {
             </motion.span>
           </Link>
 
-          <nav className="hidden md:flex gap-6">
-            <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Home
-            </Link>
-            <Link href="/dashboard/student/hackathon/15/problem" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Problems
-            </Link>
-            <Link href="/leaderboard" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Leaderboard
-            </Link>
-            <Link href="/hall-of-fame" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
-              Hall of Fame
-            </Link>
+          <nav className="hidden md:flex items-center gap-1" onMouseLeave={() => setHoveredPath(null)}>
+            {[
+              { name: 'Home', href: '/' },
+              { name: 'Problems', href: '/dashboard/student/hackathon/15/problem' },
+              { name: 'Leaderboard', href: '/leaderboard' },
+              { name: 'Hall of Fame', href: '/hall-of-fame' }
+            ].map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                onMouseEnter={() => setHoveredPath(link.href)}
+                className="relative px-4 py-2 text-sm font-bold text-slate-300 hover:text-white transition-colors"
+              >
+                <span className="relative z-10 drop-shadow-md">{link.name}</span>
+                {hoveredPath === link.href && (
+                  <motion.div
+                    layoutId="navbar-hover-pill"
+                    className="absolute inset-0 bg-sky-500/20 border border-sky-400/30 rounded-full"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                {hoveredPath === link.href && (
+                  <motion.div
+                    layoutId="navbar-hover-glow"
+                    className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-sky-400 blur-[2px]"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </Link>
+            ))}
           </nav>
         </div>
 

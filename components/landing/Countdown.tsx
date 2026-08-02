@@ -198,24 +198,7 @@ export default function Countdown() {
               <span className="text-emerald-400 font-bold">{isCompleted ? "Closed" : "Active & Accepting Teams"}</span>
             </div>
           </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            {isCompleted ? (
-              <Link href="/leaderboard" className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
-                View Leaderboard <Trophy className="ml-2 h-4 w-4" />
-              </Link>
-            ) : (
-              <>
-                <Link href="/auth/login" className="relative overflow-hidden group inline-flex h-12 items-center justify-center rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 px-6 text-sm font-bold text-white shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]">
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                  Register Now <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-                <Link href="/leaderboard" className="inline-flex h-12 items-center justify-center rounded-xl border border-white/10 bg-transparent px-6 text-sm font-bold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-                  Leaderboard
-                </Link>
-              </>
-            )}
-          </div>
+          
         </div>
 
         {/* RIGHT SIDE: THE COUNTDOWN CARDS */}

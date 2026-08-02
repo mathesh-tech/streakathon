@@ -54,23 +54,25 @@ export default function LandingPage() {
               initial="hidden"
               animate="visible"
             >
-              {/* Tech capsule badge */}
-              <motion.div 
-                variants={itemVariants}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sky-500/25 bg-sky-950/20 text-[10px] font-bold text-sky-400 uppercase tracking-widest"
-              >
-                <span>&lt;/&gt;</span> INNOVATE • BUILD • COMPETE • LEAD
-              </motion.div>
+              <div className="flex flex-col space-y-3">
+                {/* Tech capsule badge */}
+                <motion.div 
+                  variants={itemVariants}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sky-500/25 bg-sky-950/20 text-[10px] font-bold text-sky-400 uppercase tracking-widest w-fit"
+                >
+                  <span>&lt;/&gt;</span> INNOVATE • BUILD • COMPETE • LEAD
+                </motion.div>
 
-              {/* Main Heading */}
-              <motion.h1
-                variants={itemVariants}
-                style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
-                className="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-tight uppercase text-white text-left break-words"
-              >
-                INNOVATE <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500 drop-shadow-[0_0_20px_rgba(56,189,248,0.35)]">TODAY</span><br />
-                IMPACT <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.35)]">TOMORROW</span>
-              </motion.h1>
+                {/* Main Heading */}
+                <motion.h1
+                  variants={itemVariants}
+                  style={{ fontFamily: 'var(--font-orbitron), sans-serif' }}
+                  className="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight leading-tight uppercase text-white text-left break-words"
+                >
+                  INNOVATE <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500 drop-shadow-[0_0_20px_rgba(56,189,248,0.35)]">TODAY</span><br />
+                  IMPACT <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.35)]">TOMORROW</span>
+                </motion.h1>
+              </div>
 
               {/* Subtitle description */}
               <motion.p 
@@ -100,25 +102,7 @@ export default function LandingPage() {
                 </MagneticButton>
               </motion.div>
 
-              {/* Registered user avatars & metrics */}
-              <motion.div 
-                variants={itemVariants}
-                className="flex items-center gap-3 pt-6 border-t border-white/5 w-full max-w-md"
-              >
-                <div className="flex -space-x-3">
-                  {[
-                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=faces",
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces",
-                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces",
-                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=faces"
-                  ].map((url, i) => (
-                    <img key={i} src={url} className="w-8 h-8 rounded-full border-2 border-[#060c14] object-cover" alt="Registered User" />
-                  ))}
-                </div>
-                <span className="text-xs sm:text-sm font-semibold text-slate-300">
-                  1,248+ Innovators Already Registered
-                </span>
-              </motion.div>
+
             </motion.div>
 
             {/* RIGHT COLUMN: COUNTDOWN COMPACT CONTAINER */}

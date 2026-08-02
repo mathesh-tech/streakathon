@@ -285,9 +285,9 @@ export default function Hero3DBackground() {
         pY + gradParallaxY,
         280
       );
-      ambientGlow.addColorStop(0, `rgba(14, 165, 233, ${0.14 * ambientGlowScale})`);
-      ambientGlow.addColorStop(0.5, `rgba(56, 189, 248, ${0.06 * ambientGlowScale})`);
-      ambientGlow.addColorStop(1, "rgba(6, 12, 20, 0)");
+      ambientGlow.addColorStop(0, `rgba(63, 111, 181, ${0.14 * ambientGlowScale})`);
+      ambientGlow.addColorStop(0.5, `rgba(244, 180, 0, ${0.06 * ambientGlowScale})`);
+      ambientGlow.addColorStop(1, "rgba(31, 63, 110, 0)");
       ctx.fillStyle = ambientGlow;
       ctx.beginPath();
       ctx.arc(centerX + gradParallaxX, pY + gradParallaxY, 300, 0, Math.PI * 2);
@@ -299,9 +299,9 @@ export default function Hero3DBackground() {
         centerX - 350 + rayXOffset, -100,
         centerX + 350 + rayXOffset, canvas.height + 100
       );
-      rayGradient.addColorStop(0, "rgba(56, 189, 248, 0)");
-      rayGradient.addColorStop(0.5, "rgba(56, 189, 248, 0.04)");
-      rayGradient.addColorStop(1, "rgba(56, 189, 248, 0)");
+      rayGradient.addColorStop(0, "rgba(244, 180, 0, 0)");
+      rayGradient.addColorStop(0.5, "rgba(244, 180, 0, 0.04)");
+      rayGradient.addColorStop(1, "rgba(244, 180, 0, 0)");
       ctx.fillStyle = rayGradient;
       ctx.beginPath();
       ctx.moveTo(-200 + rayXOffset + netParallaxX, -100);
@@ -313,7 +313,7 @@ export default function Hero3DBackground() {
 
       // 3. Draw Wavy Grid/Landscape at the bottom (Inspired by futuristic wireframe wave)
       if (!isMobile) {
-        ctx.strokeStyle = "rgba(100, 150, 255, 0.03)";
+        ctx.strokeStyle = "rgba(63, 111, 181, 0.1)";
         ctx.lineWidth = 0.7;
         const meshRows = 10;
         const meshCols = 16;
@@ -358,7 +358,7 @@ export default function Hero3DBackground() {
 
           // Pulse base ring glow
           const ringPulse = prefersReducedMotion ? 1 : 0.8 + Math.sin(time * 0.03 - i * 0.5) * 0.2;
-          ctx.strokeStyle = `rgba(56, 189, 248, ${0.12 * ringPulse * (1 - i / ringsCount)})`;
+          ctx.strokeStyle = `rgba(244, 180, 0, ${0.12 * ringPulse * (1 - i / ringsCount)})`;
           
           ctx.beginPath();
           ctx.ellipse(px, py, rx, ry, 0, 0, Math.PI * 2);
@@ -366,7 +366,7 @@ export default function Hero3DBackground() {
 
           // Bottom reflection pedestal filled deck
           if (i === 0) {
-            ctx.fillStyle = "rgba(12, 25, 40, 0.65)";
+            ctx.fillStyle = "rgba(31, 63, 110, 0.65)";
             ctx.beginPath();
             ctx.ellipse(px, py, rx, ry, 0, 0, Math.PI * 2);
             ctx.fill();
@@ -378,7 +378,7 @@ export default function Hero3DBackground() {
       // 5. Draw Orbiting Ring around the trophy
       const drawOrbitRing = () => {
         if (prefersReducedMotion) return;
-        ctx.strokeStyle = "rgba(56, 189, 248, 0.07)";
+        ctx.strokeStyle = "rgba(244, 180, 0, 0.15)";
         ctx.lineWidth = 0.8;
         const orbitRadius = 110;
         const scale = fov / (fov + 100);
@@ -442,7 +442,7 @@ export default function Hero3DBackground() {
             edgeGlow = (1 - distDiff / 140) * 0.35;
           }
 
-          ctx.strokeStyle = `rgba(56, 189, 248, ${baseOpacity + edgeGlow})`;
+          ctx.strokeStyle = `rgba(244, 180, 0, ${baseOpacity + edgeGlow})`;
           ctx.beginPath();
           ctx.moveTo(ptA.px, ptA.py);
           ctx.lineTo(ptB.px, ptB.py);
@@ -450,7 +450,7 @@ export default function Hero3DBackground() {
         });
 
         // Highlight vertex dots
-        ctx.fillStyle = "rgba(56, 189, 248, 0.45)";
+        ctx.fillStyle = "rgba(255, 213, 79, 0.6)";
         projectedTrophy.forEach((v, index) => {
           if (index % 2 === 0) {
             ctx.beginPath();
@@ -525,10 +525,10 @@ export default function Hero3DBackground() {
             const finalOpacity = baseOpacity + (avgPulse * 0.16) + (avgRandom * 0.08);
 
             if (avgPulse > 0.1) {
-              ctx.strokeStyle = `rgba(56, 189, 248, ${finalOpacity * 1.6})`;
+              ctx.strokeStyle = `rgba(255, 213, 79, ${finalOpacity * 1.6})`;
               ctx.lineWidth = 1.0;
             } else {
-              ctx.strokeStyle = `rgba(148, 163, 184, ${finalOpacity})`;
+              ctx.strokeStyle = `rgba(63, 111, 181, ${finalOpacity})`;
               ctx.lineWidth = 0.6;
             }
 
@@ -551,9 +551,9 @@ export default function Hero3DBackground() {
         const glowFactor = proj.pulseBrightness + proj.randomGlowBrightness;
 
         if (glowFactor > 0.1) {
-          ctx.fillStyle = `rgba(56, 189, 248, ${Math.min(1.0, 0.7 + glowFactor * 0.25)})`;
+          ctx.fillStyle = `rgba(255, 213, 79, ${Math.min(1.0, 0.7 + glowFactor * 0.25)})`;
         } else {
-          ctx.fillStyle = `rgba(14, 165, 233, ${0.45 * proj.scale})`;
+          ctx.fillStyle = `rgba(63, 111, 181, ${0.45 * proj.scale})`;
         }
 
         ctx.beginPath();
@@ -562,7 +562,7 @@ export default function Hero3DBackground() {
 
         // Glow halos
         const haloAlpha = 0.1 + (glowFactor * 0.3);
-        ctx.fillStyle = `rgba(56, 189, 248, ${haloAlpha * proj.scale})`;
+        ctx.fillStyle = `rgba(244, 180, 0, ${haloAlpha * proj.scale})`;
         ctx.beginPath();
         ctx.arc(proj.px, proj.py, finalSize * (2.0 + glowFactor * 1.2), 0, Math.PI * 2);
         ctx.fill();
@@ -625,7 +625,7 @@ export default function Hero3DBackground() {
           }
           ctx.closePath();
           ctx.stroke();
-          ctx.fillStyle = `rgba(56, 189, 248, ${obj.opacity * 0.15})`;
+          ctx.fillStyle = `rgba(63, 111, 181, ${obj.opacity * 0.15})`;
           ctx.fill();
         } else if (obj.type === "ring") {
           ctx.beginPath();
@@ -660,7 +660,7 @@ export default function Hero3DBackground() {
           ctx.lineTo(peakX, peakY);
           ctx.stroke();
           
-          ctx.fillStyle = `rgba(56, 189, 248, ${obj.opacity * 0.12})`;
+          ctx.fillStyle = `rgba(244, 180, 0, ${obj.opacity * 0.12})`;
           ctx.fill();
         }
       }
@@ -677,7 +677,7 @@ export default function Hero3DBackground() {
   }, [dimensions, prefersReducedMotion]);
 
   return (
-    <div className="absolute inset-0 z-0 bg-[#060c14] overflow-hidden">
+    <div className="absolute inset-0 z-0 bg-transparent overflow-hidden">
       {/* Mesh Gradient Blurred Vector Spheres */}
       <motion.div
         animate={prefersReducedMotion ? {} : {

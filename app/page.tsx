@@ -2,27 +2,15 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import {
   ArrowRight, Trophy, Users, Award, Calendar, TerminalSquare, Rocket, Sparkles, CheckCircle2,
   MapPin, Clock, Star, Medal, Zap, LayoutDashboard, FileText, BarChart
 } from "lucide-react";
 
 import Countdown from "@/components/landing/Countdown";
-import Hero3DBackground from "@/components/landing/Hero3DBackground";
 import MagneticButton from "@/components/landing/MagneticButton";
 
 export default function LandingPage() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 2;
-    const y = (e.clientY / window.innerHeight - 0.5) * 2;
-    setMousePos({ x, y });
-  };
-
-
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -37,79 +25,78 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-[#1F3F6E] via-[#18375F] to-[#132D4F]">
       <section 
-        onMouseMove={handleMouseMove}
-        className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20"
+        className="relative w-full min-h-[95vh] flex flex-col items-center justify-center overflow-hidden pt-16 pb-12"
       >
-        <Hero3DBackground />
-
-        <div className="container relative z-10 max-w-screen-xl px-4 md:px-6 w-full pt-12 md:pt-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full min-h-[75vh]">
-            
-            {/* LEFT COLUMN: TEXT DETAILS & HERO ACTIONS */}
-            <motion.div
-              className="lg:col-span-7 flex flex-col items-start text-left space-y-6 w-full"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <div className="flex flex-col space-y-3">
-                {/* Tech capsule badge */}
-                <motion.div 
-                  variants={itemVariants}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sky-500/25 bg-sky-950/20 text-[10px] font-bold text-sky-400 uppercase tracking-widest w-fit"
-                >
-                  <span>&lt;/&gt;</span> INNOVATE • BUILD • COMPETE • LEAD
-                </motion.div>
-
-                {/* Main Heading */}
-                <motion.h1
-                  variants={itemVariants}
-                  className="text-4xl sm:text-5xl xl:text-6xl font-black italic tracking-tight leading-tight uppercase text-white text-left break-words"
-                >
-                  INNOVATE <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500 drop-shadow-[0_0_20px_rgba(56,189,248,0.35)]">TODAY</span><br />
-                  IMPACT <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-primary to-yellow-500 drop-shadow-[0_0_20px_rgba(250,204,21,0.35)]">TOMORROW</span>
-                </motion.h1>
-              </div>
-
-              {/* Subtitle description */}
-              <motion.p 
-                variants={itemVariants} 
-                className="text-sm sm:text-base text-slate-300 leading-relaxed font-medium max-w-lg mt-2 text-left"
+        <div className="container relative z-10 max-w-screen-md mx-auto px-4 md:px-6 w-full flex flex-col items-center text-center mt-12 md:mt-16">
+          
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col items-center w-full space-y-8 md:space-y-10"
+          >
+            {/* Title and Subtitle Container */}
+            <div className="flex flex-col items-center space-y-4">
+              {/* Main Title */}
+              <motion.h1
+                variants={itemVariants}
+                className="text-[11vw] leading-none sm:text-6xl md:text-7xl lg:text-[6rem] font-black italic tracking-tighter uppercase drop-shadow-2xl flex flex-nowrap justify-center items-center"
+                style={{ fontFamily: "var(--font-orbitron), sans-serif", transform: "skewX(-8deg)" }}
               >
-                Streakathon is the annual flagship hackathon of the Department of Information Technology.
-                Where ideas spark, innovations happen, and futures are built.
-              </motion.p>
+                <span className="text-white">STREAK</span><span className="text-[#F4B400]">ATHON</span>
+              </motion.h1>
 
-              {/* Action CTA Buttons */}
-              <motion.div variants={itemVariants} className="flex flex-row gap-4 items-center pt-2 z-20">
-                <MagneticButton 
-                  href="/auth/login"
-                  glowColor="rgba(250, 204, 21, 0.45)"
-                  className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
-                >
-                  Register Now <ArrowRight className="ml-2 h-4 w-4" />
-                </MagneticButton>
-                
-                <MagneticButton 
-                  href="/leaderboard"
-                  glowColor="rgba(56, 189, 248, 0.35)"
-                  className="inline-flex h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-6 text-sm font-bold text-slate-300 hover:text-white"
-                >
-                  View Leaderboard <Trophy className="ml-2 h-4 w-4" />
-                </MagneticButton>
-              </motion.div>
-
-
-            </motion.div>
-
-            {/* RIGHT COLUMN: COUNTDOWN COMPACT CONTAINER */}
-            <div className="lg:col-span-5 w-full flex justify-center lg:justify-end z-20">
-              <Countdown />
+              {/* Department Text */}
+              <motion.h2
+                variants={itemVariants}
+                className="text-[9px] sm:text-sm md:text-base font-bold tracking-[0.2em] text-[#D6DCE6] uppercase mt-2"
+              >
+                Department of Information Technology
+              </motion.h2>
             </div>
 
-          </div>
+            {/* Quote */}
+            <motion.p
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl md:text-5xl text-[#F4B400] max-w-2xl leading-snug py-2"
+              style={{ fontFamily: "var(--font-caveat), cursive" }}
+            >
+              "Empowering minds to innovate, build, and lead the future."
+            </motion.p>
+
+            {/* Action CTA Buttons */}
+            <motion.div 
+              variants={itemVariants} 
+              className="flex flex-col sm:flex-row w-full max-w-2xl gap-4 pt-4 z-20 mx-auto justify-center"
+            >
+              <MagneticButton 
+                href="/leaderboard"
+                glowColor="rgba(63, 111, 181, 0.4)"
+                className="flex h-14 w-full items-center justify-center rounded-xl bg-[rgba(255,255,255,0.06)] border border-[#3F6FB5] backdrop-blur-[20px] px-6 text-lg font-bold text-white shadow-lg hover:bg-[rgba(63,111,181,0.2)] hover:shadow-[0_0_20px_rgba(63,111,181,0.4)] transition-all"
+              >
+                View Leaderboard <span className="ml-3 text-xl">🏆</span>
+              </MagneticButton>
+
+              <MagneticButton 
+                href="/auth/login"
+                glowColor="rgba(244, 180, 0, 0.4)"
+                className="flex h-14 w-full items-center justify-center rounded-xl bg-[#F4B400] px-6 text-lg font-bold text-[#1F3F6E] shadow-[0_0_15px_rgba(244,180,0,0.3)] hover:bg-[#FFD54F] hover:shadow-[0_0_25px_rgba(255,213,79,0.5)] transition-all"
+              >
+                Register Now <ArrowRight className="ml-3 h-5 w-5" />
+              </MagneticButton>
+            </motion.div>
+
+            {/* Countdown Component */}
+            <motion.div 
+              variants={itemVariants}
+              className="w-full flex justify-center pt-6 z-20"
+            >
+              <Countdown />
+            </motion.div>
+
+          </motion.div>
         </div>
       </section>
 
@@ -117,11 +104,11 @@ export default function LandingPage() {
 
 
       {/* HOW IT WORKS TIMELINE */}
-      <section className="w-full py-24 bg-background">
+      <section className="w-full py-24 bg-[#214472] relative z-10">
         <div className="container max-w-screen-xl px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">How It Works</h2>
-            <p className="text-muted-foreground max-w-[600px] mx-auto text-lg">Your weekly path from registration to glory.</p>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-white">How It Works</h2>
+            <p className="text-[#AAB6C5] max-w-[600px] mx-auto text-lg">Your weekly path from registration to glory.</p>
           </div>
 
           <div className="relative max-w-4xl mx-auto">
@@ -155,7 +142,7 @@ export default function LandingPage() {
                     )}
                   </div>
 
-                  <div className="hidden md:flex relative z-10 w-8 h-8 md:w-12 md:h-12 rounded-full glass border border-primary items-center justify-center bg-background shrink-0 shadow-[0_0_15px_rgba(250,204,21,0.5)]">
+                  <div className="hidden md:flex relative z-10 w-8 h-8 md:w-12 md:h-12 rounded-full glass border border-primary items-center justify-center bg-background shrink-0 shadow-[0_0_15px_rgba(244,180,0,0.4)]">
                     <div className="w-2 h-2 md:w-3 md:h-3 bg-primary rounded-full" />
                   </div>
 

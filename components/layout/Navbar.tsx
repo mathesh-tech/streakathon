@@ -22,7 +22,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-[#0b1526]">
+    <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-[#1F3F6E]">
       <div className="container mx-auto px-4 flex h-16 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
@@ -36,12 +36,13 @@ export function Navbar() {
               transition={{ type: 'spring', stiffness: 300 }}
             />
             <motion.span
-              className="font-black italic text-lg sm:text-2xl md:text-3xl tracking-wider drop-shadow-md uppercase"
+              className="font-black italic text-lg sm:text-2xl md:text-3xl tracking-tighter drop-shadow-md uppercase"
+              style={{ fontFamily: "var(--font-orbitron), sans-serif", transform: "skewX(-8deg)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
             >
-              <span className="text-white">STREAK</span><span className="text-primary">ATHON</span>
+              <span className="text-white">STREAK</span><span className="text-[#F4B400]">ATHON</span>
             </motion.span>
           </Link>
 
@@ -61,14 +62,14 @@ export function Navbar() {
                 {hoveredPath === link.href && (
                   <motion.div
                     layoutId="navbar-hover-pill"
-                    className="absolute inset-0 bg-sky-500/20 border border-sky-400/30 rounded-full"
+                    className="absolute inset-0 bg-[#F4B400]/20 border border-[#F4B400]/30 rounded-full"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
                 {hoveredPath === link.href && (
                   <motion.div
                     layoutId="navbar-hover-glow"
-                    className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-sky-400 blur-[2px]"
+                    className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-[#F4B400] blur-[2px]"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -82,7 +83,7 @@ export function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="inline-flex items-center justify-center rounded-md text-sm font-bold transition-transform active:scale-95 bg-transparent border border-black/10 text-foreground shadow-sm hover:bg-black/5 h-10 w-10 p-0"
+              className="inline-flex items-center justify-center rounded-md text-sm font-bold transition-transform active:scale-95 bg-transparent border border-[rgba(255,255,255,0.1)] text-white shadow-sm hover:bg-[rgba(255,255,255,0.05)] h-10 w-10 p-0"
               aria-label="Menu"
             >
               <Menu className="w-5 h-5" />

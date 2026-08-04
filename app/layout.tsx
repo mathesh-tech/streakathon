@@ -38,6 +38,7 @@ export const metadata: Metadata = {
 }
 
 import NextAuthSessionProvider from '@/components/providers/session-provider'
+import NextTopLoader from 'nextjs-toploader';
 
 export default function RootLayout({
   children,
@@ -48,6 +49,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${inter.variable} ${caveat.variable} ${orbitron.variable} min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary`}>
         <NextAuthSessionProvider>
+          <NextTopLoader
+            color="#3b82f6"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #3b82f6,0 0 5px #3b82f6"
+          />
           <Navbar />
           <main className="flex-1 flex flex-col items-center w-full">
             {children}

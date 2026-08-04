@@ -43,8 +43,42 @@ export default function LeaderboardPage() {
           ))}
         </div>
 
+        {/* Full Table */}
+        <div className="glass-card rounded-2xl overflow-x-auto border border-black/10 mb-16 md:mb-24">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-black/5 border-b border-black/10">
+                <th className="p-4 font-semibold text-muted-foreground">Rank</th>
+                <th className="p-4 font-semibold text-muted-foreground">Student</th>
+                <th className="p-4 font-semibold text-muted-foreground">Year/Sec</th>
+                <th className="p-4 font-semibold text-muted-foreground text-right">Credits</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[4, 5, 6, 7, 8, 9, 10].map((rank, i) => (
+                <motion.tr
+                  key={rank}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="border-b border-black/5 hover:bg-black/5 transition-colors"
+                >
+                  <td className="p-4 font-bold text-muted-foreground">#{rank}</td>
+                  <td className="p-4 font-semibold flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-xs">U</div>
+                    Student Name {rank}
+                  </td>
+                  <td className="p-4 text-muted-foreground">III / A</td>
+                  <td className="p-4 font-bold text-primary text-right">{1000 - (rank * 25)}</td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         {/* Top 3 Podium (Similar to landing page but expanded) */}
-        <div className="flex flex-row items-end justify-center gap-2 md:gap-8 max-w-4xl mx-auto h-[300px] md:h-[400px] mb-16 md:mb-24">
+        <div className="flex flex-row items-end justify-center gap-2 md:gap-8 max-w-4xl mx-auto h-[300px] md:h-[400px]">
           {/* Rank 2 */}
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
@@ -98,40 +132,6 @@ export default function LeaderboardPage() {
               <span className="text-2xl md:text-4xl font-black text-black/20">3</span>
             </div>
           </motion.div>
-        </div>
-
-        {/* Full Table */}
-        <div className="glass-card rounded-2xl overflow-x-auto border border-black/10">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-black/5 border-b border-black/10">
-                <th className="p-4 font-semibold text-muted-foreground">Rank</th>
-                <th className="p-4 font-semibold text-muted-foreground">Student</th>
-                <th className="p-4 font-semibold text-muted-foreground">Year/Sec</th>
-                <th className="p-4 font-semibold text-muted-foreground text-right">Credits</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[4, 5, 6, 7, 8, 9, 10].map((rank, i) => (
-                <motion.tr
-                  key={rank}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="border-b border-black/5 hover:bg-black/5 transition-colors"
-                >
-                  <td className="p-4 font-bold text-muted-foreground">#{rank}</td>
-                  <td className="p-4 font-semibold flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-xs">U</div>
-                    Student Name {rank}
-                  </td>
-                  <td className="p-4 text-muted-foreground">III / A</td>
-                  <td className="p-4 font-bold text-primary text-right">{1000 - (rank * 25)}</td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
         </div>
 
       </section>

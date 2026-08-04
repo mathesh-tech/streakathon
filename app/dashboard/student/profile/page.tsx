@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { User, Mail, Hash, Phone, Github, Linkedin, Globe, Edit3, ShieldCheck, Save, X } from "lucide-react";
+import { User, Mail, Hash, Phone, Github, Linkedin, Globe, Edit3, ShieldCheck, Save, X, Camera } from "lucide-react";
 import { triggerConfetti } from "@/components/dashboard/student/GamificationSystem";
 
 export default function ProfilePage() {
@@ -74,9 +74,17 @@ export default function ProfilePage() {
         <div className="lg:col-span-2 space-y-8">
           <div className="glass-card rounded-3xl p-6 md:p-8 border-black/5 relative overflow-hidden">
             <div className="flex flex-col md:flex-row gap-8 items-start">
-              <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-primary to-accent p-1 shrink-0">
-                <div className="w-full h-full bg-background rounded-xl flex items-center justify-center font-bold text-4xl">
+              <div className="relative w-32 h-32 rounded-2xl bg-gradient-to-br from-primary to-accent p-1 shrink-0 group">
+                <div className="w-full h-full bg-background rounded-xl flex items-center justify-center font-bold text-4xl overflow-hidden relative">
                   {profile.name.substring(0,2).toUpperCase()}
+                  
+                  {isEditing && (
+                    <label className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer backdrop-blur-sm">
+                      <Camera className="w-6 h-6 mb-1" />
+                      <span className="text-[10px] font-bold uppercase">Change</span>
+                      <input type="file" className="hidden" accept="image/*" />
+                    </label>
+                  )}
                 </div>
               </div>
               

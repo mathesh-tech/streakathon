@@ -153,7 +153,10 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-8 text-center text-xs text-muted-foreground pt-6 border-t border-border/50">
-            Don't have an account? <Link href="/" className="text-primary hover:underline font-medium">Register for Hackathon</Link>
+            Don't have an account? <Link href="/auth/register" className="text-primary hover:underline font-medium">Sign up</Link>
+          </div>
+          <div className="mt-4 text-center text-[10px] text-muted-foreground/60">
+            Admins and Ambassadors can log in here with their credentials.
           </div>
         </motion.div>
       </div>

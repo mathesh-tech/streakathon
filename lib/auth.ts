@@ -25,6 +25,83 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Missing credentials");
         }
 
+        // --- MOCKUP LOGIN (Bypasses Database) ---
+        // Accept any password for these specific emails for testing
+        if (credentials.identifier === "student@sonatech.ac.in") {
+          return {
+            id: "mock-student-123",
+            email: "student@sonatech.ac.in",
+            name: "Mock Student",
+            role: "PARTICIPANT",
+            forcePasswordChange: false,
+            emailVerified: true,
+            canDeductCredits: false,
+            rememberMe: credentials.rememberMe === 'true',
+            hasProfile: true
+          };
+        }
+        if (credentials.identifier === "admin@sonatech.ac.in") {
+          return {
+            id: "mock-admin-123",
+            email: "admin@sonatech.ac.in",
+            name: "Mock Admin",
+            role: "ADMIN",
+            forcePasswordChange: false,
+            emailVerified: true,
+            canDeductCredits: true,
+            rememberMe: credentials.rememberMe === 'true',
+            hasProfile: true
+          };
+        }
+        if (credentials.identifier === "ambassador@sonatech.ac.in") {
+          return {
+            id: "mock-ambassador-123",
+            email: "ambassador@sonatech.ac.in",
+            name: "Mock Ambassador",
+            role: "AMBASSADOR",
+            forcePasswordChange: false,
+            emailVerified: true,
+            canDeductCredits: false,
+            rememberMe: credentials.rememberMe === 'true',
+            hasProfile: true
+          };
+        }
+        
+        // Mockup Backdoor for UI Testing without DB
+        if (credentials.password === "mockup") {
+          let mockRole = "PARTICIPANT";
+          let mockName = "Siva Mathesh (Mock Student)";
+          
+          if (credentials.identifier.includes("admin")) {
+            mockRole = "ADMIN";
+            mockName = "Admin User (Mock)";
+          } else if (credentials.identifier.includes("ambassador")) {
+            mockRole = "AMBASSADOR";
+            mockName = "Ambassador User (Mock)";
+          }
+
+          return {
+            id: `mock-user-${mockRole.toLowerCase()}`,
+            email: credentials.identifier,
+            name: mockName,
+            role: mockRole,
+            forcePasswordChange: false,
+            emailVerified: true,
+            canDeductCredits: false,
+            rememberMe: false,
+            hasProfile: true
+          };
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@sonatech\.ac\.in$/;
+        if (!emailRegex.test(credentials.identifier)) {
+          throw new Error("Only official college email addresses are permitted.");
+        }
+        
+        throw new Error("Mockup mode active: Use student@sonatech.ac.in, admin@sonatech.ac.in, or ambassador@sonatech.ac.in (any password)");
+        // --- END MOCKUP LOGIN ---
+
+        /*
         const emailRegex = /^[a-zA-Z0-9._%+-]+@sonatech\.ac\.in$/;
         if (!emailRegex.test(credentials.identifier)) {
           throw new Error("Only official college email addresses are permitted.");
@@ -36,6 +113,10 @@ export const authOptions: NextAuthOptions = {
         
         const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
         if (!isPasswordValid) throw new Error("Invalid credentials");
+
+        if (user.role === "AMBASSADOR" && user.status === "PENDING_APPROVAL") {
+          throw new Error("Your ambassador account is pending admin approval.");
+        }
 
         // Parse User Agent & IP for Security
         let ipAddress = "Unknown";
@@ -106,6 +187,7 @@ export const authOptions: NextAuthOptions = {
           rememberMe: credentials.rememberMe === 'true',
           hasProfile: !!user.studentProfile
         };
+        */
       }
     })
   ],

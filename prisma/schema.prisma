@@ -146,6 +146,7 @@ model User {
   department          String    @default("IT")
   year                Int?
   registerNumber      String?   @unique
+  gender              String?
   status              String    @default("ACTIVE")
   forcePasswordChange Boolean   @default(true)
   emailVerified       Boolean   @default(false)
@@ -184,7 +185,7 @@ model Student {
   studentId           String @id @default(uuid())
   userId              String @unique
   batch               String
-  section             String
+  section             String?
   semester            Int
   currentCredits      Int    @default(0)
   lifetimeCredits     Int    @default(0)

@@ -4,11 +4,14 @@ import Link from 'next/link';
 import { Menu, Shield, QrCode, Laptop } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSession, signOut } from 'next-auth/react';
 
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+
+  const { data: session } = useSession();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -99,38 +102,77 @@ export function Navbar() {
                   className="absolute right-0 mt-2 w-56 rounded-xl border border-black/10 bg-background/95 backdrop-blur-xl shadow-xl overflow-hidden z-50"
                 >
                   <div className="p-2 flex flex-col gap-1">
-                    <Link
-                      href="/auth/login"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
-                    >
-                      <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
-                        <Laptop className="w-4 h-4" />
-                      </div>
-                      Student Login
-                    </Link>
+                    {session ? (
+                      <>
+                        <Link
+                          href={`/dashboard/${(session.user as any)?.role?.toLowerCase() === 'admin' ? 'admin' : (session.user as any)?.role?.toLowerCase() === 'ambassador' ? 'ambassador' : 'student'}`}
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
+                        >
+                          <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
+                            <Laptop className="w-4 h-4" />
+                          </div>
+                          Dashboard
+                        </Link>
+                        <Link
+                          href={`/dashboard/${(session.user as any)?.role?.toLowerCase() === 'admin' ? 'admin' : (session.user as any)?.role?.toLowerCase() === 'ambassador' ? 'ambassador' : 'student'}/profile`}
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
+                        >
+                          <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
+                            <Shield className="w-4 h-4" />
+                          </div>
+                          My Profile
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setIsDropdownOpen(false);
+                            signOut({ callbackUrl: "/auth/login" });
+                          }}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-500/20 hover:text-red-500 transition-colors text-sm font-semibold group text-foreground w-full text-left"
+                        >
+                          <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-red-500/30 transition-colors">
+                            <Menu className="w-4 h-4" />
+                          </div>
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          href="/dashboard/student"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
+                        >
+                          <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
+                            <Laptop className="w-4 h-4" />
+                          </div>
+                          Student Portal
+                        </Link>
 
-                    <Link
-                      href="/dashboard/ambassador"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
-                    >
-                      <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
-                        <QrCode className="w-4 h-4" />
-                      </div>
-                      Ambassador Portal
-                    </Link>
+                        <Link
+                          href="/dashboard/ambassador"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
+                        >
+                          <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
+                            <QrCode className="w-4 h-4" />
+                          </div>
+                          Ambassador Portal
+                        </Link>
 
-                    <Link
-                      href="/dashboard/admin"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
-                    >
-                      <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
-                        <Shield className="w-4 h-4" />
-                      </div>
-                      Admin Portal
-                    </Link>
+                        <Link
+                          href="/dashboard/admin"
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 hover:text-primary transition-colors text-sm font-semibold group text-foreground"
+                        >
+                          <div className="bg-black/10 p-1.5 rounded-md group-hover:bg-primary/30 transition-colors">
+                            <Shield className="w-4 h-4" />
+                          </div>
+                          Admin Portal
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </motion.div>
               )}

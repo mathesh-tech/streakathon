@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, Search, Filter, RefreshCw, Award, Flame, Building2, GraduationCap, Mail } from "lucide-react";
+import { Users, Search, RefreshCw, Flame, Building2 } from "lucide-react";
 
 interface Student {
   id: string;
@@ -20,7 +20,7 @@ interface Student {
   } | null;
 }
 
-export default function StudentsAdminPage() {
+export default function AmbassadorStudentsPage() {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,10 +64,10 @@ export default function StudentsAdminPage() {
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-3">
             <Users className="w-8 h-8 text-amber-400" />
-            Students Directory & Search
+            Students Directory & Search (Ambassador View)
           </h1>
           <p className="text-slate-400 mt-1">
-            Search, filter, and inspect registered IT and ADS students, participation count, credits, and streak history.
+            Search and inspect registered IT and ADS students, participation counts, credits, and streak records.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function StudentsAdminPage() {
           className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-200 rounded-xl text-sm font-semibold transition"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-          Refresh Directory
+          Refresh
         </button>
       </div>
 
@@ -119,12 +119,12 @@ export default function StudentsAdminPage() {
         </div>
       </form>
 
-      {/* Students Directory Table */}
+      {/* Directory Table */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
             <Building2 className="w-5 h-5 text-amber-400" />
-            Registered Students List ({students.length})
+            Registered Students ({students.length})
           </h2>
         </div>
 
@@ -134,7 +134,7 @@ export default function StudentsAdminPage() {
           </div>
         ) : students.length === 0 ? (
           <div className="py-16 text-center text-slate-500">
-            No students found matching search query.
+            No students found matching query.
           </div>
         ) : (
           <div className="overflow-x-auto">

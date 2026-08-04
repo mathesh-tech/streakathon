@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Trophy, Download, RefreshCw, Flame, Award, Building2 } from "lucide-react";
+import { Trophy, Download, RefreshCw, Flame } from "lucide-react";
 
 interface RankedStudent {
   rank: number;
@@ -13,13 +13,11 @@ interface RankedStudent {
   year: number;
   section: string;
   credits: number;
-  lifetimeCredits: number;
   streak: number;
   participations: number;
-  wins: number;
 }
 
-export default function LeaderboardAdminPage() {
+export default function AmbassadorLeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState<RankedStudent[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,7 +61,7 @@ export default function LeaderboardAdminPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `Streakathon_Leaderboard_Report_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute("download", `Streakathon_Ambassador_Leaderboard_${new Date().toISOString().split("T")[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -77,10 +75,10 @@ export default function LeaderboardAdminPage() {
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-3">
             <Trophy className="w-8 h-8 text-amber-400" />
-            Platform Leaderboard & Export
+            Hackathon Leaderboard (Ambassador View)
           </h1>
           <p className="text-slate-400 mt-1">
-            Real-time student rankings based on earned Innovation Credits, streaks, and win records.
+            Real-time student rankings based on Innovation Credits, streak counts, and participations.
           </p>
         </div>
 
@@ -104,12 +102,12 @@ export default function LeaderboardAdminPage() {
         </div>
       </div>
 
-      {/* Leaderboard Table */}
+      {/* Table */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
             <Trophy className="w-5 h-5 text-amber-400" />
-            Top Ranked Students ({leaderboard.length})
+            Top Student Rankings ({leaderboard.length})
           </h2>
         </div>
 
@@ -119,7 +117,7 @@ export default function LeaderboardAdminPage() {
           </div>
         ) : leaderboard.length === 0 ? (
           <div className="py-16 text-center text-slate-500">
-            No leaderboard rankings recorded yet.
+            No student leaderboard rankings available yet.
           </div>
         ) : (
           <div className="overflow-x-auto">

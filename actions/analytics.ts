@@ -3,56 +3,48 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AnalyticsService } from "@/server/services/analytics.service";
-import { BusinessIntelligenceService } from "@/server/services/bi.service";
 import { ReportingService } from "@/server/services/reporting.service";
 import { Role } from "@prisma/client";
 
 /**
- * Validates admin access securely
+ * Validates admin or ambassador access
  */
-async function validateAdmin() {
+async function validateStaff() {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user as any)?.role !== Role.ADMIN) {
+  const role = (session?.user as any)?.role;
+  if (!session || (role !== Role.ADMIN && role !== Role.AMBASSADOR)) {
     throw new Error("Unauthorized");
   }
   return (session.user as any)?.id;
 }
 
 export async function getDashboardKPIs() {
-  await validateAdmin();
+  await validateStaff();
   return await AnalyticsService.getKPIs();
 }
 
+export async function getDepartmentBreakdown() {
+  await validateStaff();
+  return await AnalyticsService.getDepartmentBreakdown();
+}
+
+export async function getClassWiseBreakdown() {
+  await validateStaff();
+  return await AnalyticsService.getClassWiseBreakdown();
+}
+
 export async function getParticipationTrends() {
-  await validateAdmin();
+  await validateStaff();
   return await AnalyticsService.getDailyParticipation(14);
 }
 
-export async function getCreditDistribution() {
-  await validateAdmin();
-  return await AnalyticsService.getCreditDistribution();
-}
-
 export async function getLeaderboardInsights() {
-  await validateAdmin();
+  await validateStaff();
   return await AnalyticsService.getLeaderboardAnalytics();
 }
 
-export async function getParticipationForecast() {
-  await validateAdmin();
-  return await BusinessIntelligenceService.generateParticipationForecast();
-}
-
-export async function getRegistrationTrends() {
-  await validateAdmin();
-  return await BusinessIntelligenceService.getRegistrationTrends();
-}
-
-/**
- * Triggers the report generation and logs it
- */
 export async function generateReportData(reportType: 'STUDENTS' | 'HACKATHON', hackathonId?: string) {
-  const adminId = await validateAdmin();
+  const staffId = await validateStaff();
   let data;
   
   if (reportType === 'STUDENTS') {
@@ -63,8 +55,6 @@ export async function generateReportData(reportType: 'STUDENTS' | 'HACKATHON', h
     throw new Error("Invalid report parameters");
   }
 
-  // Log asynchronously
-  ReportingService.logReportGeneration(adminId, reportType, { hackathonId }).catch(console.error);
-
+  ReportingService.logReportGeneration(staffId, reportType, { hackathonId }).catch(console.error);
   return data;
 }

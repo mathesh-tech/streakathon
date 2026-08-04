@@ -12,24 +12,45 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized. Only registered participants can create teams." }, { status: 403 });
     }
 
-    const studentProfile = await prisma.student.findUnique({
+    let studentProfile = await prisma.student.findUnique({
       where: { userId: (session.user as any).id }
     });
 
     if (!studentProfile) {
-      return NextResponse.json({ error: "Student profile not found." }, { status: 404 });
+      studentProfile = await prisma.student.create({
+        data: {
+          userId: (session.user as any).id,
+          batch: "2024-2028",
+          section: "A",
+          semester: 6,
+        }
+      });
     }
 
-    const { teamName, hackathonId } = await req.json();
+    const { teamName, hackathonId: providedHackathonId } = await req.json();
 
-    if (!teamName || !hackathonId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!teamName) {
+      return NextResponse.json({ error: "Team name is required" }, { status: 400 });
+    }
+
+    let hackathonId = providedHackathonId;
+    if (!hackathonId) {
+      const activeHackathon = await prisma.hackathon.findFirst({
+        where: { status: "LIVE" },
+        orderBy: { createdAt: "desc" }
+      });
+
+      if (!activeHackathon) {
+        return NextResponse.json({ error: "No active hackathon found to create a team for." }, { status: 400 });
+      }
+      hackathonId = activeHackathon.id;
     }
 
     const team = await TeamService.createTeam(teamName, studentProfile.studentId, hackathonId);
 
     return NextResponse.json({ success: true, team });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error("Create team error:", error);
+    return NextResponse.json({ error: error.message || "Failed to create team" }, { status: 400 });
   }
 }

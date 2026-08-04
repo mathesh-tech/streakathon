@@ -3,178 +3,78 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { UAParser } from "ua-parser-js";
-import { sendSecurityEmail, sendVerificationEmail } from "@/lib/email";
-import { generateVerificationToken } from "@/lib/tokens";
 import { UserRepository } from "@/server/repositories/user.repository";
 
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days ("Remember Me" duration by default for now)
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        identifier: { label: "Email / ID / Username", type: "text" },
+        identifier: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
         rememberMe: { label: "Remember Me", type: "checkbox" }
       },
       async authorize(credentials, req) {
         if (!credentials?.identifier || !credentials?.password) {
-          throw new Error("Missing credentials");
+          throw new Error("Missing email or password");
         }
 
-        // --- MOCKUP LOGIN (Bypasses Database) ---
-        // Accept any password for these specific emails for testing
-        if (credentials.identifier === "student@sonatech.ac.in") {
-          return {
-            id: "mock-student-123",
-            email: "student@sonatech.ac.in",
-            name: "Mock Student",
-            role: "PARTICIPANT",
-            forcePasswordChange: false,
-            emailVerified: true,
-            canDeductCredits: false,
-            rememberMe: credentials.rememberMe === 'true',
-            hasProfile: true
-          };
-        }
-        if (credentials.identifier === "admin@sonatech.ac.in") {
-          return {
-            id: "mock-admin-123",
-            email: "admin@sonatech.ac.in",
-            name: "Mock Admin",
-            role: "ADMIN",
-            forcePasswordChange: false,
-            emailVerified: true,
-            canDeductCredits: true,
-            rememberMe: credentials.rememberMe === 'true',
-            hasProfile: true
-          };
-        }
-        if (credentials.identifier === "ambassador@sonatech.ac.in") {
-          return {
-            id: "mock-ambassador-123",
-            email: "ambassador@sonatech.ac.in",
-            name: "Mock Ambassador",
-            role: "AMBASSADOR",
-            forcePasswordChange: false,
-            emailVerified: true,
-            canDeductCredits: false,
-            rememberMe: credentials.rememberMe === 'true',
-            hasProfile: true
-          };
-        }
+        const identifier = credentials.identifier.trim().toLowerCase();
         
-        // Mockup Backdoor for UI Testing without DB
-        if (credentials.password === "mockup") {
-          let mockRole = "PARTICIPANT";
-          let mockName = "Siva Mathesh (Mock Student)";
-          
-          if (credentials.identifier.includes("admin")) {
-            mockRole = "ADMIN";
-            mockName = "Admin User (Mock)";
-          } else if (credentials.identifier.includes("ambassador")) {
-            mockRole = "AMBASSADOR";
-            mockName = "Ambassador User (Mock)";
-          }
+        // Find user by email in database
+        const user = await UserRepository.findByEmail(identifier);
 
-          return {
-            id: `mock-user-${mockRole.toLowerCase()}`,
-            email: credentials.identifier,
-            name: mockName,
-            role: mockRole,
-            forcePasswordChange: false,
-            emailVerified: true,
-            canDeductCredits: false,
-            rememberMe: false,
-            hasProfile: true
-          };
+        if (!user) {
+          throw new Error("Invalid email or password");
         }
 
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@sonatech\.ac\.in$/;
-        if (!emailRegex.test(credentials.identifier)) {
-          throw new Error("Only official college email addresses are permitted.");
-        }
-        
-        throw new Error("Mockup mode active: Use student@sonatech.ac.in, admin@sonatech.ac.in, or ambassador@sonatech.ac.in (any password)");
-        // --- END MOCKUP LOGIN ---
-
-        /*
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@sonatech\.ac\.in$/;
-        if (!emailRegex.test(credentials.identifier)) {
-          throw new Error("Only official college email addresses are permitted.");
-        }
-
-        const user = await UserRepository.findByEmail(credentials.identifier);
-
-        if (!user) throw new Error("Invalid credentials");
-        
+        // Compare password hash
         const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isPasswordValid) throw new Error("Invalid credentials");
+        if (!isPasswordValid) {
+          throw new Error("Invalid email or password");
+        }
 
         if (user.role === "AMBASSADOR" && user.status === "PENDING_APPROVAL") {
           throw new Error("Your ambassador account is pending admin approval.");
         }
 
-        // Parse User Agent & IP for Security
-        let ipAddress = "Unknown";
+        if (user.status === "INACTIVE" || user.status === "SUSPENDED") {
+          throw new Error("Your account is currently inactive. Contact system administrator.");
+        }
+
+        // Parse User Agent & IP for Security Logs
+        let ipAddress = "127.0.0.1";
         let userAgentStr = "";
         
         if (req && req.headers) {
-          ipAddress = req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "Unknown";
-          userAgentStr = req.headers["user-agent"] || "";
+          ipAddress = (req.headers["x-forwarded-for"] as string) || (req.headers["x-real-ip"] as string) || "127.0.0.1";
+          userAgentStr = (req.headers["user-agent"] as string) || "";
         }
         
         const parser = new UAParser(userAgentStr);
         const browser = parser.getBrowser().name || "Unknown Browser";
         const os = parser.getOS().name || "Unknown OS";
 
-        // Check last 5 logins for suspicious activity
-        const recentLogins = await prisma.loginLog.findMany({
-          where: { userId: user.id },
-          orderBy: { loginAt: 'desc' },
-          take: 5
-        });
-
-        const isNewIP = !recentLogins.some(log => log.ipAddress === ipAddress);
-        const isNewDevice = !recentLogins.some(log => log.browser === browser && log.os === os);
-        const isSuspicious = recentLogins.length > 0 && isNewIP && isNewDevice;
-
-        await prisma.loginLog.create({
+        // Log login asynchronously
+        prisma.loginLog.create({
           data: {
             userId: user.id,
             ipAddress,
             browser,
             os,
-            location: "Approximate", // In production, use GeoIP service
-            isSuspicious
+            location: "College Campus",
           }
-        });
-
-        // Fire and forget security email
-        // We will implement this safely later
-        sendSecurityEmail({
-          email: user.email,
-          name: user.name,
-          ipAddress,
-          browser,
-          os,
-          isSuspicious
-        }).catch(err => console.error("Email failed:", err));
-
-        // Check if first login
-        if (!user.lastLogin) {
-          const verificationToken = generateVerificationToken(user.email);
-          sendVerificationEmail(user.email, verificationToken).catch(err => console.error("Verification email failed:", err));
-        }
+        }).catch(console.error);
 
         // Update last login
-        await prisma.user.update({
+        prisma.user.update({
           where: { id: user.id },
           data: { lastLogin: new Date() }
-        });
+        }).catch(console.error);
 
         return {
           id: user.id,
@@ -185,9 +85,8 @@ export const authOptions: NextAuthOptions = {
           emailVerified: user.emailVerified,
           canDeductCredits: user.canDeductCredits,
           rememberMe: credentials.rememberMe === 'true',
-          hasProfile: !!user.studentProfile
+          hasProfile: !!user.studentProfile || !!user.adminProfile || !!user.ambassadorProfile
         };
-        */
       }
     })
   ],

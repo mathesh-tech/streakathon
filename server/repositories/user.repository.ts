@@ -18,6 +18,8 @@ export class UserRepository {
       where: { email },
       include: {
         studentProfile: true,
+        adminProfile: true,
+        ambassadorProfile: true,
       }
     });
   }

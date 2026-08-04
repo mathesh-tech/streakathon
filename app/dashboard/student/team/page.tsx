@@ -1,11 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, UserPlus, LogOut, Copy, Check, Shield, AlertTriangle, Loader2 } from "lucide-react";
+import { Users, UserPlus, LogOut, Copy, Check, Shield, Loader2, Sparkles, UserCheck } from "lucide-react";
 import { useSession } from "next-auth/react";
-const toast = (args: { title: string; description?: string; variant?: string }) => {
-  alert(args.title + (args.description ? ": " + args.description : ""));
-};
 
 export default function TeamPage() {
   const { data: session } = useSession();
@@ -14,242 +11,358 @@ export default function TeamPage() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [teamName, setTeamName] = useState("");
-  const [hackathonId, setHackathonId] = useState(""); // Should ideally be selected or context-aware
-  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteIdentifier, setInviteIdentifier] = useState(""); // Register Number or Email
   const [joinToken, setJoinToken] = useState("");
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
 
   useEffect(() => {
-    // In a real app, we'd fetch the active team. For this demo, we'll fetch mock or active hackathons.
-    // Assuming an endpoint exists or we just rely on the API we built.
-    fetchTeam();
+    fetchActiveTeam();
   }, []);
 
-  const fetchTeam = async () => {
+  const fetchActiveTeam = async () => {
+    setLoading(true);
     try {
-      // We don't have a GET /api/teams route in our task list, so let's mock the fetch 
-      // or we can just show the empty state until they create one, then store in state.
-      // For production, we'd add a GET route.
-      setLoading(false);
+      const res = await fetch("/api/teams/active");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.team) {
+          setTeam(data.team);
+        }
+      }
     } catch (e) {
+      console.error("Failed to load active team:", e);
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleCreateTeam = async () => {
-    if (!teamName || !hackathonId) return toast({ title: "Please enter team name and select hackathon" });
+  const handleCreateTeam = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!teamName.trim()) {
+      setMessage({ text: "Please enter a team name", type: "error" });
+      return;
+    }
+
     setActionLoading(true);
+    setMessage(null);
+
     try {
       const res = await fetch("/api/teams", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ teamName, hackathonId })
+        body: JSON.stringify({ teamName: teamName.trim() }),
       });
+
       const data = await res.json();
-      if (data.success) {
+
+      if (res.ok && data.success) {
         setTeam(data.team);
-        toast({ title: "Team created successfully!" });
+        setMessage({ text: "Team created successfully! Share your team code with teammates.", type: "success" });
       } else {
-        toast({ title: "Error", description: data.error, variant: "destructive" });
+        setMessage({ text: data.error || "Failed to create team", type: "error" });
       }
     } catch (e: any) {
-      toast({ title: "Error", description: e.message, variant: "destructive" });
+      setMessage({ text: "An unexpected error occurred", type: "error" });
+    } finally {
+      setActionLoading(false);
     }
-    setActionLoading(false);
   };
 
-  const handleJoinTeam = async () => {
-    if (!joinToken) return toast({ title: "Enter an invite token" });
+  const handleJoinTeam = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!joinToken.trim()) {
+      setMessage({ text: "Please enter a team code", type: "error" });
+      return;
+    }
+
     setActionLoading(true);
+    setMessage(null);
+
     try {
       const res = await fetch("/api/teams/join", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: joinToken })
+        body: JSON.stringify({ token: joinToken.trim().toUpperCase() }),
       });
+
       const data = await res.json();
-      if (data.success) {
-        toast({ title: "Successfully joined team!" });
-        // Refetch team
+
+      if (res.ok && data.success) {
+        setTeam(data.team);
+        setMessage({ text: "Successfully joined the team!", type: "success" });
       } else {
-        toast({ title: "Error", description: data.error, variant: "destructive" });
+        setMessage({ text: data.error || "Failed to join team", type: "error" });
       }
     } catch (e: any) {
-      toast({ title: "Error", description: e.message, variant: "destructive" });
+      setMessage({ text: "An unexpected error occurred", type: "error" });
+    } finally {
+      setActionLoading(false);
     }
-    setActionLoading(false);
   };
 
-  const handleInvite = async () => {
-    if (!inviteEmail || !team) return toast({ title: "Enter an email to invite" });
+  const handleInviteMember = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteIdentifier.trim() || !team) return;
+
     setActionLoading(true);
+    setMessage(null);
+
     try {
       const res = await fetch(`/api/teams/${team.id}/invite`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: inviteEmail })
+        body: JSON.stringify({ identifier: inviteIdentifier.trim() }),
       });
+
       const data = await res.json();
-      if (data.success) {
-        toast({ title: "Invitation sent!" });
-        setInviteEmail("");
+
+      if (res.ok && data.success) {
+        setMessage({ text: `Teammate ${inviteIdentifier} added successfully!`, type: "success" });
+        setInviteIdentifier("");
+        fetchActiveTeam();
       } else {
-        toast({ title: "Error", description: data.error, variant: "destructive" });
+        setMessage({ text: data.error || "Failed to add teammate", type: "error" });
       }
     } catch (e: any) {
-      toast({ title: "Error", description: e.message, variant: "destructive" });
+      setMessage({ text: "An error occurred while inviting member", type: "error" });
+    } finally {
+      setActionLoading(false);
     }
-    setActionLoading(false);
   };
 
-  const handleLeaveTeam = async () => {
-    if (!team) return;
-    setActionLoading(true);
-    try {
-      const res = await fetch(`/api/teams/${team.id}/leave`, { method: "POST" });
-      const data = await res.json();
-      if (data.success) {
-        setTeam(null);
-        toast({ title: "Left team." });
-      } else {
-        toast({ title: "Error", description: data.error, variant: "destructive" });
-      }
-    } catch (e: any) {
-      toast({ title: "Error", description: e.message, variant: "destructive" });
+  const copyCode = () => {
+    if (team?.teamCode) {
+      navigator.clipboard.writeText(team.teamCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
-    setActionLoading(false);
   };
 
   if (loading) {
-    return <div className="flex-1 flex items-center justify-center h-full"><Loader2 className="w-8 h-8 animate-spin" /></div>;
-  }
-
-  if (!team) {
     return (
-      <div className="flex-1 w-full p-4 md:p-8 flex items-center justify-center max-w-screen-xl mx-auto min-h-[calc(100vh-100px)]">
-        <div className="glass-card p-8 md:p-12 rounded-3xl text-center max-w-2xl w-full border-black/5">
-          <div className="w-20 h-20 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
-            <Users className="w-10 h-10" />
-          </div>
-          <h2 className="text-3xl font-bold mb-4">No Active Team</h2>
-          <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-            You need a team to participate in hackathons. Create a new team and invite your friends, or join an existing team using an invite token.
-          </p>
-          
-          <div className="space-y-8 text-left">
-            <div className="bg-background/50 p-6 rounded-2xl border border-black/5">
-              <h3 className="font-bold mb-4 flex items-center gap-2"><UserPlus className="w-5 h-5"/> Create a Team</h3>
-              <div className="space-y-4">
-                <input 
-                  type="text" 
-                  placeholder="Hackathon ID (UUID)" 
-                  value={hackathonId}
-                  onChange={e => setHackathonId(e.target.value)}
-                  className="w-full h-12 bg-background border border-black/10 rounded-xl px-4 text-sm focus:outline-none focus:border-primary"
-                />
-                <input 
-                  type="text" 
-                  placeholder="Team Name" 
-                  value={teamName}
-                  onChange={e => setTeamName(e.target.value)}
-                  className="w-full h-12 bg-background border border-black/10 rounded-xl px-4 text-sm focus:outline-none focus:border-primary"
-                />
-                <button 
-                  onClick={handleCreateTeam}
-                  disabled={actionLoading}
-                  className="w-full h-12 bg-primary text-primary-foreground font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  {actionLoading ? <Loader2 className="w-5 h-5 animate-spin"/> : "Create Team"}
-                </button>
-              </div>
-            </div>
-
-            <div className="relative flex py-2 items-center">
-                <div className="flex-grow border-t border-black/10"></div>
-                <span className="flex-shrink-0 mx-4 text-muted-foreground text-sm font-bold">OR</span>
-                <div className="flex-grow border-t border-black/10"></div>
-            </div>
-
-            <div className="bg-background/50 p-6 rounded-2xl border border-black/5">
-              <h3 className="font-bold mb-4">Join via Invitation</h3>
-              <div className="flex gap-2">
-                <input 
-                  type="text" 
-                  placeholder="Paste Invite Token" 
-                  value={joinToken}
-                  onChange={e => setJoinToken(e.target.value)}
-                  className="flex-1 h-12 bg-background border border-black/10 rounded-xl px-4 text-sm focus:outline-none focus:border-primary"
-                />
-                <button 
-                  onClick={handleJoinTeam}
-                  disabled={actionLoading}
-                  className="h-12 px-6 bg-black/5 hover:bg-black/10 border border-black/10 font-bold rounded-xl flex items-center justify-center transition-colors disabled:opacity-50"
-                >
-                  Join
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="flex-1 flex items-center justify-center min-h-screen bg-slate-950 text-slate-100">
+        <Loader2 className="w-8 h-8 animate-spin text-amber-500" />
       </div>
     );
   }
 
   return (
-    <div className="flex-1 w-full p-4 md:p-8 space-y-8 max-w-screen-xl mx-auto">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Team Management</h1>
-        <p className="text-muted-foreground">Manage your hackathon team and invite members.</p>
+    <div className="flex-1 w-full p-4 md:p-8 space-y-8 max-w-screen-xl mx-auto text-slate-100 min-h-screen">
+      <header className="mb-6">
+        <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+          <Users className="w-8 h-8 text-amber-400" />
+          Hackathon Team Management
+        </h1>
+        <p className="text-slate-400 text-sm mt-1">
+          Form your team, invite your teammates by email or register number, and enter Streakathon 2K26!
+        </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="glass-card rounded-3xl p-6 md:p-8 border-primary/20 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -z-10 translate-x-1/2 -translate-y-1/2" />
-            
-            <div className="flex justify-between items-start mb-8">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground">{team.teamName}</h2>
-                <p className="text-muted-foreground mt-1">Status: {team.status}</p>
+      {message && (
+        <div
+          className={`p-4 rounded-xl border flex items-center justify-between text-sm font-medium ${
+            message.type === "success"
+              ? "bg-emerald-950/80 border-emerald-800 text-emerald-300"
+              : "bg-red-950/80 border-red-800 text-red-300"
+          }`}
+        >
+          <span>{message.text}</span>
+          <button onClick={() => setMessage(null)} className="text-xs uppercase font-bold opacity-75 hover:opacity-100">
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      {!team ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          {/* Create Team Form (For Team Leaders) */}
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl space-y-6">
+            <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
+              <div className="p-3 bg-amber-500/10 text-amber-400 rounded-xl">
+                <UserPlus className="w-6 h-6" />
               </div>
-              <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/30">
-                {team.status}
+              <div>
+                <h2 className="text-xl font-bold text-white">Create a New Team</h2>
+                <p className="text-xs text-slate-400">As Team Leader, create your team & generate a Team Code</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* If we had team members fetched, we would map them here */}
-              
-              <div className="bg-black/5 border border-dashed border-black/20 rounded-2xl p-4 flex flex-col justify-center gap-3">
-                <span className="text-sm font-medium text-muted-foreground text-center">Invite New Member</span>
-                <input 
-                  type="email" 
-                  placeholder="Student Email"
-                  value={inviteEmail}
-                  onChange={e => setInviteEmail(e.target.value)}
-                  className="w-full h-10 bg-background border border-black/10 rounded-lg px-3 text-xs"
+            <form onSubmit={handleCreateTeam} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                  Team Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Sona Tech Innovators"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
                 />
-                <button onClick={handleInvite} disabled={actionLoading} className="w-full h-10 bg-primary/10 text-primary font-bold rounded-lg hover:bg-primary/20 transition text-xs">
-                  Send Invite
+              </div>
+
+              <div className="p-4 bg-slate-950/60 border border-slate-800/80 rounded-xl text-xs text-slate-400 space-y-1">
+                <div className="flex items-center gap-2 text-amber-400 font-semibold">
+                  <Sparkles className="w-4 h-4" />
+                  Active Event: Streakathon 2K26
+                </div>
+                <p>Team size: 2 to 4 members per team (IT & ADS Departments).</p>
+              </div>
+
+              <button
+                type="submit"
+                disabled={actionLoading}
+                className="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {actionLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Create Team as Leader"}
+              </button>
+            </form>
+          </div>
+
+          {/* Join Existing Team Form */}
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl space-y-6">
+            <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
+              <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl">
+                <Users className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">Join an Existing Team</h2>
+                <p className="text-xs text-slate-400">Enter the 6-character Team Code provided by your Team Leader</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleJoinTeam} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                  Team Code
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. SONA-01 or HX-92LA"
+                  value={joinToken}
+                  onChange={(e) => setJoinToken(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white font-mono placeholder-slate-500 uppercase focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={actionLoading}
+                className="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-sm transition flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {actionLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Join Team"}
+              </button>
+            </form>
+          </div>
+
+        </div>
+      ) : (
+        /* Team Active State */
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+              <div>
+                <span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold rounded-full uppercase tracking-wider">
+                  Active Team
+                </span>
+                <h2 className="text-3xl font-extrabold text-white mt-2">{team.teamName}</h2>
+              </div>
+              
+              {/* Team Code Display */}
+              <div className="flex items-center gap-2 bg-slate-950 border border-slate-800 px-4 py-2.5 rounded-xl">
+                <span className="text-xs text-slate-400 uppercase font-semibold">Team Code:</span>
+                <span className="font-mono text-base font-bold text-amber-400 tracking-wider">{team.teamCode}</span>
+                <button
+                  onClick={copyCode}
+                  className="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition ml-1"
+                  title="Copy Team Code"
+                >
+                  {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="space-y-6">
-          <div className="glass-card rounded-3xl p-6 border-destructive/20 bg-destructive/5">
-            <h3 className="font-bold mb-4 text-destructive">Danger Zone</h3>
-            <p className="text-sm text-muted-foreground mb-4">Leaving a team will remove your participation from the active hackathon.</p>
-            <button 
-              onClick={handleLeaveTeam}
-              disabled={actionLoading}
-              className="w-full flex items-center justify-center gap-2 h-12 bg-destructive/10 hover:bg-destructive text-destructive hover:text-foreground rounded-xl text-sm font-bold transition-colors"
-            >
-              <LogOut className="w-4 h-4" /> Leave Team
-            </button>
+            {/* Team Members List */}
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                <UserCheck className="w-4 h-4 text-amber-400" />
+                Team Members ({team.members?.length || 1} / {team.maxMembers || 4})
+              </h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {team.members?.map((member: any, i: number) => (
+                  <div key={i} className="p-4 bg-slate-950 border border-slate-800 rounded-2xl flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold flex items-center justify-center text-sm">
+                      {member.student?.user?.name?.charAt(0) || "M"}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-bold text-white truncate">
+                        {member.student?.user?.name || "Student Member"}
+                      </div>
+                      <div className="text-xs text-slate-400 truncate">
+                        {member.student?.user?.registerNumber || member.role}
+                      </div>
+                    </div>
+                    {member.role === "LEADER" && (
+                      <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded text-[10px] font-bold">
+                        LEADER
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Add / Invite Teammate */}
+            <form onSubmit={handleInviteMember} className="pt-4 border-t border-slate-800 space-y-3">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                Add Teammate (By Register Number or Email)
+              </label>
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. 6178231IT002 or teammate@sonatech.ac.in"
+                  value={inviteIdentifier}
+                  onChange={(e) => setInviteIdentifier(e.target.value)}
+                  className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                />
+                <button
+                  type="submit"
+                  disabled={actionLoading}
+                  className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition disabled:opacity-50"
+                >
+                  Add Teammate
+                </button>
+              </div>
+            </form>
           </div>
+
+          {/* Side Status Box */}
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <Shield className="w-5 h-5 text-emerald-400" />
+              Registration Status
+            </h3>
+
+            <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl space-y-2 text-xs text-slate-400">
+              <div className="flex justify-between text-slate-200 font-semibold">
+                <span>Hackathon:</span>
+                <span className="text-amber-400">Streakathon 2K26</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Status:</span>
+                <span className="text-emerald-400 font-bold uppercase">{team.status}</span>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
+      )}
     </div>
   );
 }

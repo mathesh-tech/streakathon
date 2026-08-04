@@ -1,35 +1,74 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { TeamService } from "@/server/services/team.service";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions);
-    
-    if (!session || !session.user || (session.user as any).role !== "PARTICIPANT") {
-      return NextResponse.json({ error: "Unauthorized." }, { status: 403 });
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const studentProfile = await prisma.student.findUnique({
-      where: { userId: (session.user as any).id }
+    const { identifier, email } = await req.json();
+    const targetQuery = (identifier || email || "").trim();
+
+    if (!targetQuery) {
+      return NextResponse.json({ error: "Target student Register Number or Email is required" }, { status: 400 });
+    }
+
+    // Find target user by register number or email
+    const targetUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: targetQuery.toLowerCase() },
+          { registerNumber: targetQuery }
+        ]
+      },
+      include: { studentProfile: true }
     });
 
+    if (!targetUser) {
+      return NextResponse.json({ error: `Student '${targetQuery}' not found. Ensure they have registered first.` }, { status: 404 });
+    }
+
+    let studentProfile = targetUser.studentProfile;
     if (!studentProfile) {
-      return NextResponse.json({ error: "Student profile not found." }, { status: 404 });
+      studentProfile = await prisma.student.create({
+        data: {
+          userId: targetUser.id,
+          batch: "2024-2028",
+          section: "A",
+          semester: 6
+        }
+      });
     }
 
-    const { email } = await req.json();
+    // Check existing team membership
+    const existingMembership = await prisma.teamMember.findFirst({
+      where: { studentId: studentProfile.studentId }
+    });
 
-    if (!email) {
-      return NextResponse.json({ error: "Missing email address" }, { status: 400 });
+    if (existingMembership) {
+      return NextResponse.json({ error: `${targetUser.name} is already part of a team.` }, { status: 400 });
     }
 
-    const invite = await TeamService.inviteMember(params.id, email, studentProfile.studentId);
+    // Add to team
+    await prisma.teamMember.create({
+      data: {
+        teamId: params.id,
+        studentId: studentProfile.studentId,
+        role: "MEMBER"
+      }
+    });
 
-    return NextResponse.json({ success: true, invite });
+    return NextResponse.json({
+      success: true,
+      message: `${targetUser.name} added to the team!`,
+      student: { name: targetUser.name, registerNumber: targetUser.registerNumber }
+    });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    console.error("Invite teammate error:", error);
+    return NextResponse.json({ error: error.message || "Failed to add teammate" }, { status: 500 });
   }
 }
